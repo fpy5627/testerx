@@ -12,11 +12,14 @@ import { Label } from "@/components/ui/label";
 import { loadStripe } from "@stripe/stripe-js";
 import { toast } from "sonner";
 import { useAppContext } from "@/contexts/app";
+import { useLocale } from "next-intl";
 
 export default function Pricing({ pricing }: { pricing: PricingType }) {
   if (pricing.disabled) {
     return null;
   }
+
+  const locale = useLocale();
 
   const { user, setShowSignModal } = useAppContext();
 
@@ -39,6 +42,7 @@ export default function Pricing({ pricing }: { pricing: PricingType }) {
         amount: cn_pay ? item.cn_amount : item.amount,
         currency: cn_pay ? "cny" : item.currency,
         valid_months: item.valid_months,
+        locale: locale || "en",
       };
 
       setIsLoading(true);

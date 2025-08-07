@@ -21,6 +21,7 @@ export async function POST(req: Request) {
       product_name,
       valid_months,
       cancel_url,
+      locale,
     } = await req.json();
 
     if (!cancel_url) {
@@ -28,6 +29,11 @@ export async function POST(req: Request) {
         process.env.NEXT_PUBLIC_PAY_CANCEL_URL ||
         process.env.NEXT_PUBLIC_WEB_URL
       }`;
+
+      if (cancel_url && cancel_url.startsWith("/")) {
+        // relative url
+        cancel_url = `${process.env.NEXT_PUBLIC_WEB_URL}/${locale}${cancel_url}`;
+      }
     }
 
     if (!amount || !interval || !currency || !product_id) {
@@ -35,7 +41,7 @@ export async function POST(req: Request) {
     }
 
     // validate checkout params
-    const page = await getPricingPage("en");
+    const page = await getPricingPage(locale);
     if (!page || !page.pricing || !page.pricing.items) {
       return respErr("invalid pricing table");
     }
@@ -58,6 +64,8 @@ export async function POST(req: Request) {
       !item.interval ||
       !item.currency ||
       item.interval !== interval ||
+      item.credits !== credits ||
+      item.valid_months !== valid_months ||
       !isPriceValid
     ) {
       return respErr("invalid checkout params");
@@ -164,7 +172,7 @@ export async function POST(req: Request) {
         user_uuid: user_uuid,
       },
       mode: is_subscription ? "subscription" : "payment",
-      success_url: `${process.env.NEXT_PUBLIC_WEB_URL}/pay-success/{CHECKOUT_SESSION_ID}`,
+      success_url: `${process.env.NEXT_PUBLIC_WEB_URL}/${locale}/pay-success/{CHECKOUT_SESSION_ID}`,
       cancel_url: cancel_url,
     };
 
