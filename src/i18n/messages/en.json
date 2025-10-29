@@ -128,5 +128,81 @@
     "contact_tip": "Other ways to contact us",
     "rating_tip": "How do you feel about ShipAny?",
     "placeholder": "Leave your words here..."
+  },
+  "test": {
+    "intro": {
+      "title": "Sexual Orientation / Role Preference Self-Discovery Test",
+      "description": "This test is designed to help you explore your preferences through self-discovery. Results are for entertainment/reference only and do not constitute any diagnostic or therapeutic advice.",
+      "feature_1": "Test questions are based on multiple dimensions (e.g., dominance/submission/switch).",
+      "feature_2": "You can skip any question you don't want to answer.",
+      "feature_3": "Your data is only encrypted and stored locally, not uploaded to the server.",
+      "start_button": "Start Test"
+    },
+    "consent": {
+      "title": "Age and Privacy Confirmation",
+      "description": "This test is for self-exploration purposes only, for entertainment/reference, and does not constitute any diagnostic or therapeutic advice.",
+      "age_check": "I am 18 years or older.",
+      "privacy_check": "I have read and agree to the privacy policy. Test data will be encrypted and stored locally only.",
+      "cancel": "Cancel",
+      "confirm": "Agree and Continue"
+    },
+    "run": {
+      "loading": "Loading test bank...",
+      "progress": "Progress",
+      "remaining": "Remaining",
+      "prev": "Previous",
+      "skip": "Skip",
+      "next": "Next",
+      "submit": "Submit and View Results"
+    },
+    "result": {
+      "title": "Test Results",
+      "disclaimer": "Note: These results are for entertainment/reference only and do not constitute any professional diagnosis or advice.",
+      "no_history": "No history records.",
+      "history_title": "History Records (Encrypted Local Storage)",
+      "time": "Time",
+      "record_id": "Record ID",
+      "retest": "Retest",
+      "back": "Back",
+      "delete": "Delete",
+      "clear_all": "Clear All History",
+      "principle": "Consent, Safety, Rationality: Always prioritize full communication, clear boundaries, and respect for others in any exploration."
+    },
+    "dimension": {
+      "dominance": "Dominance Tendency",
+      "dominance_desc": "Preference and comfort level with dominant roles",
+      "submission": "Submission Tendency",
+      "submission_desc": "Preference and comfort level with submissive roles",
+      "switch": "Switch Tendency",
+      "switch_desc": "Willingness to switch roles depending on context and partner"
+    },
+    "question": {
+      "q1": "In intimate interactions, I prefer to control the pace and make decisions.",
+      "q2": "Clear guidance and instructions help me relax and engage more.",
+      "q3": "Depending on context and partner, I might switch between dominant and submissive roles.",
+      "q4": "I enjoy setting rules and boundaries and having the other party follow them.",
+      "q5": "Following arrangements from the other party gives me more sense of security."
+    },
+    "likert": {
+      "strongly_disagree": "Strongly Disagree",
+      "disagree": "Disagree",
+      "neutral": "Neutral",
+      "agree": "Agree",
+      "strongly_agree": "Strongly Agree"
+    },
+    "admin": {
+      "title": "Test Bank Management",
+      "export": "Export JSON",
+      "import": "Import JSON",
+      "loading": "Loading test bank...",
+      "info": "Basic Information",
+      "version": "Version",
+      "locale": "Locale",
+      "dimension_count": "Dimensions",
+      "question_count": "Questions",
+      "dimensions_title": "Dimensions",
+      "questions_title": "Questions",
+      "hint": "Hint"
+    }
   }
 }

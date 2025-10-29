@@ -8,6 +8,8 @@ import {
   timestamp,
   unique,
   uniqueIndex,
+  jsonb,
+  doublePrecision,
 } from "drizzle-orm/pg-core";
 
 // Users table
@@ -127,4 +129,72 @@ export const feedbacks = pgTable("feedbacks", {
   user_uuid: varchar({ length: 255 }),
   content: text(),
   rating: integer(),
+});
+
+// Test Dimensions table
+export const testDimensions = pgTable("test_dimensions", {
+  id: integer().primaryKey().generatedAlwaysAsIdentity(),
+  dimension_id: varchar({ length: 255 }).notNull(),
+  key: varchar({ length: 255 }).notNull(),
+  name: text().notNull(),
+  description: text(),
+  min_score: doublePrecision().notNull().default(0),
+  max_score: doublePrecision().notNull().default(100),
+  locale: varchar({ length: 50 }).notNull().default("en"),
+  created_at: timestamp({ withTimezone: true }),
+  updated_at: timestamp({ withTimezone: true }),
+}, (table) => [
+  uniqueIndex("dimension_locale_idx").on(table.dimension_id, table.locale),
+]);
+
+// Test Questions table (with audit status)
+export const testQuestions = pgTable("test_questions", {
+  id: integer().primaryKey().generatedAlwaysAsIdentity(),
+  question_id: varchar({ length: 255 }).notNull(),
+  text_key: varchar({ length: 255 }),
+  text: text().notNull(),
+  hint_key: varchar({ length: 255 }),
+  hint: text(),
+  weights: jsonb().notNull().$type<Record<string, number>>(),
+  skippable: boolean().notNull().default(true),
+  locale: varchar({ length: 50 }).notNull().default("en"),
+  audit_status: varchar({ length: 50 }).notNull().default("pending"), // pending, approved, rejected
+  created_at: timestamp({ withTimezone: true }),
+  updated_at: timestamp({ withTimezone: true }),
+  created_by: varchar({ length: 255 }),
+}, (table) => [
+  uniqueIndex("question_locale_idx").on(table.question_id, table.locale),
+]);
+
+// Test Question Audit Logs table
+export const testQuestionAudits = pgTable("test_question_audits", {
+  id: integer().primaryKey().generatedAlwaysAsIdentity(),
+  question_id: integer().notNull(),
+  audit_status: varchar({ length: 50 }).notNull(),
+  audit_reason: text(),
+  auditor_uuid: varchar({ length: 255 }),
+  created_at: timestamp({ withTimezone: true }),
+});
+
+// Test Results table (anonymous, using anonymous_id instead of user_uuid)
+export const testResults = pgTable("test_results", {
+  id: integer().primaryKey().generatedAlwaysAsIdentity(),
+  anonymous_id: varchar({ length: 255 }).notNull(), // 匿名标识，可基于 IP + User-Agent 哈希
+  scores: jsonb().notNull().$type<Record<string, number>>(),
+  normalized_scores: jsonb().$type<Record<string, number>>(),
+  locale: varchar({ length: 50 }),
+  created_at: timestamp({ withTimezone: true }),
+  deleted_at: timestamp({ withTimezone: true }), // Soft delete for GDPR
+}, (table) => [
+  uniqueIndex("anonymous_id_idx").on(table.anonymous_id),
+]);
+
+// Test Answer Items table
+export const testAnswerItems = pgTable("test_answer_items", {
+  id: integer().primaryKey().generatedAlwaysAsIdentity(),
+  result_id: integer().notNull(),
+  question_id: varchar({ length: 255 }).notNull(),
+  value: integer(), // Likert 1-5
+  skipped: boolean().notNull().default(false),
+  created_at: timestamp({ withTimezone: true }),
 });

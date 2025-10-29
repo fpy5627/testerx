@@ -128,5 +128,81 @@
     "contact_tip": "其他联系方式",
     "rating_tip": "您对 ShipAny 的看法如何？",
     "placeholder": "在这里留下您的反馈..."
+  },
+  "test": {
+    "intro": {
+      "title": "性取向/角色偏好自我探索测试",
+      "description": "本测试用于帮助你进行自我发现与偏好探索，结果仅供娱乐/参考，不构成任何诊断或治疗建议。",
+      "feature_1": "测试题目基于多个维度（如：主导/服从/切换）。",
+      "feature_2": "你可以随时跳过不想回答的问题。",
+      "feature_3": "你的数据仅在本地加密存储，不会上传。",
+      "start_button": "开始测试"
+    },
+    "consent": {
+      "title": "年龄与隐私确认",
+      "description": "本测试旨在自我探索，仅供娱乐/参考，不构成任何诊断或治疗建议。",
+      "age_check": "我已年满 18 岁。",
+      "privacy_check": "我已阅读并同意隐私政策，测试数据仅在本地加密存储。",
+      "cancel": "取消",
+      "confirm": "同意并继续"
+    },
+    "run": {
+      "loading": "加载题库中…",
+      "progress": "进度",
+      "remaining": "剩余",
+      "prev": "上一题",
+      "skip": "跳过",
+      "next": "下一题",
+      "submit": "提交并查看结果"
+    },
+    "result": {
+      "title": "测试结果",
+      "disclaimer": "说明：本结果仅供娱乐/参考，不构成任何专业诊断或建议。",
+      "no_history": "暂无历史记录。",
+      "history_title": "历史记录（本地加密存储）",
+      "time": "时间",
+      "record_id": "记录ID",
+      "retest": "重测",
+      "back": "返回",
+      "delete": "删除",
+      "clear_all": "清空全部历史",
+      "principle": "合意、安全、理性：请在任何探索中坚持充分沟通、明确边界与尊重他人。"
+    },
+    "dimension": {
+      "dominance": "主导倾向",
+      "dominance_desc": "对主导角色的偏好与舒适度",
+      "submission": "服从倾向",
+      "submission_desc": "对服从角色的偏好与舒适度",
+      "switch": "切换倾向",
+      "switch_desc": "在不同情境中切换角色的意愿"
+    },
+    "question": {
+      "q1": "在亲密互动中，我更乐于掌控节奏与决定。",
+      "q2": "被明确的引导和指令会让我更放松、更投入。",
+      "q3": "根据情境与对象，我可能会在主导与服从之间切换。",
+      "q4": "我喜欢设定规则与边界，并让对方遵守。",
+      "q5": "遵循对方的安排能让我更有安全感。"
+    },
+    "likert": {
+      "strongly_disagree": "完全不同意",
+      "disagree": "不同意",
+      "neutral": "中立",
+      "agree": "同意",
+      "strongly_agree": "完全同意"
+    },
+    "admin": {
+      "title": "题库管理",
+      "export": "导出JSON",
+      "import": "导入JSON",
+      "loading": "加载题库中…",
+      "info": "基本信息",
+      "version": "版本",
+      "locale": "语言",
+      "dimension_count": "维度数",
+      "question_count": "题目数",
+      "dimensions_title": "维度",
+      "questions_title": "题目",
+      "hint": "提示"
+    }
   }
 }
