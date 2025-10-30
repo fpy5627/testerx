@@ -1,0 +1,59 @@
+[
+  {
+    "id": 1,
+    "category": "Dominance",
+    "question": "I enjoy taking control in emotional or physical situations.",
+    "type": "scale",
+    "scale": 5,
+    "weight": 1.2
+  },
+  {
+    "id": 2,
+    "category": "Submission",
+    "question": "I feel comfortable letting others make decisions for me.",
+    "type": "scale",
+    "scale": 5,
+    "weight": 1.0
+  },
+  {
+    "id": 3,
+    "category": "Exploration",
+    "question": "I like trying new forms of intimacy or emotional expression.",
+    "type": "scale",
+    "scale": 5,
+    "weight": 0.8
+  },
+  {
+    "id": 4,
+    "category": "Orientation",
+    "question": "I am attracted to people regardless of their gender.",
+    "type": "scale",
+    "scale": 7,
+    "weight": 1.0,
+    "orientation_weight": 1
+  },
+  {
+    "id": 5,
+    "category": "Dominance",
+    "question": "I like to take initiative during intimate moments.",
+    "type": "scale",
+    "scale": 5,
+    "weight": 1.1
+  },
+  {
+    "id": 6,
+    "category": "Submission",
+    "question": "I enjoy letting someone else decide what is going to happen next.",
+    "type": "scale",
+    "scale": 5,
+    "weight": 1.0
+  },
+  {
+    "id": 7,
+    "category": "Exploration",
+    "question": "I actively seek out new experiences in relationships.",
+    "type": "scale",
+    "scale": 5,
+    "weight": 1.2
+  }
+]

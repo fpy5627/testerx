@@ -39,7 +39,7 @@ export function db() {
     idle_timeout: 30, // Idle connection timeout (seconds)
     connect_timeout: 10, // Connection timeout (seconds)
   });
-  dbInstance = drizzle({ client });
+  dbInstance = drizzle(client);
 
   return dbInstance;
 }

@@ -6,7 +6,7 @@
 "use client";
 
 import React, { useEffect } from "react";
-import { useTranslations } from "next-intl";
+import { useTranslations, useLocale } from "next-intl";
 import { TestProvider, useTestContext } from "@/contexts/test";
 import { Button } from "@/components/ui/button";
 import { Likert } from "@/components/ui/Likert";
@@ -18,12 +18,11 @@ function RunInner() {
   const { bank, progress, init, answer, skip, next, prev, submit, loading } = useTestContext();
   const router = useRouter();
   const pathname = usePathname();
+  const locale = useLocale();
 
   useEffect(() => {
-    const segs = (pathname || "/en").split("/").filter(Boolean);
-    const locale = segs[0] || "en";
     void init(locale);
-  }, [init, pathname]);
+  }, [init, locale]);
 
   if (loading || !bank) {
     return <div className="container mx-auto max-w-3xl py-10">{t("loading")}</div>;
@@ -55,8 +54,6 @@ function RunInner() {
 
   const onSubmit = async () => {
     await submit();
-    const segs = (pathname || "/en").split("/").filter(Boolean);
-    const locale = segs[0] || "en";
     router.push(`/${locale}/test/result`);
   };
 
