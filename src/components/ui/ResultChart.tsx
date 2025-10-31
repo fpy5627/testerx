@@ -29,14 +29,33 @@ interface ResultChartProps {
 }
 
 /**
- * 构建图表数据集。
+ * 构建图表数据集（基于category结构）。
  * @param bank 题库
  * @param result 结果
  * @returns { labels: string[], data: number[] }
  */
 function buildDataset(bank: TestBankPayload, result: TestResult) {
-  const labels = bank.dimensions.map((d) => d.name);
-  const data = bank.dimensions.map((d) => result.normalized?.[d.id] ?? 0);
+  // 从categories或result.scores中获取所有category
+  const categories = new Set<string>();
+  
+  // 从题库中获取所有category
+  for (const q of bank.questions) {
+    categories.add(q.category);
+  }
+  
+  // 过滤掉Orientation（单独展示）
+  const chartCategories = Array.from(categories).filter(cat => cat !== "Orientation");
+  
+  // 构建标签和数据
+  const labels: string[] = [];
+  const data: number[] = [];
+  
+  for (const cat of chartCategories) {
+    const categoryMeta = bank.categories?.[cat];
+    labels.push(categoryMeta?.name || cat);
+    data.push(result.normalized?.[cat] ?? 0);
+  }
+  
   return { labels, data };
 }
 

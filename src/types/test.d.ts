@@ -1,54 +1,58 @@
 /**
- * 模块：测试类型定义（题库、维度、答案、结果）
+ * 模块：测试类型定义（题库、类别、答案、结果）
  * 作用：规范测试功能模块的数据结构，供前端组件、上下文与服务层复用。
+ * 基于PRD规范：使用category-based结构替代dimension-based结构
  */
 
 export type LikertOptionValue = 1 | 2 | 3 | 4 | 5;
 
 /**
- * 维度定义，如“主导倾向/服从倾向/切换倾向”。
- * - id: 唯一标识
- * - key: i18n 文案键
- * - name: 默认展示名称（回退）
- * - description: 维度说明（回退）
- * - min/max: 评分区间
+ * 问题类型
  */
-export interface TestDimension {
-  id: string;
-  key: string;
+export type QuestionType = "scale" | "single" | "multi";
+
+/**
+ * 题库类别元数据
+ * - name: 类别名称（如 "Dominance", "Submission"）
+ * - description: 类别描述（心理学解释）
+ * - i18nKey: 国际化键（可选）
+ */
+export interface TestBankCategory {
   name: string;
   description?: string;
-  min: number;
-  max: number;
+  i18nKey?: string;
 }
 
 /**
- * 问题与权重：可关联多个维度及各自权重。
+ * 测试问题（基于PRD格式）
  * - id: 唯一标识
- * - textKey: i18n 文案键
- * - text: 展示文案（回退）
- * - hintKey/hint: 题目提示
- * - weights: (维度id -> 权重)，Likert数值将与权重相乘累加
+ * - category: 所属类别（如 "Dominance", "Submission", "Orientation"）
+ * - question: 问题文本
+ * - type: 问题类型（scale/single/multi）
+ * - scale: Likert量表最大值（通常为5）
+ * - weight: 权重（用于计算加权平均分）
+ * - hint: 可选提示文本
  * - skippable: 是否允许跳过
  */
 export interface TestQuestion {
-  id: string;
-  textKey?: string;
-  text: string;
-  hintKey?: string;
+  id: number;
+  category: string;
+  question: string;
+  type: QuestionType;
+  scale: number; // Likert 1-5 or 1-7
+  weight: number; // 权重值
   hint?: string;
-  weights: Record<string, number>;
   skippable?: boolean;
 }
 
 /**
  * 单题回答
- * - questionId: 问题ID
+ * - questionId: 问题ID（number，对应TestQuestion.id）
  * - value: Likert 1-5
  * - skipped: 是否跳过
  */
 export interface TestAnswerItem {
-  questionId: string;
+  questionId: number;
   value?: LikertOptionValue;
   skipped?: boolean;
 }
@@ -64,13 +68,17 @@ export interface TestProgress {
 }
 
 /**
- * 维度评分结果
- * - scores: (维度id -> 分数)
+ * 测试结果（基于PRD格式）
+ * - scores: (category -> 分数) 原始加权得分
  * - normalized: 归一化分数 0-100（可选）
+ * - orientation_spectrum: Kinsey-like 性取向光谱值（0-7，可选）
+ * - text_analysis: 心理学解释文本（可选）
  */
 export interface TestResult {
   scores: Record<string, number>;
   normalized?: Record<string, number>;
+  orientation_spectrum?: number; // Kinsey-like 0-7
+  text_analysis?: string;
 }
 
 /**
@@ -88,15 +96,15 @@ export interface TestHistoryItem {
 }
 
 /**
- * 题库载荷
- * - dimensions: 全部维度
- * - questions: 全部题目
+ * 题库载荷（基于PRD格式）
+ * - questions: 全部题目数组（JSON格式）
+ * - categories: 类别元数据（可选，用于展示）
  * - version: 数据版本
  * - locale: 语言
  */
 export interface TestBankPayload {
-  dimensions: TestDimension[];
   questions: TestQuestion[];
+  categories?: Record<string, TestBankCategory>; // category name -> metadata
   version: string;
   locale?: string;
 }

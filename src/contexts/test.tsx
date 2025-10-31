@@ -8,6 +8,7 @@
 import React, { createContext, useCallback, useContext, useEffect, useMemo, useState } from "react";
 import type { TestAnswerItem, TestBankPayload, TestHistoryItem, TestProgress, TestResult } from "@/types/test";
 import { loadTestBank, computeResult } from "@/services/test-bank";
+import { generateResultText } from "@/utils/resultText";
 import { secureGetLocal, secureRemoveLocal, secureSetLocal } from "@/lib/crypto";
 
 /**
@@ -24,8 +25,8 @@ interface TestContextValue {
   result?: TestResult;
   history: TestHistoryItem[];
   init: (locale?: string) => Promise<void>;
-  answer: (questionId: string, value: number) => void;
-  skip: (questionId: string) => void;
+  answer: (questionId: number, value: number) => void;
+  skip: (questionId: number) => void;
   next: () => void;
   prev: () => void;
   submit: () => Promise<void>;
@@ -44,7 +45,7 @@ const TestContext = createContext<TestContextValue | undefined>(undefined);
 function createEmptyProgress(total: number): TestProgress {
   return {
     currentIndex: 0,
-    answers: new Array(Math.max(0, total)).fill(null).map((_, i) => ({ questionId: "" + i })) as TestAnswerItem[],
+    answers: [], // 初始为空数组，后续根据实际question id填充
   };
 }
 
@@ -68,6 +69,11 @@ export function TestProvider({ children }: { children: React.ReactNode }): JSX.E
     setLoading(true);
     try {
       const loaded = await loadTestBank(locale);
+      if (!loaded || !loaded.questions || loaded.questions.length === 0) {
+        console.error("Failed to load test bank: empty or invalid data", loaded);
+        setLoading(false);
+        return;
+      }
       setBank(loaded);
       // 进度恢复
       const saved = await secureGetLocal<TestProgress>(STORAGE_KEY_PROGRESS, STORAGE_PASSWORD);
@@ -81,6 +87,8 @@ export function TestProvider({ children }: { children: React.ReactNode }): JSX.E
       }
       const his = (await secureGetLocal<TestHistoryItem[]>(STORAGE_KEY_HISTORY, STORAGE_PASSWORD)) || [];
       setHistory(his);
+    } catch (error) {
+      console.error("Error initializing test bank:", error);
     } finally {
       setLoading(false);
     }
@@ -95,14 +103,20 @@ export function TestProvider({ children }: { children: React.ReactNode }): JSX.E
 
   /**
    * 回答某题。
-   * @param questionId 问题ID
+   * @param questionId 问题ID（number类型）
    * @param value Likert 值
    */
-  const answer = useCallback((questionId: string, value: number) => {
+  const answer = useCallback((questionId: number, value: number) => {
     setProgress((prev) => {
-      const nextAnswers = prev.answers.map((a) =>
-        a.questionId === questionId ? { questionId, value, skipped: false } : a
-      );
+      const existingIndex = prev.answers.findIndex((a) => a.questionId === questionId);
+      let nextAnswers: TestAnswerItem[];
+      if (existingIndex >= 0) {
+        nextAnswers = prev.answers.map((a) =>
+          a.questionId === questionId ? { questionId, value, skipped: false } : a
+        );
+      } else {
+        nextAnswers = [...prev.answers, { questionId, value, skipped: false }];
+      }
       const next: TestProgress = { ...prev, answers: nextAnswers };
       void persistProgress(next);
       return next;
@@ -111,13 +125,19 @@ export function TestProvider({ children }: { children: React.ReactNode }): JSX.E
 
   /**
    * 跳过某题。
-   * @param questionId 问题ID
+   * @param questionId 问题ID（number类型）
    */
-  const skip = useCallback((questionId: string) => {
+  const skip = useCallback((questionId: number) => {
     setProgress((prev) => {
-      const nextAnswers = prev.answers.map((a) =>
-        a.questionId === questionId ? { questionId, skipped: true } : a
-      );
+      const existingIndex = prev.answers.findIndex((a) => a.questionId === questionId);
+      let nextAnswers: TestAnswerItem[];
+      if (existingIndex >= 0) {
+        nextAnswers = prev.answers.map((a) =>
+          a.questionId === questionId ? { questionId, skipped: true } : a
+        );
+      } else {
+        nextAnswers = [...prev.answers, { questionId, skipped: true }];
+      }
       const next: TestProgress = { ...prev, answers: nextAnswers };
       void persistProgress(next);
       return next;
@@ -155,6 +175,12 @@ export function TestProvider({ children }: { children: React.ReactNode }): JSX.E
   const submit = useCallback(async () => {
     if (!bank) return;
     const r = computeResult(progress.answers, bank);
+    // 生成文本分析
+    const textAnalysis = generateResultText(
+      r.normalized || {},
+      r.orientation_spectrum
+    );
+    r.text_analysis = textAnalysis;
     setResult(r);
     const newItem: TestHistoryItem = {
       id: `${Date.now()}`,

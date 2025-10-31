@@ -2,7 +2,7 @@
   {
     "id": 1,
     "category": "Dominance",
-    "question": "I enjoy taking the lead in intimate or emotional situations.",
+    "question": "我喜欢在亲密或情感情境中担任主导角色。",
     "type": "scale",
     "scale": 5,
     "weight": 1.2
@@ -10,7 +10,7 @@
   {
     "id": 2,
     "category": "Submission",
-    "question": "I feel comfortable letting others make decisions for me.",
+    "question": "我对于让他人为我做决定感到舒适。",
     "type": "scale",
     "scale": 5,
     "weight": 1.0
@@ -18,7 +18,7 @@
   {
     "id": 3,
     "category": "Exploration",
-    "question": "I like trying new forms of intimacy or emotional expression.",
+    "question": "我喜欢尝试新的亲密或情感表达方式。",
     "type": "scale",
     "scale": 5,
     "weight": 0.8
@@ -26,7 +26,7 @@
   {
     "id": 4,
     "category": "Dominance",
-    "question": "I prefer being in control of the pace and direction in relationships.",
+    "question": "我更倾向于在关系中掌控节奏和方向。",
     "type": "scale",
     "scale": 5,
     "weight": 1.2
@@ -34,7 +34,7 @@
   {
     "id": 5,
     "category": "Submission",
-    "question": "Following clear guidance and instructions helps me feel more relaxed and engaged.",
+    "question": "遵循明确的引导和指令能让我更放松、更投入。",
     "type": "scale",
     "scale": 5,
     "weight": 1.0
@@ -42,7 +42,7 @@
   {
     "id": 6,
     "category": "Switch",
-    "question": "Depending on the situation and partner, I may switch between taking control and yielding control.",
+    "question": "根据情境和对象，我可能会在掌控和服从之间切换。",
     "type": "scale",
     "scale": 5,
     "weight": 1.0
@@ -50,7 +50,7 @@
   {
     "id": 7,
     "category": "Dominance",
-    "question": "I like setting rules and boundaries, and having them respected.",
+    "question": "我喜欢设定规则和边界，并让它们被尊重。",
     "type": "scale",
     "scale": 5,
     "weight": 1.2
@@ -58,7 +58,7 @@
   {
     "id": 8,
     "category": "Submission",
-    "question": "Adhering to someone else's arrangements makes me feel more secure.",
+    "question": "遵循他人的安排能让我更有安全感。",
     "type": "scale",
     "scale": 5,
     "weight": 1.0
@@ -66,7 +66,7 @@
   {
     "id": 9,
     "category": "Sadistic",
-    "question": "I find satisfaction in having power over others in controlled contexts.",
+    "question": "在受控情境中对他人拥有权力让我感到满足。",
     "type": "scale",
     "scale": 5,
     "weight": 1.1
@@ -74,7 +74,7 @@
   {
     "id": 10,
     "category": "Masochistic",
-    "question": "I experience pleasure or fulfillment from giving up control to a trusted partner.",
+    "question": "将控制权交给可信赖的伴侣让我感到愉悦或满足。",
     "type": "scale",
     "scale": 5,
     "weight": 1.1
@@ -82,7 +82,7 @@
   {
     "id": 11,
     "category": "Vanilla",
-    "question": "I prefer traditional, straightforward forms of emotional and physical connection.",
+    "question": "我更喜欢传统、直接的情感与身体连接方式。",
     "type": "scale",
     "scale": 5,
     "weight": 1.0
@@ -90,7 +90,7 @@
   {
     "id": 12,
     "category": "Exploration",
-    "question": "I am open to exploring different dynamics and roles in relationships.",
+    "question": "我乐于探索关系中不同的动态和角色。",
     "type": "scale",
     "scale": 5,
     "weight": 0.9
@@ -98,7 +98,7 @@
   {
     "id": 13,
     "category": "Dominance",
-    "question": "Taking responsibility for my partner's well-being feels natural to me.",
+    "question": "承担伴侣的福祉责任对我来说很自然。",
     "type": "scale",
     "scale": 5,
     "weight": 1.2
@@ -106,7 +106,7 @@
   {
     "id": 14,
     "category": "Submission",
-    "question": "Trusting my partner to guide me allows me to fully let go and be present.",
+    "question": "信任伴侣引导我，能让我完全释放并专注当下。",
     "type": "scale",
     "scale": 5,
     "weight": 1.0
@@ -114,7 +114,7 @@
   {
     "id": 15,
     "category": "Orientation",
-    "question": "My attraction is primarily directed toward people of a different gender.",
+    "question": "我的吸引力主要指向不同性别的人。",
     "type": "scale",
     "scale": 7,
     "weight": 1.0
@@ -122,7 +122,7 @@
   {
     "id": 16,
     "category": "Orientation",
-    "question": "I find myself attracted to people regardless of gender.",
+    "question": "我发现自己对不分性别的人都有吸引力。",
     "type": "scale",
     "scale": 7,
     "weight": 1.0
@@ -130,7 +130,7 @@
   {
     "id": 17,
     "category": "Orientation",
-    "question": "My attraction is primarily directed toward people of the same gender.",
+    "question": "我的吸引力主要指向相同性别的人。",
     "type": "scale",
     "scale": 7,
     "weight": 1.0
@@ -138,7 +138,7 @@
   {
     "id": 18,
     "category": "Switch",
-    "question": "I enjoy the flexibility of adapting my role based on context and mood.",
+    "question": "我喜欢根据情境和心情灵活调整自己的角色。",
     "type": "scale",
     "scale": 5,
     "weight": 1.0
@@ -146,7 +146,7 @@
   {
     "id": 19,
     "category": "Sadistic",
-    "question": "Exercising authority or control in consensual scenarios is appealing to me.",
+    "question": "在双方同意的情境中行使权威或控制对我有吸引力。",
     "type": "scale",
     "scale": 5,
     "weight": 1.1
@@ -154,7 +154,7 @@
   {
     "id": 20,
     "category": "Masochistic",
-    "question": "I derive satisfaction from experiencing controlled intensity or challenge.",
+    "question": "体验受控的强度或挑战让我感到满足。",
     "type": "scale",
     "scale": 5,
     "weight": 1.1
@@ -162,7 +162,7 @@
   {
     "id": 21,
     "category": "Vanilla",
-    "question": "I prefer relationships without power dynamics or role-playing elements.",
+    "question": "我更喜欢没有权力动态或角色扮演元素的关系。",
     "type": "scale",
     "scale": 5,
     "weight": 1.0
@@ -170,7 +170,7 @@
   {
     "id": 22,
     "category": "Exploration",
-    "question": "I am curious about different ways to express intimacy and connection.",
+    "question": "我对不同的亲密和连接表达方式感到好奇。",
     "type": "scale",
     "scale": 5,
     "weight": 0.9
@@ -178,7 +178,7 @@
   {
     "id": 23,
     "category": "Dominance",
-    "question": "I feel confident when I am directing the flow of interaction.",
+    "question": "在引导互动流程时我感到自信。",
     "type": "scale",
     "scale": 5,
     "weight": 1.2
@@ -186,7 +186,7 @@
   {
     "id": 24,
     "category": "Submission",
-    "question": "I find peace in surrendering decision-making to someone I trust.",
+    "question": "将决策权交给信任的人让我感到平静。",
     "type": "scale",
     "scale": 5,
     "weight": 1.0
@@ -194,7 +194,7 @@
   {
     "id": 25,
     "category": "Orientation",
-    "question": "I experience little to no sexual or romantic attraction.",
+    "question": "我很少或几乎不感受到性吸引力或浪漫吸引力。",
     "type": "scale",
     "scale": 7,
     "weight": 1.0
@@ -202,7 +202,7 @@
   {
     "id": 26,
     "category": "Switch",
-    "question": "The ability to be both dominant and submissive adds depth to my relationships.",
+    "question": "能够同时处于主导和服从角色为我的关系增添了深度。",
     "type": "scale",
     "scale": 5,
     "weight": 1.0
@@ -210,7 +210,7 @@
   {
     "id": 27,
     "category": "Sadistic",
-    "question": "I enjoy scenarios where I have the power to set boundaries and rules.",
+    "question": "我喜欢设定边界和规则的情境。",
     "type": "scale",
     "scale": 5,
     "weight": 1.1
@@ -218,7 +218,7 @@
   {
     "id": 28,
     "category": "Masochistic",
-    "question": "I feel fulfilled when I can fully trust and submit to a partner's direction.",
+    "question": "完全信任并服从伴侣的指导让我感到满足。",
     "type": "scale",
     "scale": 5,
     "weight": 1.1
@@ -226,7 +226,7 @@
   {
     "id": 29,
     "category": "Vanilla",
-    "question": "I value equality and mutual decision-making in my relationships.",
+    "question": "我重视关系中的平等和共同决策。",
     "type": "scale",
     "scale": 5,
     "weight": 1.0
@@ -234,9 +234,10 @@
   {
     "id": 30,
     "category": "Exploration",
-    "question": "I am interested in learning about different relationship dynamics and preferences.",
+    "question": "我对学习不同的关系动态和偏好感兴趣。",
     "type": "scale",
     "scale": 5,
     "weight": 0.9
   }
 ]
+
