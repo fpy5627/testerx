@@ -147,35 +147,16 @@ function RunInner() {
               </div>
             </div>
             
-            {/* 题目文本和跳过按钮 - 跳过按钮在题目框右侧 */}
-            <div className="relative">
+            {/* 题目文本 */}
+            <div>
               {/* 题目文本 - 浅蓝色背景框 */}
-              <div className="bg-blue-100 dark:bg-blue-950/30 rounded-xl p-4 sm:p-6 md:p-8 lg:p-10 pr-24 sm:pr-28 md:pr-32">
+              <div className="bg-blue-100 dark:bg-blue-950/30 rounded-xl p-4 sm:p-6 md:p-8 lg:p-10">
                 <h2 className="text-lg sm:text-xl md:text-2xl lg:text-3xl font-semibold text-foreground leading-relaxed">
                   {q.question}
                 </h2>
                 {q.hint && (
                   <p className="mt-2 sm:mt-3 text-xs sm:text-sm md:text-base text-muted-foreground">{q.hint}</p>
                 )}
-              </div>
-              
-              {/* 右侧：跳过按钮 - 位于题目框右侧 */}
-              <div className="absolute top-0 right-0 flex items-center h-full z-10 pointer-events-auto">
-                <Button
-                  type="button"
-                  variant="ghost"
-                  size="sm"
-                  onClick={() => {
-                    console.log("Skip button clicked", q.id, q.skippable);
-                    if (q.skippable) {
-                      onSkip();
-                    }
-                  }}
-                  disabled={!q.skippable}
-                  className="h-8 sm:h-9 md:h-10 px-3 sm:px-4 text-xs sm:text-sm bg-primary/90 hover:bg-primary text-primary-foreground disabled:opacity-50 disabled:cursor-not-allowed rounded-lg sm:rounded-xl mr-2 sm:mr-3 md:mr-4 relative z-10"
-                >
-                  {t("skip")}
-                </Button>
               </div>
             </div>
           </div>
@@ -248,16 +229,14 @@ function RunInner() {
               >
                 {t("prev")}
               </Button>
-              {q.skippable && (
-                <Button 
-                  variant="ghost" 
-                  size="sm"
-                  onClick={onSkip}
-                  className="h-8 sm:h-9 md:h-10 text-xs sm:text-sm text-foreground/80 hover:text-foreground px-2 sm:px-3"
-                >
-                  {t("skip")}
-                </Button>
-              )}
+              <Button 
+                variant="ghost" 
+                size="sm"
+                onClick={onSkip}
+                className="h-8 sm:h-9 md:h-10 text-xs sm:text-sm text-muted-foreground hover:text-foreground hover:bg-muted/50 px-2 sm:px-3 border border-border/50"
+              >
+                {t("skip")}
+              </Button>
             </div>
             {idx < total - 1 ? (
               <Button 
