@@ -29,3 +29,45 @@ button {
 pre {
   @apply px-4;
 }
+
+/* 背景动画效果 */
+@keyframes float-slow {
+  0%, 100% {
+    transform: translate(0, 0) scale(1);
+  }
+  50% {
+    transform: translate(30px, -30px) scale(1.1);
+  }
+}
+
+@keyframes float-reverse {
+  0%, 100% {
+    transform: translate(0, 0) scale(1);
+  }
+  50% {
+    transform: translate(-30px, 30px) scale(1.1);
+  }
+}
+
+@keyframes pulse-slow {
+  0%, 100% {
+    opacity: 0.4;
+    transform: translate(-50%, -50%) scale(1);
+  }
+  50% {
+    opacity: 0.6;
+    transform: translate(-50%, -50%) scale(1.2);
+  }
+}
+
+.animate-float-slow {
+  animation: float-slow 15s ease-in-out infinite;
+}
+
+.animate-float-reverse {
+  animation: float-reverse 20s ease-in-out infinite;
+}
+
+.animate-pulse-slow {
+  animation: pulse-slow 12s ease-in-out infinite;
+}

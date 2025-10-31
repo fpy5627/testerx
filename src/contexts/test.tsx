@@ -149,13 +149,16 @@ export function TestProvider({ children }: { children: React.ReactNode }): JSX.E
    */
   const next = useCallback(() => {
     setProgress((prev) => {
-      const total = prev.answers.length;
+      if (!bank || !bank.questions) {
+        return prev;
+      }
+      const total = bank.questions.length;
       const nextIdx = Math.min(total - 1, prev.currentIndex + 1);
       const next: TestProgress = { ...prev, currentIndex: nextIdx };
       void persistProgress(next);
       return next;
     });
-  }, [persistProgress]);
+  }, [bank, persistProgress]);
 
   /**
    * 上一题。
