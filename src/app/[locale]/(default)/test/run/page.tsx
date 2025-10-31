@@ -101,29 +101,45 @@ function RunInner() {
         backgroundImage: `url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23000000' fill-opacity='1'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E")`,
       }} />
       
-      <div className="relative z-10 container mx-auto max-w-2xl px-4 py-8 flex-1 flex flex-col">
-        {/* 题号和题目区域 */}
-        <div className="mb-8 flex-shrink-0">
-          <div className="flex items-start gap-6">
-            {/* 左侧：题号显示 - 8/30 向下对齐，使用数字时钟字体样式 */}
-            <div className="flex-shrink-0 flex items-end">
-              {/* 当前题号 - 等宽字体，数字时钟样式 */}
-              <div className="text-6xl md:text-7xl font-mono font-normal text-white leading-none tracking-tight">
-                {currentQuestion}
+      <div className="relative z-10 w-full px-[52px] flex-1 flex flex-col items-center justify-center">
+        <div className="max-w-4xl w-full bg-background/95 backdrop-blur-sm rounded-3xl border border-primary/20 shadow-2xl overflow-hidden flex-1 flex flex-col">
+          {/* 顶部：进度、题目和操作按钮 */}
+          <div className="px-6 pt-6 pb-4 flex-shrink-0">
+            <div className="flex items-start justify-between gap-4 mb-4">
+              {/* 左侧：题号显示 - 8/30 向下对齐，使用数字时钟字体样式 */}
+              <div className="flex-shrink-0 flex items-end">
+                {/* 当前题号 - 等宽字体，数字时钟样式 */}
+                <div className="text-6xl md:text-7xl font-mono font-normal text-primary leading-none tracking-tight">
+                  {currentQuestion}
+                </div>
+                {/* "/" 符号 - 等宽字体，数字时钟样式，与8之间保持间距 */}
+                <div className="text-6xl md:text-7xl font-mono font-normal text-primary leading-none tracking-tight ml-1">
+                  /
+                </div>
+                {/* 总数 - 等宽字体，数字时钟样式，与/之间缩小间距 */}
+                <div className="text-2xl md:text-3xl font-mono font-normal text-primary/80 leading-none tracking-tight -ml-0.5">
+                  {formattedTotal}
+                </div>
               </div>
-              {/* "/" 符号 - 等宽字体，数字时钟样式，与8之间保持间距 */}
-              <div className="text-6xl md:text-7xl font-mono font-normal text-white leading-none tracking-tight ml-1">
-                /
-              </div>
-              {/* 总数 - 等宽字体，数字时钟样式，与/之间缩小间距 */}
-              <div className="text-2xl md:text-3xl font-mono font-normal text-white/95 leading-none tracking-tight -ml-0.5">
-                {formattedTotal}
+              
+              {/* 右侧：操作图标 */}
+              <div className="flex gap-2 items-center">
+                <button className="w-8 h-8 rounded-full bg-primary/10 hover:bg-primary/20 flex items-center justify-center transition-colors">
+                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M12 5v14M5 12h14" stroke="currentColor" strokeWidth="2" strokeLinecap="round" className="text-primary" />
+                  </svg>
+                </button>
+                <button className="w-8 h-8 rounded-full bg-primary/10 hover:bg-primary/20 flex items-center justify-center transition-colors">
+                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M18 6L6 18M6 6l12 12" stroke="currentColor" strokeWidth="2" strokeLinecap="round" className="text-primary" />
+                  </svg>
+                </button>
               </div>
             </div>
             
-            {/* 右侧：题目文本 */}
-            <div className="flex-1 pt-2">
-              <h2 className="text-2xl md:text-3xl font-semibold text-foreground leading-tight">
+            {/* 题目文本 - 浅蓝色背景框 */}
+            <div className="bg-blue-100 dark:bg-blue-950/30 rounded-xl p-10">
+              <h2 className="text-2xl md:text-3xl font-semibold text-foreground leading-relaxed">
                 {q.question}
               </h2>
               {q.hint && (
@@ -131,66 +147,65 @@ function RunInner() {
               )}
             </div>
           </div>
-        </div>
 
-        {/* 选项列表 - 参考图片的深蓝色按钮样式 */}
-        <div className="space-y-3 mb-8 flex-1 min-h-0 flex flex-col">
-          {[1, 2, 3, 4, 5].map((value) => {
-            const isSelected = (a?.value as number) === value;
-            
-            return (
-              <button
-                key={value}
-                type="button"
-                onClick={() => onSet(value as LikertValue)}
-                className={cn(
-                  "w-full text-left px-5 py-4 rounded-xl transition-all duration-200",
-                  isSelected
-                    ? "bg-primary text-primary-foreground shadow-lg scale-[1.02]"
-                    : "bg-primary/90 dark:bg-primary/80 text-primary-foreground hover:bg-primary/95 dark:hover:bg-primary/85 hover:shadow-md"
-                )}
-              >
-                <div className="flex items-center gap-4">
-                  {/* 左侧字母标识 */}
-                  <div className={cn(
-                    "flex-shrink-0 w-8 h-8 rounded-full flex items-center justify-center font-bold text-sm",
-                    isSelected 
-                      ? "bg-primary-foreground/20 text-primary-foreground border-2 border-primary-foreground/30" 
-                      : "bg-primary-foreground/10 text-primary-foreground"
-                  )}>
-                    {optionLetters[value - 1]}
-                  </div>
-                  
-                  {/* 选项文字 */}
-                  <div className="flex-1">
-                    <div className="font-medium text-base md:text-lg">
-                      {labels[value - 1]}
-                    </div>
-                  </div>
-                  
-                  {/* 右侧选中图标 */}
-                  {isSelected && (
-                    <div className="flex-shrink-0">
-                      <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
-                        <path 
-                          d="M16.667 5L7.5 14.167 3.333 10" 
-                          stroke="currentColor" 
-                          strokeWidth="2.5" 
-                          strokeLinecap="round" 
-                          strokeLinejoin="round"
-                          className="text-primary-foreground"
-                        />
-                      </svg>
-                    </div>
+          {/* 选项列表 - 文字居中显示 */}
+          <div className="flex-1 min-h-0 flex flex-col px-6 pb-6 space-y-3">
+            {[1, 2, 3, 4, 5].map((value) => {
+              const isSelected = (a?.value as number) === value;
+              
+              return (
+                <button
+                  key={value}
+                  type="button"
+                  onClick={() => onSet(value as LikertValue)}
+                  className={cn(
+                    "w-full px-5 py-4 rounded-xl transition-all duration-200 relative",
+                    isSelected
+                      ? "bg-primary text-primary-foreground shadow-lg scale-[1.02]"
+                      : "bg-primary/90 dark:bg-primary/80 text-primary-foreground hover:bg-primary/95 dark:hover:bg-primary/85 hover:shadow-md"
                   )}
-                </div>
-              </button>
-            );
-          })}
-        </div>
+                >
+                  <div className="flex items-center justify-center gap-4 relative">
+                    {/* 左侧字母标识 */}
+                    <div className={cn(
+                      "absolute left-0 w-8 h-8 rounded-full flex items-center justify-center font-bold text-sm",
+                      isSelected 
+                        ? "bg-primary-foreground/20 text-primary-foreground border-2 border-primary-foreground/30" 
+                        : "bg-primary-foreground/10 text-primary-foreground"
+                    )}>
+                      {optionLetters[value - 1]}
+                    </div>
+                    
+                    {/* 选项文字 - 居中 */}
+                    <div className="text-center">
+                      <div className="font-medium text-sm md:text-base">
+                        {labels[value - 1]}
+                      </div>
+                    </div>
+                    
+                    {/* 右侧选中图标 */}
+                    {isSelected && (
+                      <div className="absolute right-0 flex-shrink-0">
+                        <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+                          <path 
+                            d="M16.667 5L7.5 14.167 3.333 10" 
+                            stroke="currentColor" 
+                            strokeWidth="2.5" 
+                            strokeLinecap="round" 
+                            strokeLinejoin="round"
+                            className="text-primary-foreground"
+                          />
+                        </svg>
+                      </div>
+                    )}
+                  </div>
+                </button>
+              );
+            })}
+          </div>
 
-        {/* 底部操作按钮 */}
-        <div className="flex items-center justify-between gap-3 mt-auto flex-shrink-0">
+          {/* 底部操作按钮 */}
+          <div className="flex items-center justify-between gap-3 px-6 pb-6 flex-shrink-0">
           <div className="flex gap-2">
             <Button 
               variant="ghost" 
@@ -229,6 +244,7 @@ function RunInner() {
               {t("submit")}
             </Button>
           )}
+        </div>
         </div>
       </div>
     </div>
