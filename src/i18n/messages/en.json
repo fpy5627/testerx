@@ -131,12 +131,12 @@
   },
   "test": {
     "intro": {
-      "title": "Sexual Orientation / Role Preference Self-Discovery Test",
-      "description": "This test is designed to help you explore your preferences through self-discovery. Results are for entertainment/reference only and do not constitute any diagnostic or therapeutic advice.",
+      "title": "BDSM Psychological Test and Sexual Orientation Spectrum",
+      "description": "Scientifically quantify your psychological dimensions and sexual orientation spectrum. All data is stored locally, no login required, 18+ available.",
       "feature_1": "Test questions are based on multiple dimensions (e.g., dominance/submission/switch).",
       "feature_2": "You can skip any question you don't want to answer.",
       "feature_3": "Your data is only encrypted and stored locally, not uploaded to the server.",
-      "start_button": "Start Test"
+      "start_button": "Start Now"
     },
     "consent": {
       "title": "Age and Privacy Confirmation",

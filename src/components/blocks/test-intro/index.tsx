@@ -34,40 +34,52 @@ export default function TestIntro() {
 
   return (
     <>
-      <section className="relative overflow-hidden py-16 md:py-24">
-        {/* Premium gradient background for landing block */}
-        <div
-          aria-hidden
-          className="pointer-events-none absolute inset-0 bg-[radial-gradient(1200px_800px_at_0%_0%,theme(colors.accent/0.15),transparent_60%),radial-gradient(1000px_600px_at_100%_0%,theme(colors.primary/0.10),transparent_60%),radial-gradient(1000px_600px_at_100%_100%,theme(colors.accent/0.12),transparent_60%)]"
+      <section className="relative min-h-screen w-full overflow-hidden bg-gray-950">
+        {/* 黑灰色背景，向边缘渐变为黑色 */}
+        <div 
+          className="absolute inset-0"
+          style={{
+            background: 'radial-gradient(ellipse at center left, rgba(42, 42, 42, 0.6) 0%, rgba(26, 26, 26, 0.8) 25%, rgba(17, 17, 17, 0.95) 60%, rgba(10, 10, 10, 1) 100%)'
+          }}
         />
-        <div className="relative z-10 container mx-auto max-w-5xl px-4">
-          {/* 标题 居中 */}
-          <h1 className="w-full text-center text-3xl font-bold md:text-4xl">{t("title")}</h1>
-          <div className="mt-3 h-px w-full bg-foreground/10" />
+        
+        {/* 中心左侧柔和光效 - 浅蓝/紫色光晕 */}
+        <div 
+          className="absolute top-1/2 left-1/4 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] md:w-[800px] md:h-[800px] rounded-full blur-3xl opacity-30"
+          style={{
+            background: 'radial-gradient(circle, rgba(147, 197, 253, 0.25) 0%, rgba(167, 139, 250, 0.2) 40%, transparent 70%)',
+          }}
+        />
 
-          {/* 内容框 */}
-          <div className="mt-16 mb-10 rounded-2xl border bg-primary/5 p-8 pb-12 pl-12 md:pl-16 shadow-sm backdrop-blur-sm">
-            <div className="text-left">
-              <p className="mb-6 max-w-2xl text-xl text-muted-foreground lg:text-2xl">
-                {t("description")}
+        <div className="relative z-10 container mx-auto flex min-h-screen max-w-4xl flex-col items-center justify-center px-4">
+          {/* 主标题 - 居中，白色，大字体，适当字间距，向上移动 */}
+          <h1 className="text-center text-3xl font-bold text-white sm:text-4xl md:text-5xl lg:text-6xl mb-6 md:mb-8 drop-shadow-lg tracking-tight sm:tracking-normal -mt-12 sm:-mt-16 md:-mt-20 lg:-mt-24">
+            {t("title")}
+          </h1>
+
+          {/* 描述文字 - 居中，灰色，适当字间距，增加行间距，与标题区分 */}
+          <div className="text-center text-base text-gray-400 sm:text-lg md:text-xl max-w-2xl mb-8 md:mb-12 tracking-wide sm:tracking-normal space-y-3">
+            {t("description").split(/[。.]/).filter(line => line.trim()).map((line, index, array) => (
+              <p key={index} className="leading-relaxed">
+                {line.trim()}{index < array.length - 1 ? (t("description").includes('。') ? '。' : '.') : ''}
               </p>
-              <ul className="mb-8 max-w-xl space-y-2 text-base text-muted-foreground lg:text-lg">
-                <li>• {t("feature_1")}</li>
-                <li>• {t("feature_2")}</li>
-                <li>• {t("feature_3")}</li>
-              </ul>
-              <div className="mt-10 relative inline-flex">
-                <span aria-hidden className="pointer-events-none absolute inset-0 rounded-lg ring-2 ring-primary/40 animate-pulse" />
-                <span aria-hidden className="pointer-events-none absolute -inset-2 rounded-lg bg-primary/20 blur-xl opacity-40 animate-pulse" />
-                <Button
-                  className="relative w-[260px] h-14 rounded-lg text-lg transition-all duration-300 hover:scale-105 active:scale-95 shadow-md hover:shadow-xl hover:shadow-primary/30 focus:outline-none focus:ring-4 focus:ring-primary/30"
-                  size="lg"
-                  onClick={handleStart}
-                >
-                  {t("start_button")}
-                </Button>
-              </div>
-            </div>
+            ))}
+          </div>
+
+          {/* 继续按钮 - 从深色到浅色的渐变，增大尺寸，增加宽度 */}
+          <div className="mt-4 md:mt-6">
+            <Button
+              className="px-16 md:px-20 lg:px-24 rounded-lg text-lg md:text-xl lg:text-2xl font-semibold transition-all duration-200 hover:scale-105 active:scale-95 shadow-lg hover:shadow-xl border-0 text-gray-900"
+              style={{
+                background: '#20E0C0',
+                height: '64px',
+                minHeight: '64px',
+              }}
+              size="lg"
+              onClick={handleStart}
+            >
+              {t("start_button")}
+            </Button>
           </div>
         </div>
       </section>

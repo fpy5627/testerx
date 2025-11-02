@@ -71,3 +71,17 @@ pre {
 .animate-pulse-slow {
   animation: pulse-slow 12s ease-in-out infinite;
 }
+
+/* 按钮动态效果 - 简化版本 */
+@keyframes button-glow-subtle {
+  0%, 100% {
+    box-shadow: 0 0 15px rgba(32, 224, 192, 0.3), 0 4px 20px rgba(32, 224, 192, 0.2);
+  }
+  50% {
+    box-shadow: 0 0 25px rgba(32, 224, 192, 0.4), 0 4px 25px rgba(32, 224, 192, 0.3);
+  }
+}
+
+.animate-button-glow-subtle {
+  animation: button-glow-subtle 3s ease-in-out infinite;
+}
