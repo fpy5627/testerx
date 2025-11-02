@@ -55,7 +55,10 @@ export default function Header({ header }: { header: HeaderType }) {
                 />
               )}
               {header.brand?.title && (
-                <span className="text-xl text-primary font-bold">
+                <span 
+                  className="text-xl font-bold"
+                  style={{ color: '#20E0C0' }}
+                >
                   {header.brand?.title || ""}
                 </span>
               )}
@@ -70,7 +73,7 @@ export default function Header({ header }: { header: HeaderType }) {
                           key={i}
                           className="text-muted-foreground"
                         >
-                          <NavigationMenuTrigger>
+                          <NavigationMenuTrigger className="hover:bg-white/10 hover:text-white transition-colors">
                             {item.icon && (
                               <Icon
                                 name={item.icon}
@@ -119,7 +122,7 @@ export default function Header({ header }: { header: HeaderType }) {
                       <NavigationMenuItem key={i}>
                         <Link
                           className={cn(
-                            "text-muted-foreground",
+                            "text-muted-foreground hover:bg-white/10 hover:text-white transition-colors",
                             navigationMenuTriggerStyle,
                             buttonVariants({
                               variant: "ghost",
@@ -149,11 +152,16 @@ export default function Header({ header }: { header: HeaderType }) {
 
             {header.buttons?.map((item, i) => {
               return (
-                <Button key={i} variant={item.variant}>
+                <Button 
+                  key={i} 
+                  variant={item.variant}
+                  className={item.variant === "link" ? "hover:opacity-80 transition-opacity [&>a]:text-[#20E0C0] [&>a]:hover:text-[#20E0C0]" : undefined}
+                >
                   <Link
                     href={item.url as any}
                     target={item.target || ""}
                     className="flex items-center gap-1 cursor-pointer"
+                    style={item.variant === "link" ? { color: '#20E0C0' } : undefined}
                   >
                     {item.title}
                     {item.icon && (
@@ -181,7 +189,10 @@ export default function Header({ header }: { header: HeaderType }) {
                 />
               )}
               {header.brand?.title && (
-                <span className="text-xl font-bold">
+                <span 
+                  className="text-xl font-bold"
+                  style={{ color: '#20E0C0' }}
+                >
                   {header.brand?.title || ""}
                 </span>
               )}
@@ -207,7 +218,10 @@ export default function Header({ header }: { header: HeaderType }) {
                         />
                       )}
                       {header.brand?.title && (
-                        <span className="text-xl font-bold">
+                        <span 
+                          className="text-xl font-bold"
+                          style={{ color: '#20E0C0' }}
+                        >
                           {header.brand?.title || ""}
                         </span>
                       )}
@@ -281,11 +295,16 @@ export default function Header({ header }: { header: HeaderType }) {
                   <div className="mt-2 flex flex-col gap-3">
                     {header.buttons?.map((item, i) => {
                       return (
-                        <Button key={i} variant={item.variant}>
+                        <Button 
+                          key={i} 
+                          variant={item.variant}
+                          className={item.variant === "link" ? "hover:opacity-80 transition-opacity [&>a]:text-[#20E0C0] [&>a]:hover:text-[#20E0C0]" : undefined}
+                        >
                           <Link
                             href={item.url as any}
                             target={item.target || ""}
                             className="flex items-center gap-1"
+                            style={item.variant === "link" ? { color: '#20E0C0' } : undefined}
                           >
                             {item.title}
                             {item.icon && (

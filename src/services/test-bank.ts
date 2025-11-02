@@ -74,7 +74,7 @@ const categoryMetadata: Record<string, { name: string; description?: string }> =
 export async function loadTestBank(locale = "en"): Promise<TestBankPayload> {
   // 客户端：通过API调用获取
   if (typeof window !== "undefined") {
-    try {
+  try {
       const res = await fetch(`/api/test/bank?locale=${encodeURIComponent(locale)}`, {
         cache: "no-store",
       });
@@ -94,13 +94,13 @@ export async function loadTestBank(locale = "en"): Promise<TestBankPayload> {
   // 如果服务端也没有数据，返回空题库
   if (questions.length === 0) {
     console.warn(`No questions loaded for locale: ${locale}`);
-    return {
+      return {
       questions: [],
       categories: {},
       version: "v2.0",
-      locale,
-    };
-  }
+        locale,
+      };
+    }
 
   // 构建类别元数据
   const categories: Record<string, { name: string; description?: string; i18nKey?: string }> = {};

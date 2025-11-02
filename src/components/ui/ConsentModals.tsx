@@ -34,17 +34,34 @@ export function AgePrivacyModal({ open, onClose, onConfirm }: AgePrivacyModalPro
         </DialogHeader>
         <div className="space-y-4 py-2">
           <label className="flex items-center gap-2">
-            <Checkbox checked={agreeAge} onCheckedChange={(v) => setAgreeAge(Boolean(v))} />
+            <Checkbox 
+              checked={agreeAge} 
+              onCheckedChange={(v) => setAgreeAge(Boolean(v))}
+              className="data-[state=checked]:bg-[#20E0C0] data-[state=checked]:border-[#20E0C0] data-[state=checked]:text-gray-900"
+            />
             <span>{t("age_check")}</span>
           </label>
           <label className="flex items-center gap-2">
-            <Checkbox checked={agreePrivacy} onCheckedChange={(v) => setAgreePrivacy(Boolean(v))} />
+            <Checkbox 
+              checked={agreePrivacy} 
+              onCheckedChange={(v) => setAgreePrivacy(Boolean(v))}
+              className="data-[state=checked]:bg-[#20E0C0] data-[state=checked]:border-[#20E0C0] data-[state=checked]:text-gray-900"
+            />
             <span>{t("privacy_check")}</span>
           </label>
         </div>
         <DialogFooter>
           <Button variant="ghost" onClick={onClose}>{t("cancel")}</Button>
-          <Button onClick={onConfirm} disabled={!canSubmit}>{t("confirm")}</Button>
+          <Button 
+            onClick={onConfirm} 
+            disabled={!canSubmit}
+            className="text-gray-900 border-0 hover:opacity-90 disabled:opacity-50"
+            style={{
+              background: '#20E0C0',
+            }}
+          >
+            {t("confirm")}
+          </Button>
         </DialogFooter>
       </DialogContent>
     </Dialog>
