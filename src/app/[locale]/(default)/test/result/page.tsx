@@ -46,8 +46,8 @@ function ResultInner() {
       {/* 分数概览与图表 */}
       {result ? (
         <>
-          <div className="rounded-lg border p-4">
-            <ResultChart bank={bank} result={result} variant="radar" />
+        <div className="rounded-lg border p-4">
+          <ResultChart bank={bank} result={result} variant="radar" />
           </div>
 
           {/* 文本分析 */}
@@ -55,24 +55,24 @@ function ResultInner() {
             <div className="rounded-lg border p-6">
               <h2 className="text-xl font-semibold mb-4">分析结果</h2>
               <ResultText result={result} />
-            </div>
-          ) : null}
+        </div>
+      ) : null}
 
           {/* 类别分数卡片 */}
-          <div className="grid gap-4 md:grid-cols-3">
+      <div className="grid gap-4 md:grid-cols-3">
             {Array.from(categories).map((cat) => {
               const categoryMeta = bank.categories?.[cat];
               const score = result.normalized?.[cat] ?? 0;
               return (
                 <div key={cat} className="rounded-lg border p-4">
                   <div className="text-sm text-muted-foreground">{categoryMeta?.name || cat}</div>
-                  <div className="text-2xl font-semibold">
+            <div className="text-2xl font-semibold">
                     {score}
-                    <span className="text-sm text-muted-foreground ml-1">/100</span>
-                  </div>
+              <span className="text-sm text-muted-foreground ml-1">/100</span>
+            </div>
                   {categoryMeta?.description ? (
                     <p className="mt-2 text-xs text-muted-foreground">{categoryMeta.description}</p>
-                  ) : null}
+            ) : null}
                 </div>
               );
             })}
@@ -102,7 +102,7 @@ function ResultInner() {
                    "Asexual/Aromantic"}
                 </div>
               </div>
-            </div>
+      </div>
           ) : null}
         </>
       ) : null}

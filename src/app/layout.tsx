@@ -16,7 +16,7 @@ export default async function RootLayout({
   const googleAdsenseCode = process.env.NEXT_PUBLIC_GOOGLE_ADCODE || "";
 
   return (
-    <html lang={locale} suppressHydrationWarning>
+    <html lang={locale} suppressHydrationWarning className="bg-white dark:bg-[#2b333e] transition-colors duration-200">
       <head>
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
         {googleAdsenseCode && (
@@ -36,7 +36,7 @@ export default async function RootLayout({
           ))}
         <link rel="alternate" hrefLang="x-default" href={webUrl} />
       </head>
-      <body>{children}</body>
+      <body className="bg-white dark:bg-[#2b333e] transition-colors duration-200">{children}</body>
     </html>
   );
 }

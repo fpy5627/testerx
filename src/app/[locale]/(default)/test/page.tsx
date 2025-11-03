@@ -33,31 +33,20 @@ export default function TestIntroPage() {
   }
 
   return (
-    <section className="relative min-h-screen w-full overflow-hidden bg-gray-950">
-      {/* 黑灰色背景，向边缘渐变为黑色 */}
+    <section className="relative min-h-screen w-full overflow-hidden bg-white dark:bg-[#2b333e] transition-colors duration-200">
+      {/* 白天模式白色背景，夜晚模式深灰色背景 */}
       <div 
-        className="absolute inset-0"
-        style={{
-          background: 'radial-gradient(ellipse at center left, rgba(42, 42, 42, 0.6) 0%, rgba(26, 26, 26, 0.8) 25%, rgba(17, 17, 17, 0.95) 60%, rgba(10, 10, 10, 1) 100%)'
-        }}
-      />
-      
-      {/* 中心左侧柔和光效 - 浅蓝/紫色光晕 */}
-      <div 
-        className="absolute top-1/2 left-1/4 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] md:w-[800px] md:h-[800px] rounded-full blur-3xl opacity-30"
-        style={{
-          background: 'radial-gradient(circle, rgba(147, 197, 253, 0.25) 0%, rgba(167, 139, 250, 0.2) 40%, transparent 70%)',
-        }}
+        className="absolute inset-0 bg-white dark:bg-[#2b333e] transition-colors duration-200"
       />
 
       <div className="relative z-10 container mx-auto flex min-h-screen max-w-4xl flex-col items-center justify-center px-4">
-        {/* 主标题 - 居中，白色，大字体，适当字间距，向上移动 */}
-        <h1 className="text-center text-3xl font-bold text-white sm:text-4xl md:text-5xl lg:text-6xl mb-6 md:mb-8 drop-shadow-lg tracking-tight sm:tracking-normal -mt-12 sm:-mt-16 md:-mt-20 lg:-mt-24">
+        {/* 主标题 - 居中，深色/白色，大字体，适当字间距，向上移动 */}
+        <h1 className="text-center text-3xl font-bold text-gray-900 dark:text-white sm:text-4xl md:text-5xl lg:text-6xl mb-6 md:mb-8 drop-shadow-lg tracking-tight sm:tracking-normal -mt-12 sm:-mt-16 md:-mt-20 lg:-mt-24">
           {t("title")}
         </h1>
-
+        
         {/* 描述文字 - 居中，灰色，适当字间距，增加行间距，与标题区分 */}
-        <div className="text-center text-base text-gray-400 sm:text-lg md:text-xl max-w-2xl mb-8 md:mb-12 tracking-wide sm:tracking-normal space-y-3">
+        <div className="text-center text-base text-gray-600 dark:text-gray-400 sm:text-lg md:text-xl max-w-2xl mb-8 md:mb-12 tracking-wide sm:tracking-normal space-y-3">
           {t("description").split(/[。.]/).filter(line => line.trim()).map((line, index, array) => (
             <p key={index} className="leading-relaxed">
               {line.trim()}{index < array.length - 1 ? (t("description").includes('。') ? '。' : '.') : ''}
@@ -79,14 +68,14 @@ export default function TestIntroPage() {
           >
             {t("start_button")}
           </Button>
-        </div>
-
-        <AgePrivacyModal
-          open={open}
-          onClose={() => setOpen(false)}
-          onConfirm={handleConfirm}
-        />
       </div>
+
+      <AgePrivacyModal
+        open={open}
+        onClose={() => setOpen(false)}
+        onConfirm={handleConfirm}
+      />
+    </div>
     </section>
   );
 }

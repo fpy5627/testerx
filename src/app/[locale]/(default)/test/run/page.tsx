@@ -95,60 +95,66 @@ function RunInner() {
   const formattedTotal = String(total).padStart(2, '0'); // 格式化为带前导零，如 08
 
   return (
-    <div className="min-h-screen bg-gray-950 flex flex-col relative overflow-hidden">
-      {/* 黑灰色背景，向边缘渐变为黑色 */}
+    <div className="min-h-screen bg-white dark:bg-[#2b333e] flex flex-col relative overflow-hidden transition-colors duration-200">
+      {/* 白天模式白色背景，夜晚模式深灰色背景 */}
       <div 
-        className="absolute inset-0"
-        style={{
-          background: 'radial-gradient(ellipse at center left, rgba(42, 42, 42, 0.6) 0%, rgba(26, 26, 26, 0.8) 25%, rgba(17, 17, 17, 0.95) 60%, rgba(10, 10, 10, 1) 100%)'
-        }}
-      />
-      
-      {/* 中心左侧柔和光效 - 浅蓝/紫色光晕 */}
-      <div 
-        className="absolute top-1/2 left-1/4 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] md:w-[800px] md:h-[800px] rounded-full blur-3xl opacity-30"
-        style={{
-          background: 'radial-gradient(circle, rgba(147, 197, 253, 0.25) 0%, rgba(167, 139, 250, 0.2) 40%, transparent 70%)',
-        }}
+        className="absolute inset-0 bg-white dark:bg-[#2b333e] transition-colors duration-200"
       />
       
       <div className="relative z-10 w-full px-4 sm:px-6 md:px-8 lg:px-[52px] flex-1 flex flex-col items-center justify-center">
-        <div className="w-full max-w-sm sm:max-w-lg md:max-w-2xl lg:max-w-4xl backdrop-blur-md rounded-2xl md:rounded-3xl shadow-2xl overflow-hidden flex-1 flex flex-col my-4 md:my-6 border"
+        <div className="w-full max-w-xs sm:max-w-md md:max-w-xl lg:max-w-2xl backdrop-blur-md rounded-2xl md:rounded-3xl shadow-2xl overflow-hidden flex-1 flex flex-col my-4 md:my-6 border"
           style={{
-            background: 'rgba(99, 102, 241, 0.6)',
-            borderColor: 'rgba(99, 102, 241, 0.35)',
-            boxShadow: '0 8px 32px rgba(0, 0, 0, 0.3), 0 0 20px rgba(99, 102, 241, 0.15)'
+            background: '#05293f',
+            borderColor: 'rgba(255, 255, 255, 0.2)',
+            boxShadow: '0 8px 32px rgba(0, 0, 0, 0.3), 0 0 20px rgba(5, 41, 63, 0.2)'
           }}
         >
+          {/* 顶部矩形框 - 按钮主体色 */}
+          <div 
+            className="w-full h-2 sm:h-2.5 md:h-3"
+            style={{
+              background: '#56a1bf'
+            }}
+          />
+          
           {/* 顶部：进度、题目和操作按钮 */}
           <div className="px-4 sm:px-5 md:px-6 pt-4 sm:pt-5 md:pt-6 pb-3 md:pb-4 flex-shrink-0">
             <div className="flex items-start justify-between gap-2 sm:gap-3 md:gap-4 mb-3 md:mb-4">
               {/* 左侧：题号显示 - 8/30 向下对齐，使用数字时钟字体样式 */}
               <div className="flex-shrink-0 flex items-end">
                 {/* 当前题号 - 等宽字体，数字时钟样式 */}
-                <div className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-mono font-normal text-white leading-none tracking-tight">
+                <div 
+                  className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-mono font-normal leading-none tracking-tight"
+                  style={{ color: 'rgba(156, 163, 175, 0.6)' }}
+                >
                   {currentQuestion}
                 </div>
                 {/* "/" 符号 - 等宽字体，数字时钟样式，与8之间保持间距 */}
-                <div className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-mono font-normal text-white leading-none tracking-tight ml-0.5 md:ml-1">
+                <div 
+                  className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-mono font-normal leading-none tracking-tight ml-0.5 md:ml-1"
+                  style={{ color: 'rgba(156, 163, 175, 0.6)' }}
+                >
                   /
                 </div>
                 {/* 总数 - 等宽字体，数字时钟样式，与/之间缩小间距 */}
-                <div className="text-lg sm:text-xl md:text-2xl lg:text-3xl font-mono font-normal text-gray-200 leading-none tracking-tight -ml-0.5">
+                <div 
+                  className="text-lg sm:text-xl md:text-2xl lg:text-3xl font-mono font-normal leading-none tracking-tight -ml-0.5"
+                  style={{ color: 'rgba(156, 163, 175, 0.6)' }}
+                >
                   {formattedTotal}
                 </div>
               </div>
             </div>
             
             {/* 题目文本 */}
-            <div>
+      <div>
               {/* 题目文本 - 深色半透明背景框 */}
               <div className="bg-white/5 backdrop-blur-sm rounded-xl p-4 sm:p-6 md:p-8 lg:p-10 border border-white/10">
-                <h2 className="text-lg sm:text-xl md:text-2xl lg:text-3xl font-semibold text-white leading-relaxed tracking-normal">
+                <h2 className="text-lg sm:text-xl md:text-2xl lg:text-3xl font-semibold text-white/87 leading-relaxed tracking-normal">
                   {q.question}
                 </h2>
                 {q.hint && (
-                  <p className="mt-2 sm:mt-3 text-xs sm:text-sm md:text-base text-gray-200 tracking-wide">{q.hint}</p>
+                  <p className="mt-2 sm:mt-3 text-xs sm:text-sm md:text-base text-white/87 tracking-wide">{q.hint}</p>
                 )}
               </div>
             </div>
@@ -183,15 +189,15 @@ function RunInner() {
                     <div className={cn(
                       "absolute left-0 w-6 h-6 sm:w-7 sm:h-7 md:w-8 md:h-8 rounded-full flex items-center justify-center font-bold text-xs sm:text-sm",
                       isSelected 
-                        ? "bg-cyan-400/30 text-white border-2 border-cyan-300/50" 
-                        : "bg-white/10 text-white border border-white/20"
+                        ? "bg-cyan-400/30 text-white/87 border-2 border-cyan-300/50" 
+                        : "bg-white/10 text-white/87 border border-white/20"
                     )}>
                       {optionLetters[value - 1]}
                     </div>
                     
                     {/* 选项文字 - 居中 */}
                     <div className="text-center">
-                      <div className="font-medium text-xs sm:text-sm md:text-base text-white">
+                      <div className="font-medium text-xs sm:text-sm md:text-base text-white/87">
                         {labels[value - 1]}
                       </div>
                     </div>
@@ -206,7 +212,7 @@ function RunInner() {
                             strokeWidth="2.5" 
                             strokeLinecap="round" 
                             strokeLinejoin="round"
-                            className="text-white"
+                            className="text-white/87"
                           />
                         </svg>
                       </div>
@@ -215,7 +221,7 @@ function RunInner() {
                 </button>
               );
             })}
-          </div>
+      </div>
 
           {/* 底部操作按钮 */}
           <div className="flex items-center justify-between gap-2 sm:gap-3 px-4 sm:px-5 md:px-6 pb-4 sm:pb-5 md:pb-6 flex-shrink-0">
@@ -225,7 +231,7 @@ function RunInner() {
                 size="sm"
                 onClick={onPrev} 
                 disabled={idx <= 0}
-                className="h-8 sm:h-9 md:h-10 text-xs sm:text-sm text-gray-300 hover:text-white px-2 sm:px-3 disabled:opacity-30"
+                className="h-8 sm:h-9 md:h-10 text-xs sm:text-sm text-white/87 hover:text-white/87 px-2 sm:px-3 disabled:opacity-30"
               >
                 {t("prev")}
               </Button>
@@ -233,12 +239,12 @@ function RunInner() {
                 variant="ghost" 
                 size="sm"
                 onClick={onSkip}
-                className="h-8 sm:h-9 md:h-10 text-xs sm:text-sm text-gray-300 hover:text-white hover:bg-white/10 px-2 sm:px-3 border border-white/20"
+                className="h-8 sm:h-9 md:h-10 text-xs sm:text-sm text-white/87 hover:text-white/87 hover:bg-white/10 px-2 sm:px-3 border border-white/20"
               >
                 {t("skip")}
               </Button>
-            </div>
-            {idx < total - 1 ? (
+        </div>
+        {idx < total - 1 ? (
               <Button 
                 className="h-11 sm:h-12 md:h-14 px-6 sm:px-8 md:px-10 rounded-lg sm:rounded-xl text-sm sm:text-base md:text-lg font-semibold text-gray-900 border-0 shadow-lg hover:shadow-xl transition-all duration-200 hover:scale-105 active:scale-95 hover:opacity-90"
                 style={{
@@ -249,7 +255,7 @@ function RunInner() {
               >
                 {t("next")}
               </Button>
-            ) : (
+        ) : (
               <Button 
                 className="h-11 sm:h-12 md:h-14 px-6 sm:px-8 md:px-10 rounded-lg sm:rounded-xl text-sm sm:text-base md:text-lg font-semibold text-gray-900 border-0 shadow-lg hover:shadow-xl transition-all duration-200 hover:scale-105 active:scale-95 hover:opacity-90"
                 style={{
@@ -260,8 +266,16 @@ function RunInner() {
               >
                 {t("submit")}
               </Button>
-            )}
+        )}
           </div>
+
+          {/* 底部矩形框 - 按钮主体色，比顶部更细 */}
+          <div 
+            className="w-full h-2 sm:h-2.5 md:h-3"
+            style={{
+              background: '#56a1bf'
+            }}
+          />
         </div>
       </div>
     </div>

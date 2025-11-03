@@ -7,8 +7,36 @@
   * {
     @apply border-border outline-ring/50;
   }
+  html {
+    @apply bg-white;
+  }
+  html.dark {
+    background-color: #2b333e !important;
+  }
   body {
-    @apply bg-background text-foreground;
+    @apply bg-white text-foreground;
+  }
+  html.dark body {
+    background-color: #2b333e !important;
+  }
+  /* 确保所有根容器都有背景色 */
+  #__next,
+  [data-nextjs-scroll-focus-boundary],
+  body > div:first-child,
+  main,
+  section {
+    background-color: inherit;
+  }
+  html.dark #__next,
+  html.dark [data-nextjs-scroll-focus-boundary],
+  html.dark body > div:first-child,
+  html.dark main,
+  html.dark section {
+    background-color: #2b333e !important;
+  }
+  /* 强制所有使用 dark:bg-[#2b333e] 的元素在 dark 模式下应用背景色 */
+  html.dark [class*="dark:bg-"] {
+    background-color: #2b333e !important;
   }
 }
 

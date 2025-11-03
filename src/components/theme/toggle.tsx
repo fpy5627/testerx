@@ -20,6 +20,7 @@ export default function ThemeToggle() {
           onClick={() => setTheme("light")}
           width={80}
           height={20}
+          title="白天模式"
         />
       ) : (
         <BsMoonStars
@@ -27,6 +28,7 @@ export default function ThemeToggle() {
           onClick={() => setTheme("dark")}
           width={80}
           height={20}
+          title="夜间模式"
         />
       )}
     </div>
