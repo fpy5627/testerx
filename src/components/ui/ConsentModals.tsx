@@ -37,7 +37,7 @@ export function AgePrivacyModal({ open, onClose, onConfirm }: AgePrivacyModalPro
             <Checkbox 
               checked={agreeAge} 
               onCheckedChange={(v) => setAgreeAge(Boolean(v))}
-              className="data-[state=checked]:bg-[#20E0C0] data-[state=checked]:border-[#20E0C0] data-[state=checked]:text-gray-900"
+              className="data-[state=checked]:bg-white data-[state=checked]:border-[#20E0C0] [&[data-state=checked]>div>svg]:text-[#20E0C0]"
             />
             <span>{t("age_check")}</span>
           </label>
@@ -45,7 +45,7 @@ export function AgePrivacyModal({ open, onClose, onConfirm }: AgePrivacyModalPro
             <Checkbox 
               checked={agreePrivacy} 
               onCheckedChange={(v) => setAgreePrivacy(Boolean(v))}
-              className="data-[state=checked]:bg-[#20E0C0] data-[state=checked]:border-[#20E0C0] data-[state=checked]:text-gray-900"
+              className="data-[state=checked]:bg-white data-[state=checked]:border-[#20E0C0] [&[data-state=checked]>div>svg]:text-[#20E0C0]"
             />
             <span>{t("privacy_check")}</span>
           </label>

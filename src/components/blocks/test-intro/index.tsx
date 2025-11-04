@@ -8,6 +8,7 @@
 import React from "react";
 import { useRouter } from "next/navigation";
 import { useTranslations, useLocale } from "next-intl";
+import { useTheme } from "next-themes";
 import { Button } from "@/components/ui/button";
 import { AgePrivacyModal } from "@/components/ui/ConsentModals";
 
@@ -15,7 +16,9 @@ export default function TestIntro() {
   const t = useTranslations("test.intro");
   const router = useRouter();
   const locale = useLocale();
+  const { resolvedTheme } = useTheme();
   const [open, setOpen] = React.useState(false);
+  const titleRef = React.useRef<HTMLHeadingElement>(null);
 
   /**
    * 打开年龄与隐私确认弹窗。
@@ -32,6 +35,19 @@ export default function TestIntro() {
     router.push(`/${locale}/test/run`);
   }
 
+  /**
+   * 根据主题动态设置标题颜色
+   */
+  React.useEffect(() => {
+    if (titleRef.current) {
+      if (resolvedTheme === "dark") {
+        titleRef.current.style.color = "rgba(255, 255, 255, 0.87)";
+      } else {
+        titleRef.current.style.color = "rgb(17, 24, 39)";
+      }
+    }
+  }, [resolvedTheme]);
+
   return (
     <>
       <section className="relative min-h-screen w-full overflow-hidden bg-white dark:bg-[#2b333e] transition-colors duration-200">
@@ -42,7 +58,10 @@ export default function TestIntro() {
 
         <div className="relative z-10 container mx-auto flex min-h-screen max-w-4xl flex-col items-center justify-center px-4">
           {/* 主标题 - 居中，深色/白色，大字体，适当字间距，向上移动 */}
-          <h1 className="text-center text-3xl font-bold text-gray-900 dark:text-white sm:text-4xl md:text-5xl lg:text-6xl mb-6 md:mb-8 drop-shadow-lg tracking-tight sm:tracking-normal -mt-12 sm:-mt-16 md:-mt-20 lg:-mt-24">
+          <h1 
+            ref={titleRef}
+            className="text-center text-3xl font-bold text-gray-900 sm:text-4xl md:text-5xl lg:text-6xl mb-6 md:mb-8 drop-shadow-lg tracking-tight sm:tracking-normal -mt-12 sm:-mt-16 md:-mt-20 lg:-mt-24"
+          >
             {t("title")}
           </h1>
           
