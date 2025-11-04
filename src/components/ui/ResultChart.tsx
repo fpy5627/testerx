@@ -1,11 +1,13 @@
 /**
  * 组件：结果图表（雷达图/条形图，基于 Recharts）
- * 作用：以可视化形式展示各维度分数。依赖已在项目中（recharts）。
+ * 作用：以可视化形式展示各维度分数，支持动态切换雷达图和柱状图。
+ * 依赖已在项目中（recharts）。
  */
 
 "use client";
 
-import React from "react";
+import React, { useState } from "react";
+import { useTranslations } from "next-intl";
 import type { TestBankPayload, TestResult } from "@/types/test";
 import {
   RadarChart,
@@ -20,12 +22,13 @@ import {
   YAxis,
   Tooltip,
   Legend,
+  CartesianGrid,
 } from "recharts";
 
 interface ResultChartProps {
   bank: TestBankPayload;
   result: TestResult;
-  variant?: "radar" | "bar";
+  variant?: "radar" | "bar"; // 默认显示类型，但可以通过切换按钮改变
 }
 
 /**
@@ -59,38 +62,76 @@ function buildDataset(bank: TestBankPayload, result: TestResult) {
   return { labels, data };
 }
 
-export function ResultChart({ bank, result, variant = "radar" }: ResultChartProps) {
+/**
+ * 结果图表组件
+ * 支持动态切换雷达图和柱状图两种展示方式
+ * @param bank 题库数据
+ * @param result 测试结果
+ * @param variant 默认显示类型（可选，可通过按钮切换）
+ */
+export function ResultChart({ bank, result, variant: initialVariant = "radar" }: ResultChartProps) {
+  const t = useTranslations("test.result");
+  const [chartType, setChartType] = useState<"radar" | "bar">(initialVariant);
   const { labels, data } = React.useMemo(() => buildDataset(bank, result), [bank, result]);
 
   const dataset = labels.map((name, i) => ({ name, score: data[i] }));
 
-  if (variant === "bar") {
-    return (
-      <div className="w-full h-[320px]">
-        <ResponsiveContainer>
-          <BarChart data={dataset} margin={{ top: 8, right: 16, bottom: 8, left: 0 }}>
-            <XAxis dataKey="name" tick={{ fontSize: 12 }} interval={0} />
-            <YAxis domain={[0, 100]} tick={{ fontSize: 12 }} />
-            <Tooltip />
-            <Legend />
-            <Bar dataKey="score" name="得分(0-100)" fill="#3b82f6" />
-          </BarChart>
-        </ResponsiveContainer>
-      </div>
-    );
-  }
-
   return (
-    <div className="w-full h-[360px]">
-      <ResponsiveContainer>
-        <RadarChart data={dataset} outerRadius={120}>
-          <PolarGrid />
-          <PolarAngleAxis dataKey="name" tick={{ fontSize: 12 }} />
-          <PolarRadiusAxis domain={[0, 100]} />
-          <Radar dataKey="score" name="得分(0-100)" stroke="#3b82f6" fill="#3b82f6" fillOpacity={0.3} />
-          <Legend />
-        </RadarChart>
-      </ResponsiveContainer>
+    <div className="w-full flex flex-col items-center space-y-4">
+      {/* 切换按钮 */}
+      <div className="flex space-x-4">
+        <button
+          onClick={() => setChartType("radar")}
+          className={`px-4 py-2 rounded-lg transition-colors ${
+            chartType === "radar"
+              ? "bg-indigo-600 text-white"
+              : "bg-gray-200 text-gray-700 hover:bg-gray-300 dark:bg-gray-700 dark:text-gray-300 dark:hover:bg-gray-600"
+          }`}
+        >
+          {t("chart_radar")}
+        </button>
+        <button
+          onClick={() => setChartType("bar")}
+          className={`px-4 py-2 rounded-lg transition-colors ${
+            chartType === "bar"
+              ? "bg-indigo-600 text-white"
+              : "bg-gray-200 text-gray-700 hover:bg-gray-300 dark:bg-gray-700 dark:text-gray-300 dark:hover:bg-gray-600"
+          }`}
+        >
+          {t("chart_bar")}
+        </button>
+      </div>
+
+      {/* 图表容器 */}
+      <div className="w-full h-96 bg-white dark:bg-gray-800 rounded-2xl shadow-md p-4">
+        {chartType === "radar" ? (
+          <ResponsiveContainer width="100%" height="100%">
+            <RadarChart data={dataset}>
+              <PolarGrid />
+              <PolarAngleAxis dataKey="name" tick={{ fontSize: 12 }} />
+              <PolarRadiusAxis angle={30} domain={[0, 100]} />
+              <Radar
+                name={t("chart_score")}
+                dataKey="score"
+                stroke="#4f46e5"
+                fill="#6366f1"
+                fillOpacity={0.6}
+              />
+              <Tooltip />
+            </RadarChart>
+          </ResponsiveContainer>
+        ) : (
+          <ResponsiveContainer width="100%" height="100%">
+            <BarChart data={dataset} margin={{ top: 8, right: 16, bottom: 8, left: 0 }}>
+              <CartesianGrid strokeDasharray="3 3" />
+              <XAxis dataKey="name" tick={{ fontSize: 12 }} />
+              <YAxis domain={[0, 100]} tick={{ fontSize: 12 }} />
+              <Tooltip />
+              <Bar dataKey="score" name={`${t("chart_score")}(0-100)`} fill="#4f46e5" />
+            </BarChart>
+          </ResponsiveContainer>
+        )}
+      </div>
     </div>
   );
 }

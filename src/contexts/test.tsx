@@ -176,24 +176,35 @@ export function TestProvider({ children }: { children: React.ReactNode }): JSX.E
    * 提交测试：计算结果并写入历史（加密本地）。
    */
   const submit = useCallback(async () => {
-    if (!bank) return;
-    const r = computeResult(progress.answers, bank);
-    // 生成文本分析
-    const textAnalysis = generateResultText(
-      r.normalized || {},
-      r.orientation_spectrum
-    );
-    r.text_analysis = textAnalysis;
-    setResult(r);
-    const newItem: TestHistoryItem = {
-      id: `${Date.now()}`,
-      createdAt: new Date().toISOString(),
-      result: r,
-      progressSnapshot: progress,
-    };
-    const nextHistory = [newItem, ...history].slice(0, 50);
-    setHistory(nextHistory);
-    await secureSetLocal(STORAGE_KEY_HISTORY, nextHistory, STORAGE_PASSWORD);
+    if (!bank) {
+      console.error("提交失败：题库未加载");
+      throw new Error("题库未加载");
+    }
+    try {
+      const r = computeResult(progress.answers, bank);
+      // 生成文本分析
+      const textAnalysis = generateResultText(
+        r.normalized || {},
+        r.orientation_spectrum
+      );
+      r.text_analysis = textAnalysis;
+      setResult(r);
+      const newItem: TestHistoryItem = {
+        id: `${Date.now()}`,
+        createdAt: new Date().toISOString(),
+        result: r,
+        progressSnapshot: progress,
+      };
+      const nextHistory = [newItem, ...history].slice(0, 50);
+      setHistory(nextHistory);
+      await secureSetLocal(STORAGE_KEY_HISTORY, nextHistory, STORAGE_PASSWORD);
+      // 清空进度，表示测试已完成
+      await secureRemoveLocal(STORAGE_KEY_PROGRESS);
+      console.log("测试提交成功，结果已保存");
+    } catch (error) {
+      console.error("提交测试时出错:", error);
+      throw error;
+    }
   }, [bank, history, progress]);
 
   /**

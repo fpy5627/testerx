@@ -133,9 +133,13 @@
     "intro": {
       "title": "BDSM Psychological Test and Sexual Orientation Spectrum",
       "description": "Scientifically quantify your psychological dimensions and sexual orientation spectrum. All data is stored locally, no login required, 18+ available.",
-      "feature_1": "Test questions are based on multiple dimensions (e.g., dominance/submission/switch).",
-      "feature_2": "You can skip any question you don't want to answer.",
-      "feature_3": "Your data is only encrypted and stored locally, not uploaded to the server.",
+      "feature_1": "Safe",
+      "feature_2": "Anonymous",
+      "feature_3": "Psychological Test",
+      "mode_label": "Select Test Mode",
+      "mode_quick": "Quick",
+      "mode_standard": "Standard",
+      "mode_deep": "Deep",
       "start_button": "Start Now"
     },
     "consent": {
@@ -203,6 +207,29 @@
       "dimensions_title": "Dimensions",
       "questions_title": "Questions",
       "hint": "Hint"
+    },
+    "result": {
+      "title": "Test Results",
+      "disclaimer": "These test results are for reference only and do not constitute any medical or psychological advice.",
+      "history_title": "History",
+      "no_history": "No history records",
+      "time": "Time",
+      "record_id": "Record ID",
+      "delete": "Delete",
+      "clear_all": "Clear All",
+      "retest": "Retest",
+      "back": "Back",
+      "principle": "Privacy Principle: All data is stored locally only and will not be uploaded to the server.",
+      "share_title": "Generate Anonymous Share Link",
+      "share_button": "Generate Share Link",
+      "share_link_copied": "Share link copied to clipboard",
+      "share_link_failed": "Copy failed, please copy manually",
+      "download_pdf": "Download Report (PDF)",
+      "download_pdf_processing": "Generating PDF...",
+      "top_traits": "Top 3 Traits",
+      "chart_radar": "Radar Chart",
+      "chart_bar": "Bar Chart",
+      "chart_score": "Score"
     }
   }
 }

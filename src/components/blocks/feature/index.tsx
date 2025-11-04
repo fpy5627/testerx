@@ -7,6 +7,9 @@ import { useTheme } from "next-themes";
 import { Button } from "@/components/ui/button";
 import { AgePrivacyModal } from "@/components/ui/ConsentModals";
 import { Section as SectionType } from "@/types/blocks/section";
+import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
+import { Label } from "@/components/ui/label";
+import { Shield, EyeOff, Brain } from "lucide-react";
 
 export default function Feature({ section }: { section: SectionType }) {
   if (section.disabled) {
@@ -18,6 +21,7 @@ export default function Feature({ section }: { section: SectionType }) {
   const locale = useLocale();
   const { resolvedTheme } = useTheme();
   const [open, setOpen] = React.useState(false);
+  const [testMode, setTestMode] = React.useState("standard");
   const titleRef = React.useRef<HTMLHeadingElement>(null);
   const descriptionRef = React.useRef<HTMLDivElement>(null);
   const buttonRef = React.useRef<HTMLButtonElement>(null);
@@ -76,10 +80,32 @@ export default function Feature({ section }: { section: SectionType }) {
           {/* 主标题 - 居中，深色/白色，大字体，适当字间距，向上移动 */}
           <h1 
             ref={titleRef}
-            className="text-center text-3xl font-bold text-gray-900 sm:text-4xl md:text-5xl lg:text-6xl mb-6 md:mb-8 drop-shadow-lg tracking-tight sm:tracking-normal -mt-12 sm:-mt-16 md:-mt-20 lg:-mt-24"
+            className="text-center text-3xl font-bold text-gray-900 sm:text-4xl md:text-5xl lg:text-6xl mb-6 md:mb-8 drop-shadow-lg tracking-tight sm:tracking-normal -mt-20 sm:-mt-24 md:-mt-28 lg:-mt-32"
           >
             {t("title")}
           </h1>
+
+          {/* 简介部分（安全 / 匿名 / 心理倾向测试） */}
+          <div className="flex flex-wrap items-center justify-center gap-4 md:gap-6 mb-8 md:mb-10">
+            <div className="flex items-center gap-2 text-sm md:text-base">
+              <Shield className="w-5 h-5 text-[#20E0C0]" />
+              <span className={resolvedTheme === "dark" ? "text-white/87" : "text-gray-700"}>
+                {t("feature_1")}
+              </span>
+            </div>
+            <div className="flex items-center gap-2 text-sm md:text-base">
+              <EyeOff className="w-5 h-5 text-[#20E0C0]" />
+              <span className={resolvedTheme === "dark" ? "text-white/87" : "text-gray-700"}>
+                {t("feature_2")}
+              </span>
+            </div>
+            <div className="flex items-center gap-2 text-sm md:text-base">
+              <Brain className="w-5 h-5 text-[#20E0C0]" />
+              <span className={resolvedTheme === "dark" ? "text-white/87" : "text-gray-700"}>
+                {t("feature_3")}
+              </span>
+            </div>
+          </div>
           
           {/* 描述文字 - 居中，灰色，适当字间距，增加行间距，与标题区分 */}
           <div 
@@ -91,6 +117,41 @@ export default function Feature({ section }: { section: SectionType }) {
                 {line.trim()}{index < array.length - 1 ? (t("description").includes('。') ? '。' : '.') : ''}
               </p>
             ))}
+          </div>
+
+          {/* 模式选择（快速 / 标准 / 深度） */}
+          <div className="w-full max-w-md mb-6 md:mb-8">
+            <Label className="text-sm md:text-base mb-3 block text-center" style={{
+              color: resolvedTheme === "dark" ? "rgba(255, 255, 255, 0.87)" : "rgb(75, 85, 99)"
+            }}>
+              {t("mode_label")}
+            </Label>
+            <RadioGroup value={testMode} onValueChange={setTestMode} className="flex justify-center gap-4">
+              <div className="flex items-center space-x-2">
+                <RadioGroupItem value="quick" id="quick" />
+                <Label htmlFor="quick" className="cursor-pointer text-sm md:text-base" style={{
+                  color: resolvedTheme === "dark" ? "rgba(255, 255, 255, 0.87)" : "rgb(75, 85, 99)"
+                }}>
+                  {t("mode_quick")}
+                </Label>
+              </div>
+              <div className="flex items-center space-x-2">
+                <RadioGroupItem value="standard" id="standard" />
+                <Label htmlFor="standard" className="cursor-pointer text-sm md:text-base" style={{
+                  color: resolvedTheme === "dark" ? "rgba(255, 255, 255, 0.87)" : "rgb(75, 85, 99)"
+                }}>
+                  {t("mode_standard")}
+                </Label>
+              </div>
+              <div className="flex items-center space-x-2">
+                <RadioGroupItem value="deep" id="deep" />
+                <Label htmlFor="deep" className="cursor-pointer text-sm md:text-base" style={{
+                  color: resolvedTheme === "dark" ? "rgba(255, 255, 255, 0.87)" : "rgb(75, 85, 99)"
+                }}>
+                  {t("mode_deep")}
+                </Label>
+              </div>
+            </RadioGroup>
           </div>
 
           {/* 继续按钮 - 青绿色，简洁优雅的动态效果 */}

@@ -5,7 +5,7 @@
 
 "use client";
 
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { useTranslations } from "next-intl";
 import { TestProvider, useTestContext } from "@/contexts/test";
 import { Button } from "@/components/ui/button";
@@ -13,16 +13,72 @@ import ResultChart from "@/components/ui/ResultChart";
 import ResultText from "@/components/ResultText";
 import { useRouter } from "next/navigation";
 import { useLocale } from "next-intl";
+import { createShareLink } from "@/lib/share";
+import { Copy, Download, Share2 as ShareIcon } from "lucide-react";
+import { toast } from "sonner";
 
 function ResultInner() {
   const t = useTranslations("test.result");
   const { bank, result, history, reset, init, deleteHistory, clearAllHistory } = useTestContext();
   const router = useRouter();
   const locale = useLocale();
+  const [shareLink, setShareLink] = useState<string | null>(null);
+  const [isGeneratingShare, setIsGeneratingShare] = useState(false);
+  const [isGeneratingPdf, setIsGeneratingPdf] = useState(false);
 
   useEffect(() => {
     void init(locale);
   }, [init, locale]);
+
+  /**
+   * 生成分享链接
+   */
+  const handleShare = async () => {
+    if (!result) return;
+    setIsGeneratingShare(true);
+    try {
+      const shareId = await createShareLink(result);
+      const url = `${window.location.origin}/${locale}/share/${shareId}`;
+      setShareLink(url);
+      await navigator.clipboard.writeText(url);
+      toast.success(t("share_link_copied"));
+    } catch (error) {
+      console.error("Failed to create share link:", error);
+      toast.error(t("share_link_failed"));
+    } finally {
+      setIsGeneratingShare(false);
+    }
+  };
+
+  /**
+   * 复制分享链接
+   */
+  const handleCopyShareLink = async () => {
+    if (!shareLink) return;
+    try {
+      await navigator.clipboard.writeText(shareLink);
+      toast.success(t("share_link_copied"));
+    } catch (error) {
+      console.error("Failed to copy share link:", error);
+      toast.error(t("share_link_failed"));
+    }
+  };
+
+  /**
+   * 导出PDF（简化版：使用浏览器打印功能）
+   */
+  const handleDownloadPdf = () => {
+    setIsGeneratingPdf(true);
+    try {
+      // 使用浏览器打印功能生成PDF
+      window.print();
+    } catch (error) {
+      console.error("Failed to generate PDF:", error);
+      toast.error("PDF生成失败");
+    } finally {
+      setIsGeneratingPdf(false);
+    }
+  };
 
   if (!bank) return <div className="container mx-auto max-w-3xl py-10">加载中…</div>;
   
@@ -104,6 +160,37 @@ function ResultInner() {
               </div>
       </div>
           ) : null}
+
+          {/* 分享和下载按钮 */}
+          <div className="flex flex-wrap gap-3 pt-4 border-t">
+            <Button
+              onClick={handleShare}
+              disabled={isGeneratingShare}
+              className="flex items-center gap-2"
+            >
+              <ShareIcon className="w-4 h-4" />
+              {isGeneratingShare ? t("share_button") + "..." : t("share_button")}
+            </Button>
+            {shareLink && (
+              <Button
+                variant="outline"
+                onClick={handleCopyShareLink}
+                className="flex items-center gap-2"
+              >
+                <Copy className="w-4 h-4" />
+                {t("share_link_copied").split("已")[0]}
+              </Button>
+            )}
+            <Button
+              variant="outline"
+              onClick={handleDownloadPdf}
+              disabled={isGeneratingPdf}
+              className="flex items-center gap-2"
+            >
+              <Download className="w-4 h-4" />
+              {isGeneratingPdf ? t("download_pdf_processing") : t("download_pdf")}
+            </Button>
+          </div>
         </>
       ) : null}
 

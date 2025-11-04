@@ -1,0 +1,128 @@
+{
+  "meta": {
+    "version": "1.0",
+    "language": "en",
+    "mode": "standard",
+    "question_count": 100
+  },
+  "dimensions": [
+    {
+      "id": "dominant",
+      "name": "Dominant",
+      "description": "Enjoys taking control and leading others."
+    },
+    {
+      "id": "submissive",
+      "name": "Submissive",
+      "description": "Prefers following or being guided by others."
+    },
+    {
+      "id": "switch",
+      "name": "Switch",
+      "description": "Comfortable in both dominant and submissive roles."
+    },
+    {
+      "id": "vanilla",
+      "name": "Vanilla",
+      "description": "Prefers traditional, non-kink experiences."
+    },
+    {
+      "id": "experimental",
+      "name": "Experimental",
+      "description": "Open to exploring new experiences or kinks."
+    },
+    {
+      "id": "bondage",
+      "name": "Bondage",
+      "description": "Interested in restraint, control, and power play."
+    },
+    {
+      "id": "voyeur",
+      "name": "Voyeur",
+      "description": "Enjoys watching or observing intimate acts."
+    },
+    {
+      "id": "exhibitionist",
+      "name": "Exhibitionist",
+      "description": "Enjoys being watched or showing off."
+    }
+  ],
+  "questions": [
+    {
+      "id": 1,
+      "text": "I enjoy taking control during intimate situations.",
+      "options": [
+        "Strongly disagree",
+        "Disagree",
+        "Neutral",
+        "Agree",
+        "Strongly agree"
+      ],
+      "weights": {
+        "dominant": 1.0,
+        "submissive": -0.8
+      }
+    },
+    {
+      "id": 2,
+      "text": "I feel most comfortable when someone else takes the lead.",
+      "options": [
+        "Strongly disagree",
+        "Disagree",
+        "Neutral",
+        "Agree",
+        "Strongly agree"
+      ],
+      "weights": {
+        "submissive": 1.0,
+        "dominant": -0.8
+      }
+    },
+    {
+      "id": 3,
+      "text": "I find the idea of being tied up or restrained exciting.",
+      "options": [
+        "Strongly disagree",
+        "Disagree",
+        "Neutral",
+        "Agree",
+        "Strongly agree"
+      ],
+      "weights": {
+        "bondage": 1.0,
+        "experimental": 0.5
+      }
+    },
+    {
+      "id": 4,
+      "text": "Watching others can be as enjoyable as participating myself.",
+      "options": [
+        "Strongly disagree",
+        "Disagree",
+        "Neutral",
+        "Agree",
+        "Strongly agree"
+      ],
+      "weights": {
+        "voyeur": 1.0,
+        "exhibitionist": 0.2
+      }
+    },
+    {
+      "id": 5,
+      "text": "I prefer to keep things traditional and simple.",
+      "options": [
+        "Strongly disagree",
+        "Disagree",
+        "Neutral",
+        "Agree",
+        "Strongly agree"
+      ],
+      "weights": {
+        "vanilla": 1.0,
+        "experimental": -0.5
+      }
+    }
+  ]
+}
+

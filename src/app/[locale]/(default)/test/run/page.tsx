@@ -10,9 +10,11 @@ import { useTranslations, useLocale } from "next-intl";
 import { useTheme } from "next-themes";
 import { TestProvider, useTestContext } from "@/contexts/test";
 import { Button } from "@/components/ui/button";
-import { usePathname, useRouter } from "next/navigation";
+import { usePathname } from "next/navigation";
+import { useRouter } from "@/i18n/navigation";
 import type { LikertValue } from "@/components/ui/Likert";
 import { cn } from "@/lib/utils";
+import { ChevronLeft, SkipForward, ChevronRight } from "lucide-react";
 
 function RunInner() {
   const t = useTranslations("test.run");
@@ -101,9 +103,31 @@ function RunInner() {
     prev();
   };
 
+  const [isSubmitting, setIsSubmitting] = React.useState(false);
+  
   const onSubmit = async () => {
-    await submit();
-    router.push(`/${locale}/test/result`);
+    if (isSubmitting) return; // 防止重复提交
+    setIsSubmitting(true);
+    try {
+      console.log("开始提交测试...");
+      await submit();
+      console.log("测试提交成功，准备跳转...");
+      // 确保提交成功后跳转
+      await router.push("/test/result");
+      console.log("跳转命令已执行");
+    } catch (error) {
+      console.error("提交测试失败:", error);
+      // 即使提交失败，也尝试跳转到结果页（可能已经有结果了）
+      try {
+        await router.push("/test/result");
+      } catch (navError) {
+        console.error("跳转失败，尝试使用 window.location:", navError);
+        // 备选方案：直接使用 window.location
+        window.location.href = `/${locale}/test/result`;
+      }
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   const optionLetters = ['A', 'B', 'C', 'D', 'E'];
@@ -112,53 +136,108 @@ function RunInner() {
 
   return (
     <div className="min-h-screen flex flex-col relative overflow-hidden transition-colors duration-200">
-      {/* 白天模式径向渐变背景（主题色青色80%到白色80%），夜晚模式深灰色背景 */}
+      {/* 白天模式线性渐变背景（50%青色到白色，从上到下），夜晚模式深灰色背景 */}
       <div 
         className="absolute inset-0 dark:bg-[#2b333e] transition-colors duration-200"
         style={{
           background: resolvedTheme === "dark" 
             ? "#2b333e" 
-            : "radial-gradient(circle at center, rgba(32, 224, 192, 0.8) 0%, rgba(255, 255, 255, 0.8) 100%)"
+            : "linear-gradient(to bottom, rgba(32, 224, 192, 0.5) 0%, rgba(255, 255, 255, 1) 100%)"
         }}
       />
       
-      <div className="relative z-10 w-full px-4 sm:px-6 md:px-8 lg:px-[52px] flex-1 flex flex-col items-center justify-center pt-12 sm:pt-16 md:pt-20">
-        <div className="w-full max-w-xs sm:max-w-md md:max-w-xl lg:max-w-2xl backdrop-blur-md rounded-2xl md:rounded-3xl shadow-2xl overflow-visible flex-1 flex flex-col my-4 md:my-6 border relative"
+      <div className="relative z-10 w-full px-6 sm:px-8 md:px-12 lg:px-16 flex-1 flex flex-col items-center justify-center pt-16 sm:pt-20 md:pt-24">
+        <div className="w-full max-w-xs sm:max-w-md md:max-w-xl lg:max-w-2xl backdrop-blur-md rounded-2xl md:rounded-3xl overflow-visible flex-1 flex flex-col my-6 md:my-8 relative"
           style={{
-            background: 'transparent',
-            borderColor: 'rgba(255, 255, 255, 0.2)',
-            boxShadow: '0 8px 32px rgba(0, 0, 0, 0.3), 0 0 20px rgba(5, 41, 63, 0.2)'
+            boxShadow: 'none'
           }}
         >
-          {/* 圆圈进度指示器 - 一半在答题区外，一半在答题区内 */}
-          <div className="absolute top-0 left-1/2 transform -translate-x-1/2 -translate-y-1/2 z-20">
-            <div 
-              className="w-20 h-20 sm:w-24 sm:h-24 md:w-28 md:h-28 rounded-full flex flex-col items-center justify-center"
-              style={{
-                borderWidth: '5px',
-                borderStyle: 'solid',
-                borderColor: "rgba(32, 224, 192, 0.8)",
-                backgroundColor: resolvedTheme === "dark" ? "rgba(43, 51, 62, 1)" : "rgba(255, 255, 255, 1)"
-              }}
-            >
-              <div 
-                className="text-lg sm:text-xl md:text-2xl font-semibold font-mono"
+          {/* 顶部：进度、题目和操作按钮 */}
+          <div className="pt-12 sm:pt-14 md:pt-16 pb-3 md:pb-4 flex-shrink-0 rounded-t-2xl md:rounded-t-3xl relative"
+            style={{
+              background: 'rgba(255, 255, 255, 0.6)'
+            }}
+          >
+            {/* 右上角操作图标 */}
+            <div className="absolute top-4 right-4 sm:top-5 sm:right-5 md:top-6 md:right-6 flex items-center gap-2 sm:gap-2.5">
+              <Button
+                variant="ghost"
+                size="icon"
+                onClick={onPrev}
+                disabled={idx <= 0}
+                className="h-8 w-8 sm:h-9 sm:w-9 md:h-10 md:w-10 disabled:opacity-30"
                 style={{
-                  color: resolvedTheme === "dark" ? "rgba(255, 255, 255, 0.87)" : "rgba(0, 0, 0, 0.87)"
+                  color: 'rgba(32, 224, 192, 0.87)'
+                }}
+                title={t("prev")}
+              >
+                <ChevronLeft className="h-4 w-4 sm:h-5 sm:w-5" />
+              </Button>
+              <Button
+                variant="ghost"
+                size="icon"
+                onClick={onSkip}
+                className="h-8 w-8 sm:h-9 sm:w-9 md:h-10 md:w-10"
+                style={{
+                  color: 'rgba(32, 224, 192, 0.87)'
+                }}
+                title={t("skip")}
+              >
+                <SkipForward className="h-4 w-4 sm:h-5 sm:w-5" />
+              </Button>
+              <Button
+                variant="ghost"
+                size="icon"
+                onClick={idx < total - 1 ? onNext : onSubmit}
+                disabled={isSubmitting}
+                className="h-8 w-8 sm:h-9 sm:w-9 md:h-10 md:w-10 disabled:opacity-50"
+                style={{
+                  color: 'rgba(32, 224, 192, 0.87)'
+                }}
+                title={idx < total - 1 ? t("next") : (isSubmitting ? "提交中..." : t("submit"))}
+              >
+                <ChevronRight className="h-4 w-4 sm:h-5 sm:w-5" />
+              </Button>
+            </div>
+            {/* 答题进度条 */}
+            <div className="mb-4 sm:mb-5 md:mb-6 px-4 sm:px-6 md:px-8 lg:px-10 mt-2 sm:mt-3 md:mt-4">
+              {/* 进度文本 */}
+              <div className="mb-2 sm:mb-2.5 md:mb-3">
+                <span 
+                  className="text-sm sm:text-base md:text-lg font-medium"
+                  style={{
+                    color: 'rgba(32, 224, 192, 0.87)'
+                  }}
+                >
+                  问题
+                </span>
+                <span className="text-xs sm:text-sm md:text-base font-medium ml-1">
+                  <span style={{ color: 'rgba(32, 224, 192, 0.87)' }}>{currentQuestion}</span>
+                  <span style={{ color: 'rgba(32, 224, 192, 0.87)' }}>/</span>
+                  <span style={{ color: 'rgba(32, 224, 192, 0.6)' }}>{formattedTotal}</span>
+                </span>
+              </div>
+              {/* 进度条 */}
+              <div 
+                className="w-full h-1 sm:h-1.5 md:h-2 rounded-full overflow-hidden"
+                style={{
+                  backgroundColor: resolvedTheme === "dark" ? "rgba(156, 163, 175, 0.3)" : "rgba(156, 163, 175, 0.3)"
                 }}
               >
-                {currentQuestion}/{formattedTotal}
+                <div 
+                  className="h-full rounded-full transition-all duration-300"
+                  style={{
+                    width: `${(currentQuestion / total) * 100}%`,
+                    backgroundColor: 'rgba(32, 224, 192, 0.87)'
+                  }}
+                />
               </div>
             </div>
-          </div>
-          
-          {/* 顶部：进度、题目和操作按钮 */}
-          <div className="px-4 sm:px-5 md:px-6 pt-10 sm:pt-12 md:pt-14 pb-3 md:pb-4 flex-shrink-0">
             
             {/* 题目文本 */}
-      <div>
+      <div className="relative -mt-2 sm:-mt-3 md:-mt-4">
               {/* 题目文本 - 透明背景，无边框 */}
-              <div className="bg-transparent backdrop-blur-sm rounded-xl p-4 sm:p-6 md:p-8 lg:p-10">
+              <div className="rounded-xl p-4 sm:p-6 md:p-8 lg:p-10">
                 <h2 
                   ref={questionRef}
                   className="text-lg sm:text-xl md:text-2xl lg:text-3xl font-semibold leading-relaxed tracking-normal"
@@ -173,7 +252,11 @@ function RunInner() {
           </div>
 
           {/* 选项列表 - 文字居中显示 */}
-          <div className="flex-1 min-h-0 flex flex-col px-4 sm:px-5 md:px-6 pb-4 sm:pb-5 md:pb-6 space-y-2 sm:space-y-3">
+          <div className="flex-1 min-h-0 flex flex-col px-4 sm:px-5 md:px-6 pb-4 sm:pb-5 md:pb-6 space-y-2 sm:space-y-3 rounded-b-2xl md:rounded-b-3xl -mt-2 sm:-mt-3 md:-mt-4"
+            style={{
+              background: 'rgba(255, 255, 255, 0.6)'
+            }}
+          >
             {[1, 2, 3, 4, 5].map((value) => {
               const isSelected = (a?.value as number) === value;
               
@@ -183,17 +266,16 @@ function RunInner() {
                   type="button"
                   onClick={() => onSet(value as LikertValue)}
                   className={cn(
-                    "w-full px-3 sm:px-4 md:px-5 py-2.5 sm:py-3 md:py-4 rounded-lg sm:rounded-xl transition-all duration-200 relative",
+                    "w-full px-3 sm:px-4 md:px-5 py-2.5 sm:py-3 md:py-4 rounded-lg sm:rounded-xl transition-all duration-200 relative backdrop-blur-sm",
                     isSelected
-                      ? "bg-transparent border-cyan-300/60 shadow-lg scale-[1.02] shadow-cyan-400/30"
-                      : "bg-transparent backdrop-blur-sm border-gray-300/20 hover:border-gray-400/30 hover:shadow-md"
+                      ? "shadow-lg shadow-cyan-400/30"
+                      : "hover:shadow-md"
                   )}
-                  style={isSelected ? {
+                  style={{
                     borderWidth: '1px',
                     borderStyle: 'solid',
-                  } : {
-                    borderWidth: '1px',
-                    borderStyle: 'solid',
+                    borderColor: 'rgba(32, 224, 192, 0.5)',
+                    backgroundColor: isSelected ? 'rgba(32, 224, 192, 0.3)' : 'rgba(255, 255, 255, 0.6)'
                   }}
                 >
                   <div className="flex items-center justify-center gap-2 sm:gap-3 md:gap-4 relative">
@@ -202,12 +284,12 @@ function RunInner() {
                       className={cn(
                         "absolute left-0 w-6 h-6 sm:w-7 sm:h-7 md:w-8 md:h-8 rounded-full flex items-center justify-center font-bold text-xs sm:text-sm",
                         isSelected 
-                          ? "bg-transparent border-2 border-cyan-300/50" 
-                          : "bg-transparent border border-white/20"
+                          ? "bg-transparent border-2" 
+                          : "bg-transparent border"
                       )}
                       style={{
                         color: resolvedTheme === "dark" ? "rgba(255, 255, 255, 0.87)" : "rgba(0, 0, 0, 0.6)",
-                        borderColor: resolvedTheme === "dark" ? (isSelected ? "rgba(129, 140, 248, 0.5)" : "rgba(255, 255, 255, 0.2)") : (isSelected ? "rgba(129, 140, 248, 0.5)" : "rgba(0, 0, 0, 0.2)")
+                        borderColor: "rgba(32, 224, 192, 0.5)"
                       }}
                     >
                       {optionLetters[value - 1]}
@@ -246,51 +328,6 @@ function RunInner() {
             })}
       </div>
 
-          {/* 底部操作按钮 */}
-          <div className="flex items-center justify-between gap-2 sm:gap-3 px-4 sm:px-5 md:px-6 pb-4 sm:pb-5 md:pb-6 flex-shrink-0">
-            <div className="flex gap-1.5 sm:gap-2">
-              <Button 
-                variant="ghost" 
-                size="sm"
-                onClick={onPrev} 
-                disabled={idx <= 0}
-                className="h-8 sm:h-9 md:h-10 text-xs sm:text-sm text-white/87 hover:text-white/87 px-2 sm:px-3 disabled:opacity-30"
-              >
-                {t("prev")}
-              </Button>
-              <Button 
-                variant="ghost" 
-                size="sm"
-                onClick={onSkip}
-                className="h-8 sm:h-9 md:h-10 text-xs sm:text-sm text-white/87 hover:text-white/87 hover:bg-white/10 px-2 sm:px-3 border border-white/20"
-              >
-                {t("skip")}
-              </Button>
-        </div>
-        {idx < total - 1 ? (
-              <Button 
-                className="h-11 sm:h-12 md:h-14 px-6 sm:px-8 md:px-10 rounded-lg sm:rounded-xl text-sm sm:text-base md:text-lg font-semibold text-gray-900 border-0 shadow-lg hover:shadow-xl transition-all duration-200 hover:scale-105 active:scale-95 hover:opacity-90"
-                style={{
-                  background: '#20E0C0',
-                }}
-                size="lg"
-                onClick={onNext}
-              >
-                {t("next")}
-              </Button>
-        ) : (
-              <Button 
-                className="h-11 sm:h-12 md:h-14 px-6 sm:px-8 md:px-10 rounded-lg sm:rounded-xl text-sm sm:text-base md:text-lg font-semibold text-gray-900 border-0 shadow-lg hover:shadow-xl transition-all duration-200 hover:scale-105 active:scale-95 hover:opacity-90"
-                style={{
-                  background: '#20E0C0',
-                }}
-                size="lg"
-                onClick={onSubmit}
-              >
-                {t("submit")}
-              </Button>
-        )}
-          </div>
         </div>
       </div>
     </div>

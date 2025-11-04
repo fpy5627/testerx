@@ -33,22 +33,32 @@ export function AgePrivacyModal({ open, onClose, onConfirm }: AgePrivacyModalPro
           </DialogDescription>
         </DialogHeader>
         <div className="space-y-4 py-2">
-          <label className="flex items-center gap-2">
+          <div className="flex items-center gap-2">
             <Checkbox 
+              id="age-check"
               checked={agreeAge} 
-              onCheckedChange={(v) => setAgreeAge(Boolean(v))}
-              className="data-[state=checked]:bg-white data-[state=checked]:border-[#20E0C0] [&[data-state=checked]>div>svg]:text-[#20E0C0]"
+              onCheckedChange={(checked) => {
+                setAgreeAge(checked === true);
+              }}
+              className="data-[state=checked]:bg-white data-[state=checked]:border-[#20E0C0] data-[state=checked]:text-[rgba(32,224,192,0.6)] [&[data-state=checked]_svg]:!text-[rgba(32,224,192,0.6)]"
             />
-            <span>{t("age_check")}</span>
-          </label>
-          <label className="flex items-center gap-2">
+            <label htmlFor="age-check" className="cursor-pointer text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70">
+              {t("age_check")}
+            </label>
+          </div>
+          <div className="flex items-center gap-2">
             <Checkbox 
+              id="privacy-check"
               checked={agreePrivacy} 
-              onCheckedChange={(v) => setAgreePrivacy(Boolean(v))}
-              className="data-[state=checked]:bg-white data-[state=checked]:border-[#20E0C0] [&[data-state=checked]>div>svg]:text-[#20E0C0]"
+              onCheckedChange={(checked) => {
+                setAgreePrivacy(checked === true);
+              }}
+              className="data-[state=checked]:bg-white data-[state=checked]:border-[#20E0C0] data-[state=checked]:text-[rgba(32,224,192,0.6)] [&[data-state=checked]_svg]:!text-[rgba(32,224,192,0.6)]"
             />
-            <span>{t("privacy_check")}</span>
-          </label>
+            <label htmlFor="privacy-check" className="cursor-pointer text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70">
+              {t("privacy_check")}
+            </label>
+          </div>
         </div>
         <DialogFooter>
           <Button variant="ghost" onClick={onClose}>{t("cancel")}</Button>

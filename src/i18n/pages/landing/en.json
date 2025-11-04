@@ -491,11 +491,18 @@
       "items": [
         {
           "title": "Privacy Policy",
-          "url": "/privacy-policy"
+          "url": "/privacy-policy",
+          "target": "_self"
         },
         {
-          "title": "Terms of Service",
-          "url": "/terms-of-service"
+          "title": "About",
+          "url": "/about",
+          "target": "_self"
+        },
+        {
+          "title": "GDPR Notice",
+          "url": "/gdpr",
+          "target": "_self"
         }
       ]
     }

@@ -133,9 +133,13 @@
     "intro": {
       "title": "BDSM心理测试与性取向光谱",
       "description": "科学量化你的心理维度与性取向光谱。全部数据仅存于本地，无需登录，18+可用。",
-      "feature_1": "测试题目基于多个维度（如：主导/服从/切换）。",
-      "feature_2": "你可以随时跳过不想回答的问题。",
-      "feature_3": "你的数据仅在本地加密存储，不会上传。",
+      "feature_1": "安全",
+      "feature_2": "匿名",
+      "feature_3": "心理倾向测试",
+      "mode_label": "选择测试模式",
+      "mode_quick": "快速",
+      "mode_standard": "标准",
+      "mode_deep": "深度",
       "start_button": "立即开始"
     },
     "consent": {
@@ -203,6 +207,29 @@
       "dimensions_title": "维度",
       "questions_title": "题目",
       "hint": "提示"
+    },
+    "result": {
+      "title": "测试结果",
+      "disclaimer": "本测试结果仅供参考，不构成任何医疗或心理建议。",
+      "history_title": "历史记录",
+      "no_history": "暂无历史记录",
+      "time": "时间",
+      "record_id": "记录ID",
+      "delete": "删除",
+      "clear_all": "清空全部",
+      "retest": "重新测试",
+      "back": "返回",
+      "principle": "隐私原则：所有数据仅存储在本地，不会上传到服务器。",
+      "share_title": "生成匿名分享链接",
+      "share_button": "生成分享链接",
+      "share_link_copied": "分享链接已复制到剪贴板",
+      "share_link_failed": "复制失败，请手动复制",
+      "download_pdf": "下载报告（PDF）",
+      "download_pdf_processing": "正在生成PDF...",
+      "top_traits": "Top 3 特征",
+      "chart_radar": "雷达图",
+      "chart_bar": "柱状图",
+      "chart_score": "得分"
     }
   }
 }

@@ -491,11 +491,18 @@
       "items": [
         {
           "title": "隐私政策",
-          "url": "/privacy-policy"
+          "url": "/privacy-policy",
+          "target": "_self"
         },
         {
-          "title": "服务条款",
-          "url": "/terms-of-service"
+          "title": "关于",
+          "url": "/about",
+          "target": "_self"
+        },
+        {
+          "title": "GDPR提示",
+          "url": "/gdpr",
+          "target": "_self"
         }
       ]
     }
