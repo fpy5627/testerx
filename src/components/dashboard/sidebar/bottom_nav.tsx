@@ -23,16 +23,19 @@ export function BottomNav({
     <SidebarGroup {...props}>
       <SidebarGroupContent>
         <SidebarMenu>
-          {nav.items?.map((item, index) => (
-            <SidebarMenuItem key={index}>
-              <SidebarMenuButton asChild>
-                <Link href={item.url as any} target={item.target}>
-                  {item.icon && <Icon name={item.icon} />}
-                  <span>{item.title}</span>
-                </Link>
-              </SidebarMenuButton>
-            </SidebarMenuItem>
-          ))}
+          {nav.items?.map((item, index) => {
+            if (!item.url || !item.url.trim()) return null;
+            return (
+              <SidebarMenuItem key={index}>
+                <SidebarMenuButton asChild>
+                  <Link href={item.url.trim() as any} target={item.target || "_self"}>
+                    {item.icon && <Icon name={item.icon} />}
+                    <span>{item.title}</span>
+                  </Link>
+                </SidebarMenuButton>
+              </SidebarMenuItem>
+            );
+          })}
         </SidebarMenu>
       </SidebarGroupContent>
     </SidebarGroup>

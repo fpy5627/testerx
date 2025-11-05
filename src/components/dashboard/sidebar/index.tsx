@@ -50,23 +50,40 @@ export default function DashboardSidebar({
               asChild
               className="data-[slot=sidebar-menu-button]:!p-1.5"
             >
-              <Link
-                href={sidebar.brand?.url as any}
-                className="flex items-center gap-2"
-              >
-                {sidebar.brand?.logo && (
-                  <Image
-                    src={sidebar.brand?.logo?.src as any}
-                    alt={sidebar.brand?.title as string}
-                    width={28}
-                    height={28}
-                    className="rounded-full"
-                  />
-                )}
-                <span className="text-base font-semibold">
-                  {sidebar.brand?.title}
-                </span>
-              </Link>
+              {sidebar.brand?.url && sidebar.brand.url.trim() ? (
+                <Link
+                  href={sidebar.brand.url.trim() as any}
+                  className="flex items-center gap-2"
+                >
+                  {sidebar.brand?.logo && (
+                    <Image
+                      src={sidebar.brand?.logo?.src as any}
+                      alt={sidebar.brand?.title as string}
+                      width={28}
+                      height={28}
+                      className="rounded-full"
+                    />
+                  )}
+                  <span className="text-base font-semibold">
+                    {sidebar.brand?.title}
+                  </span>
+                </Link>
+              ) : (
+                <div className="flex items-center gap-2">
+                  {sidebar.brand?.logo && (
+                    <Image
+                      src={sidebar.brand?.logo?.src as any}
+                      alt={sidebar.brand?.title as string}
+                      width={28}
+                      height={28}
+                      className="rounded-full"
+                    />
+                  )}
+                  <span className="text-base font-semibold">
+                    {sidebar.brand?.title}
+                  </span>
+                </div>
+              )}
             </SidebarMenuButton>
           </SidebarMenuItem>
         </SidebarMenu>

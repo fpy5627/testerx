@@ -26,22 +26,25 @@ export default function ({
       )}
       {...props}
     >
-      {items.map((item, index) => (
-        <Link
-          key={index}
-          href={item.url as any}
-          className={cn(
-            buttonVariants({ variant: "ghost" }),
-            item.is_active || pathname.includes(item.url as any)
-              ? "bg-muted/50 text-primary hover:bg-muted hover:text-primary"
-              : "hover:bg-transparent hover:underline",
-            "justify-start"
-          )}
-        >
-          {item.icon && <Icon name={item.icon} className="w-4 h-4" />}
-          {item.title}
-        </Link>
-      ))}
+      {items.map((item, index) => {
+        if (!item.url || !item.url.trim()) return null;
+        return (
+          <Link
+            key={index}
+            href={item.url.trim() as any}
+            className={cn(
+              buttonVariants({ variant: "ghost" }),
+              item.is_active || pathname.includes(item.url as any)
+                ? "bg-muted/50 text-primary hover:bg-muted hover:text-primary"
+                : "hover:bg-transparent hover:underline",
+              "justify-start"
+            )}
+          >
+            {item.icon && <Icon name={item.icon} className="w-4 h-4" />}
+            {item.title}
+          </Link>
+        );
+      })}
     </nav>
   );
 }

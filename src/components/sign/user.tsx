@@ -53,8 +53,8 @@ export default function SignUser({ user }: { user: User }) {
               key={index}
               className="flex justify-center cursor-pointer"
             >
-              {item.url ? (
-                <Link href={item.url as any} target={item.target}>
+              {item.url && item.url.trim() ? (
+                <Link href={item.url.trim() as any} target={item.target || "_self"}>
                   {item.title}
                 </Link>
               ) : (

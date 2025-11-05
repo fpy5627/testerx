@@ -4,6 +4,7 @@
  */
 
 import type { TestAnswerItem, TestBankPayload, TestQuestion, TestResult } from "@/types/test";
+import { selectQuestions } from "@/lib/selectQuestions";
 
 // JSON题库导入（动态导入，避免客户端打包）
 async function loadQuestionsFromJSON(locale: string): Promise<TestQuestion[]> {
@@ -67,20 +68,45 @@ const categoryMetadata: Record<string, { name: string; description?: string }> =
 };
 
 /**
+ * 根据测试模式筛选题目（基于depth深度层级）
+ * @param questions 全部题目
+ * @param mode 测试模式（"quick" | "standard" | "deep"）
+ * @returns 筛选后的题目
+ * 
+ * 说明：
+ * - Quick Mode: 只取 depth <= 1 的题目（基础题，30-40题）
+ * - Standard Mode: 取 depth <= 2 的题目（基础+标准题，70-100题）
+ * - Deep Mode: 取所有题目（depth <= 3，120-150题）
+ * 
+ * 使用统一的selectQuestions函数实现按depth筛选逻辑
+ */
+function filterQuestionsByMode(questions: TestQuestion[], mode: "quick" | "standard" | "deep" = "standard"): TestQuestion[] {
+  return selectQuestions(questions, mode);
+}
+
+/**
  * 加载题库（从JSON文件或API）
  * @param locale 语言（"en" | "zh"）
+ * @param mode 测试模式（"quick" | "standard" | "deep"）
  * @returns TestBankPayload
  */
-export async function loadTestBank(locale = "en"): Promise<TestBankPayload> {
+export async function loadTestBank(locale = "en", mode: "quick" | "standard" | "deep" = "standard"): Promise<TestBankPayload> {
   // 客户端：通过API调用获取
   if (typeof window !== "undefined") {
-  try {
-      const res = await fetch(`/api/test/bank?locale=${encodeURIComponent(locale)}`, {
+    try {
+      const res = await fetch(`/api/test/bank?locale=${encodeURIComponent(locale)}&mode=${encodeURIComponent(mode)}`, {
         cache: "no-store",
       });
       if (res.ok) {
         const data = (await res.json()) as TestBankPayload;
-        if (data && data.questions?.length) return data;
+        if (data && data.questions?.length) {
+          // 根据模式筛选题目（基于depth深度层级）
+          const filtered = filterQuestionsByMode(data.questions, mode);
+          return {
+            ...data,
+            questions: filtered,
+          };
+        }
       }
     } catch (err) {
       console.error("Failed to load test bank from API:", err);
@@ -94,13 +120,16 @@ export async function loadTestBank(locale = "en"): Promise<TestBankPayload> {
   // 如果服务端也没有数据，返回空题库
   if (questions.length === 0) {
     console.warn(`No questions loaded for locale: ${locale}`);
-      return {
+    return {
       questions: [],
       categories: {},
       version: "v2.0",
-        locale,
-      };
-    }
+      locale,
+    };
+  }
+
+  // 根据模式筛选题目
+  const filteredQuestions = filterQuestionsByMode(questions, mode);
 
   // 构建类别元数据
   const categories: Record<string, { name: string; description?: string; i18nKey?: string }> = {};
@@ -109,7 +138,7 @@ export async function loadTestBank(locale = "en"): Promise<TestBankPayload> {
   }
 
   return {
-    questions,
+    questions: filteredQuestions,
     categories,
     version: "v2.0",
     locale,

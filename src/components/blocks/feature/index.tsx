@@ -34,10 +34,14 @@ export default function Feature({ section }: { section: SectionType }) {
   }
 
   /**
-   * 通过确认后跳转到运行页。
+   * 通过确认后跳转到运行页，并传递测试模式。
    */
   function handleConfirm() {
     setOpen(false);
+    // 将测试模式保存到 sessionStorage，以便测试页面读取
+    if (typeof window !== "undefined") {
+      sessionStorage.setItem("testMode", testMode);
+    }
     router.push(`/${locale}/test/run`);
   }
 
@@ -98,14 +102,14 @@ export default function Feature({ section }: { section: SectionType }) {
               <span className={resolvedTheme === "dark" ? "text-white/87" : "text-gray-700"}>
                 {t("feature_2")}
               </span>
-            </div>
+        </div>
             <div className="flex items-center gap-2 text-sm md:text-base">
               <Brain className="w-5 h-5 text-[#20E0C0]" />
               <span className={resolvedTheme === "dark" ? "text-white/87" : "text-gray-700"}>
                 {t("feature_3")}
               </span>
+                </div>
             </div>
-          </div>
           
           {/* 描述文字 - 居中，灰色，适当字间距，增加行间距，与标题区分 */}
           <div 
@@ -116,8 +120,8 @@ export default function Feature({ section }: { section: SectionType }) {
               <p key={index} className="leading-relaxed">
                 {line.trim()}{index < array.length - 1 ? (t("description").includes('。') ? '。' : '.') : ''}
               </p>
-            ))}
-          </div>
+          ))}
+        </div>
 
           {/* 模式选择（快速 / 标准 / 深度） */}
           <div className="w-full max-w-md mb-6 md:mb-8">
@@ -170,8 +174,8 @@ export default function Feature({ section }: { section: SectionType }) {
               {t("start_button")}
             </Button>
           </div>
-        </div>
-      </section>
+      </div>
+    </section>
 
       <AgePrivacyModal
         open={open}

@@ -44,7 +44,7 @@ export function AgePrivacyModal({ open, onClose, onConfirm }: AgePrivacyModalPro
             />
             <label htmlFor="age-check" className="cursor-pointer text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70">
               {t("age_check")}
-            </label>
+          </label>
           </div>
           <div className="flex items-center gap-2">
             <Checkbox 
@@ -57,7 +57,7 @@ export function AgePrivacyModal({ open, onClose, onConfirm }: AgePrivacyModalPro
             />
             <label htmlFor="privacy-check" className="cursor-pointer text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70">
               {t("privacy_check")}
-            </label>
+          </label>
           </div>
         </div>
         <DialogFooter>

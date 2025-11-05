@@ -32,11 +32,21 @@ export default function ({ crumb }: { crumb?: Crumb }) {
                     );
                   }
 
+                  if (!item.url || !item.url.trim()) {
+                    return (
+                      <Fragment key={index}>
+                        <BreadcrumbItem className="hidden md:block">
+                          <span className="hover:text-primary">{item.title}</span>
+                        </BreadcrumbItem>
+                        <BreadcrumbSeparator className="hidden md:block" />
+                      </Fragment>
+                    );
+                  }
                   return (
                     <Fragment key={index}>
                       <BreadcrumbItem className="hidden md:block">
                         <Link
-                          href={item.url || ""}
+                          href={item.url.trim()}
                           className="hover:text-primary"
                         >
                           {item.title}

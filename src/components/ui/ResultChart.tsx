@@ -41,9 +41,13 @@ function buildDataset(bank: TestBankPayload, result: TestResult) {
   // 从categories或result.scores中获取所有category
   const categories = new Set<string>();
   
-  // 从题库中获取所有category
-  for (const q of bank.questions) {
-    categories.add(q.category);
+  // 从题库中获取所有category（添加空值检查）
+  if (bank?.questions && Array.isArray(bank.questions)) {
+    for (const q of bank.questions) {
+      if (q?.category) {
+        categories.add(q.category);
+      }
+    }
   }
   
   // 过滤掉Orientation（单独展示）
@@ -72,9 +76,23 @@ function buildDataset(bank: TestBankPayload, result: TestResult) {
 export function ResultChart({ bank, result, variant: initialVariant = "radar" }: ResultChartProps) {
   const t = useTranslations("test.result");
   const [chartType, setChartType] = useState<"radar" | "bar">(initialVariant);
-  const { labels, data } = React.useMemo(() => buildDataset(bank, result), [bank, result]);
+  const { labels, data } = React.useMemo(() => {
+    if (!bank || !result) {
+      return { labels: [], data: [] };
+    }
+    return buildDataset(bank, result);
+  }, [bank, result]);
 
   const dataset = labels.map((name, i) => ({ name, score: data[i] }));
+
+  // 如果数据为空，显示提示信息
+  if (!labels.length || !data.length) {
+    return (
+      <div className="w-full flex flex-col items-center justify-center h-96 bg-white dark:bg-gray-800 rounded-2xl shadow-md p-4">
+        <p className="text-muted-foreground">暂无数据</p>
+      </div>
+    );
+  }
 
   return (
     <div className="w-full flex flex-col items-center space-y-4">

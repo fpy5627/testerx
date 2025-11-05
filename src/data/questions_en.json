@@ -5,7 +5,8 @@
     "question": "I enjoy taking the lead in intimate or emotional situations.",
     "type": "scale",
     "scale": 5,
-    "weight": 1.2
+    "weight": 1.2,
+    "depth": 1
   },
   {
     "id": 2,
@@ -13,7 +14,8 @@
     "question": "I feel comfortable letting others make decisions for me.",
     "type": "scale",
     "scale": 5,
-    "weight": 1.0
+    "weight": 1,
+    "depth": 1
   },
   {
     "id": 3,
@@ -21,7 +23,8 @@
     "question": "I like trying new forms of intimacy or emotional expression.",
     "type": "scale",
     "scale": 5,
-    "weight": 0.8
+    "weight": 0.8,
+    "depth": 1
   },
   {
     "id": 4,
@@ -29,7 +32,8 @@
     "question": "I prefer being in control of the pace and direction in relationships.",
     "type": "scale",
     "scale": 5,
-    "weight": 1.2
+    "weight": 1.2,
+    "depth": 1
   },
   {
     "id": 5,
@@ -37,7 +41,8 @@
     "question": "Following clear guidance and instructions helps me feel more relaxed and engaged.",
     "type": "scale",
     "scale": 5,
-    "weight": 1.0
+    "weight": 1,
+    "depth": 1
   },
   {
     "id": 6,
@@ -45,7 +50,8 @@
     "question": "Depending on the situation and partner, I may switch between taking control and yielding control.",
     "type": "scale",
     "scale": 5,
-    "weight": 1.0
+    "weight": 1,
+    "depth": 1
   },
   {
     "id": 7,
@@ -53,7 +59,8 @@
     "question": "I like setting rules and boundaries, and having them respected.",
     "type": "scale",
     "scale": 5,
-    "weight": 1.2
+    "weight": 1.2,
+    "depth": 1
   },
   {
     "id": 8,
@@ -61,7 +68,8 @@
     "question": "Adhering to someone else's arrangements makes me feel more secure.",
     "type": "scale",
     "scale": 5,
-    "weight": 1.0
+    "weight": 1,
+    "depth": 1
   },
   {
     "id": 9,
@@ -69,7 +77,8 @@
     "question": "I find satisfaction in having power over others in controlled contexts.",
     "type": "scale",
     "scale": 5,
-    "weight": 1.1
+    "weight": 1.1,
+    "depth": 1
   },
   {
     "id": 10,
@@ -77,7 +86,8 @@
     "question": "I experience pleasure or fulfillment from giving up control to a trusted partner.",
     "type": "scale",
     "scale": 5,
-    "weight": 1.1
+    "weight": 1.1,
+    "depth": 1
   },
   {
     "id": 11,
@@ -85,7 +95,8 @@
     "question": "I prefer traditional, straightforward forms of emotional and physical connection.",
     "type": "scale",
     "scale": 5,
-    "weight": 1.0
+    "weight": 1,
+    "depth": 1
   },
   {
     "id": 12,
@@ -93,7 +104,8 @@
     "question": "I am open to exploring different dynamics and roles in relationships.",
     "type": "scale",
     "scale": 5,
-    "weight": 0.9
+    "weight": 0.9,
+    "depth": 1
   },
   {
     "id": 13,
@@ -101,7 +113,8 @@
     "question": "Taking responsibility for my partner's well-being feels natural to me.",
     "type": "scale",
     "scale": 5,
-    "weight": 1.2
+    "weight": 1.2,
+    "depth": 1
   },
   {
     "id": 14,
@@ -109,7 +122,8 @@
     "question": "Trusting my partner to guide me allows me to fully let go and be present.",
     "type": "scale",
     "scale": 5,
-    "weight": 1.0
+    "weight": 1,
+    "depth": 1
   },
   {
     "id": 15,
@@ -117,7 +131,8 @@
     "question": "My attraction is primarily directed toward people of a different gender.",
     "type": "scale",
     "scale": 7,
-    "weight": 1.0
+    "weight": 1,
+    "depth": 1
   },
   {
     "id": 16,
@@ -125,7 +140,8 @@
     "question": "I find myself attracted to people regardless of gender.",
     "type": "scale",
     "scale": 7,
-    "weight": 1.0
+    "weight": 1,
+    "depth": 1
   },
   {
     "id": 17,
@@ -133,7 +149,8 @@
     "question": "My attraction is primarily directed toward people of the same gender.",
     "type": "scale",
     "scale": 7,
-    "weight": 1.0
+    "weight": 1,
+    "depth": 1
   },
   {
     "id": 18,
@@ -141,7 +158,8 @@
     "question": "I enjoy the flexibility of adapting my role based on context and mood.",
     "type": "scale",
     "scale": 5,
-    "weight": 1.0
+    "weight": 1,
+    "depth": 1
   },
   {
     "id": 19,
@@ -149,7 +167,8 @@
     "question": "Exercising authority or control in consensual scenarios is appealing to me.",
     "type": "scale",
     "scale": 5,
-    "weight": 1.1
+    "weight": 1.1,
+    "depth": 1
   },
   {
     "id": 20,
@@ -157,7 +176,8 @@
     "question": "I derive satisfaction from experiencing controlled intensity or challenge.",
     "type": "scale",
     "scale": 5,
-    "weight": 1.1
+    "weight": 1.1,
+    "depth": 1
   },
   {
     "id": 21,
@@ -165,7 +185,8 @@
     "question": "I prefer relationships without power dynamics or role-playing elements.",
     "type": "scale",
     "scale": 5,
-    "weight": 1.0
+    "weight": 1,
+    "depth": 1
   },
   {
     "id": 22,
@@ -173,7 +194,8 @@
     "question": "I am curious about different ways to express intimacy and connection.",
     "type": "scale",
     "scale": 5,
-    "weight": 0.9
+    "weight": 0.9,
+    "depth": 1
   },
   {
     "id": 23,
@@ -181,7 +203,8 @@
     "question": "I feel confident when I am directing the flow of interaction.",
     "type": "scale",
     "scale": 5,
-    "weight": 1.2
+    "weight": 1.2,
+    "depth": 1
   },
   {
     "id": 24,
@@ -189,7 +212,8 @@
     "question": "I find peace in surrendering decision-making to someone I trust.",
     "type": "scale",
     "scale": 5,
-    "weight": 1.0
+    "weight": 1,
+    "depth": 1
   },
   {
     "id": 25,
@@ -197,7 +221,8 @@
     "question": "I experience little to no sexual or romantic attraction.",
     "type": "scale",
     "scale": 7,
-    "weight": 1.0
+    "weight": 1,
+    "depth": 1
   },
   {
     "id": 26,
@@ -205,7 +230,8 @@
     "question": "The ability to be both dominant and submissive adds depth to my relationships.",
     "type": "scale",
     "scale": 5,
-    "weight": 1.0
+    "weight": 1,
+    "depth": 1
   },
   {
     "id": 27,
@@ -213,7 +239,8 @@
     "question": "I enjoy scenarios where I have the power to set boundaries and rules.",
     "type": "scale",
     "scale": 5,
-    "weight": 1.1
+    "weight": 1.1,
+    "depth": 1
   },
   {
     "id": 28,
@@ -221,7 +248,8 @@
     "question": "I feel fulfilled when I can fully trust and submit to a partner's direction.",
     "type": "scale",
     "scale": 5,
-    "weight": 1.1
+    "weight": 1.1,
+    "depth": 1
   },
   {
     "id": 29,
@@ -229,7 +257,8 @@
     "question": "I value equality and mutual decision-making in my relationships.",
     "type": "scale",
     "scale": 5,
-    "weight": 1.0
+    "weight": 1,
+    "depth": 1
   },
   {
     "id": 30,
@@ -237,6 +266,7 @@
     "question": "I am interested in learning about different relationship dynamics and preferences.",
     "type": "scale",
     "scale": 5,
-    "weight": 0.9
+    "weight": 0.9,
+    "depth": 1
   }
 ]

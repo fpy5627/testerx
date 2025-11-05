@@ -45,11 +45,16 @@ export default async function () {
     {
       name: "actions",
       title: "Actions",
-      callback: (row) => (
-        <a href={`/admin/users?user_uuid=${row.user_uuid}`} target="_blank">
-          View user
-        </a>
-      ),
+      callback: (row) => {
+        if (!row.user_uuid || !row.user_uuid.trim()) {
+          return <span>View user</span>;
+        }
+        return (
+          <a href={`/admin/users?user_uuid=${row.user_uuid.trim()}`} target="_blank">
+            View user
+          </a>
+        );
+      },
     },
   ];
 

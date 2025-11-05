@@ -29,10 +29,10 @@ export default function Nav({ nav }: { nav: NavType }) {
                     : ""
                 }`}
               >
-                {item.url ? (
+                {item.url && item.url.trim() ? (
                   <Link
-                    href={item.url as any}
-                    target={item.target}
+                    href={item.url.trim() as any}
+                    target={item.target || "_self"}
                     className="w-full flex items-center gap-2 cursor-pointer"
                   >
                     {item.icon && <Icon name={item.icon} />}

@@ -26,15 +26,21 @@ export default async function RootLayout({
         <link rel="icon" href="/favicon.ico" />
 
         {locales &&
-          locales.map((loc) => (
-            <link
-              key={loc}
-              rel="alternate"
-              hrefLang={loc}
-              href={`${webUrl}${loc === "en" ? "" : `/${loc}`}/`}
-            />
-          ))}
-        <link rel="alternate" hrefLang="x-default" href={webUrl} />
+          locales.map((loc) => {
+            const href = `${webUrl || ""}${loc === "en" ? "" : `/${loc}`}/`;
+            if (!href || !href.trim()) return null;
+            return (
+              <link
+                key={loc}
+                rel="alternate"
+                hrefLang={loc}
+                href={href.trim()}
+              />
+            );
+          })}
+        {webUrl && webUrl.trim() && (
+          <link rel="alternate" hrefLang="x-default" href={webUrl.trim()} />
+        )}
       </head>
       <body className="bg-white dark:bg-[#2b333e] transition-colors duration-200">{children}</body>
     </html>

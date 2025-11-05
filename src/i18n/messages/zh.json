@@ -1,8 +1,8 @@
 {
   "metadata": {
-    "title": "几小时内构建任何 AI SaaS 创业项目 | ShipAny",
-    "description": "ShipAny 是一个用于构建 AI SaaS 创业项目的 NextJS 模板，提供各种模板和组件，帮助您快速启动。",
-    "keywords": "ShipAny, AI SaaS 模板, NextJS 模板"
+    "title": "Kynex BDSM Test",
+    "description": "Kynex BDSM Test - BDSM人格与取向光谱测试，科学量化你的心理维度与性取向光谱。",
+    "keywords": "Kynex BDSM Test, BDSM测试, 性取向光谱, 人格测试"
   },
   "user": {
     "sign_in": "登录",
@@ -131,7 +131,7 @@
   },
   "test": {
     "intro": {
-      "title": "BDSM心理测试与性取向光谱",
+      "title": "BDSM人格与取向光谱测试",
       "description": "科学量化你的心理维度与性取向光谱。全部数据仅存于本地，无需登录，18+可用。",
       "feature_1": "安全",
       "feature_2": "匿名",
@@ -155,9 +155,20 @@
       "progress": "进度",
       "remaining": "剩余",
       "prev": "上一题",
+      "prev_page": "上一页",
       "skip": "跳过",
       "next": "下一题",
-      "submit": "提交并查看结果"
+      "next_page": "下一页",
+      "submit": "提交并查看结果",
+      "page": "页",
+      "of": "/",
+      "category": {
+        "interests": "兴趣",
+        "role_preferences": "角色偏好",
+        "boundaries": "限制界限",
+        "exploration": "探索倾向",
+        "orientation": "性取向光谱"
+      }
     },
     "result": {
       "title": "测试结果",
@@ -188,6 +199,7 @@
       "q5": "遵循对方的安排能让我更有安全感。"
     },
     "likert": {
+      "very_strongly_disagree": "非常不同意",
       "strongly_disagree": "完全不同意",
       "disagree": "不同意",
       "neutral": "中立",
@@ -229,7 +241,10 @@
       "top_traits": "Top 3 特征",
       "chart_radar": "雷达图",
       "chart_bar": "柱状图",
-      "chart_score": "得分"
+      "chart_score": "得分",
+      "export_json": "导出JSON",
+      "export_json_success": "JSON导出成功",
+      "export_json_failed": "JSON导出失败"
     }
   }
 }

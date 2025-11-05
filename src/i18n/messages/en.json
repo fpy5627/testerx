@@ -1,8 +1,8 @@
 {
   "metadata": {
-    "title": "Ship Any AI SaaS Startups in hours | ShipAny",
-    "description": "ShipAny is a NextJS boilerplate for building AI SaaS startups, Ship Fast with a variety of templates and components.",
-    "keywords": "ShipAny, AI SaaS Boilerplate, NextJS Boilerplate"
+    "title": "Kynex BDSM Test",
+    "description": "Kynex BDSM Test - BDSM Personality and Orientation Spectrum Test, scientifically quantify your psychological dimensions and sexual orientation spectrum.",
+    "keywords": "Kynex BDSM Test, BDSM Test, Sexual Orientation Spectrum, Personality Test"
   },
   "user": {
     "sign_in": "Sign In",
@@ -155,9 +155,20 @@
       "progress": "Progress",
       "remaining": "Remaining",
       "prev": "Previous",
+      "prev_page": "Previous Page",
       "skip": "Skip",
       "next": "Next",
-      "submit": "Submit and View Results"
+      "next_page": "Next Page",
+      "submit": "Submit and View Results",
+      "page": "Page",
+      "of": "/",
+      "category": {
+        "interests": "Interests",
+        "role_preferences": "Role Preferences",
+        "boundaries": "Boundaries",
+        "exploration": "Exploration",
+        "orientation": "Orientation Spectrum"
+      }
     },
     "result": {
       "title": "Test Results",
@@ -188,6 +199,7 @@
       "q5": "Following arrangements from the other party gives me more sense of security."
     },
     "likert": {
+      "very_strongly_disagree": "Very Strongly Disagree",
       "strongly_disagree": "Strongly Disagree",
       "disagree": "Disagree",
       "neutral": "Neutral",
@@ -229,7 +241,10 @@
       "top_traits": "Top 3 Traits",
       "chart_radar": "Radar Chart",
       "chart_bar": "Bar Chart",
-      "chart_score": "Score"
+      "chart_score": "Score",
+      "export_json": "Export JSON",
+      "export_json_success": "JSON exported successfully",
+      "export_json_failed": "Failed to export JSON"
     }
   }
 }

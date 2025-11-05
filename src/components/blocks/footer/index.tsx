@@ -39,13 +39,15 @@ export default function Footer({ footer }: { footer: FooterType }) {
               {footer.social && (
                 <ul className="flex items-center space-x-6 text-muted-foreground">
                   {footer.social.items?.map((item, i) => (
-                    <li key={i} className="font-medium hover:text-primary">
-                      <a href={item.url || ""} target={item.target}>
-                        {item.icon && (
-                          <Icon name={item.icon} className="size-4" />
-                        )}
-                      </a>
-                    </li>
+                    item.url && item.url.trim() ? (
+                      <li key={i} className="font-medium hover:text-primary">
+                        <a href={item.url.trim()} target={item.target || "_self"}>
+                          {item.icon && (
+                            <Icon name={item.icon} className="size-4" />
+                          )}
+                        </a>
+                      </li>
+                    ) : null
                   ))}
                 </ul>
               )}
@@ -56,11 +58,17 @@ export default function Footer({ footer }: { footer: FooterType }) {
                   <p className="mb-6 font-bold">{item.title}</p>
                   <ul className="space-y-4 text-sm text-muted-foreground">
                     {item.children?.map((iitem, ii) => (
-                      <li key={ii} className="font-medium hover:text-primary">
-                        <Link href={iitem.url || ""} target={iitem.target}>
+                      iitem.url && iitem.url.trim() ? (
+                        <li key={ii} className="font-medium hover:text-primary">
+                          <Link href={iitem.url.trim()} target={iitem.target || "_self"}>
+                            {iitem.title}
+                          </Link>
+                        </li>
+                      ) : (
+                        <li key={ii} className="font-medium text-muted-foreground">
                           {iitem.title}
-                        </Link>
-                      </li>
+                        </li>
+                      )
                     ))}
                   </ul>
                 </div>
@@ -77,7 +85,7 @@ export default function Footer({ footer }: { footer: FooterType }) {
                     target="_blank"
                     className="px-2 text-primary"
                   >
-                    build with ShipAny
+                    Kynex BDSM Test
                   </a>
                 )}
               </p>
@@ -86,11 +94,17 @@ export default function Footer({ footer }: { footer: FooterType }) {
             {footer.agreement && (
               <ul className="flex justify-center gap-4 lg:justify-start">
                 {footer.agreement.items?.map((item, i) => (
-                  <li key={i} className="hover:text-primary">
-                    <a href={item.url || ""} target={item.target}>
+                  item.url && item.url.trim() ? (
+                    <li key={i} className="hover:text-primary">
+                      <a href={item.url.trim()} target={item.target || "_self"}>
+                        {item.title}
+                      </a>
+                    </li>
+                  ) : (
+                    <li key={i} className="text-muted-foreground">
                       {item.title}
-                    </a>
-                  </li>
+                    </li>
+                  )
                 ))}
               </ul>
             )}

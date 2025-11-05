@@ -29,6 +29,8 @@ interface TestContextValue {
   skip: (questionId: number) => void;
   next: () => void;
   prev: () => void;
+  nextPage: () => void;
+  prevPage: () => void;
   submit: () => Promise<void>;
   reset: () => Promise<void>;
   deleteHistory: (id: string) => Promise<void>;
@@ -68,7 +70,16 @@ export function TestProvider({ children }: { children: React.ReactNode }): JSX.E
   const init = useCallback(async (locale?: string) => {
     setLoading(true);
     try {
-      const loaded = await loadTestBank(locale);
+      // 从 sessionStorage 读取测试模式
+      let mode: "quick" | "standard" | "deep" = "standard";
+      if (typeof window !== "undefined") {
+        const savedMode = sessionStorage.getItem("testMode");
+        if (savedMode === "quick" || savedMode === "standard" || savedMode === "deep") {
+          mode = savedMode;
+        }
+      }
+      
+      const loaded = await loadTestBank(locale, mode);
       if (!loaded || !loaded.questions || loaded.questions.length === 0) {
         console.error("Failed to load test bank: empty or invalid data", loaded);
         setLoading(false);
@@ -78,7 +89,15 @@ export function TestProvider({ children }: { children: React.ReactNode }): JSX.E
       // 进度恢复
       const saved = await secureGetLocal<TestProgress>(STORAGE_KEY_PROGRESS, STORAGE_PASSWORD);
       if (saved && Array.isArray(saved.answers)) {
-        setProgress(saved);
+        // 检查进度是否与当前题目数量匹配
+        if (saved.answers.length === loaded.questions.length) {
+          setProgress(saved);
+        } else {
+          // 如果不匹配，重新初始化进度
+          const p = createEmptyProgress(loaded.questions.length);
+          p.answers = loaded.questions.map((q) => ({ questionId: q.id }));
+          setProgress(p);
+        }
       } else {
         const p = createEmptyProgress(loaded.questions.length);
         // 使用真实 questionId 替换占位 id
@@ -173,6 +192,49 @@ export function TestProvider({ children }: { children: React.ReactNode }): JSX.E
   }, [persistProgress]);
 
   /**
+   * 下一页（每页5题）。
+   */
+  const nextPage = useCallback(() => {
+    setProgress((prev) => {
+      if (!bank || !bank.questions) {
+        return prev;
+      }
+      const total = bank.questions.length;
+      const QUESTIONS_PER_PAGE = 5;
+      const currentPage = Math.floor(prev.currentIndex / QUESTIONS_PER_PAGE);
+      const totalPages = Math.ceil(total / QUESTIONS_PER_PAGE);
+      if (currentPage >= totalPages - 1) {
+        return prev; // 已经是最后一页
+      }
+      const nextPageIdx = (currentPage + 1) * QUESTIONS_PER_PAGE;
+      const nextIdx = Math.min(total - 1, nextPageIdx);
+      const next: TestProgress = { ...prev, currentIndex: nextIdx };
+      void persistProgress(next);
+      return next;
+    });
+  }, [bank, persistProgress]);
+
+  /**
+   * 上一页（每页5题）。
+   */
+  const prevPage = useCallback(() => {
+    setProgress((prev) => {
+      if (!bank || !bank.questions) {
+        return prev;
+      }
+      const QUESTIONS_PER_PAGE = 5;
+      const currentPage = Math.floor(prev.currentIndex / QUESTIONS_PER_PAGE);
+      if (currentPage <= 0) {
+        return prev; // 已经是第一页
+      }
+      const prevPageIdx = (currentPage - 1) * QUESTIONS_PER_PAGE;
+      const next: TestProgress = { ...prev, currentIndex: prevPageIdx };
+      void persistProgress(next);
+      return next;
+    });
+  }, [bank, persistProgress]);
+
+  /**
    * 提交测试：计算结果并写入历史（加密本地）。
    */
   const submit = useCallback(async () => {
@@ -253,11 +315,13 @@ export function TestProvider({ children }: { children: React.ReactNode }): JSX.E
     skip,
     next,
     prev,
+    nextPage,
+    prevPage,
     submit,
     reset,
     deleteHistory,
     clearAllHistory,
-  }), [answer, bank, clearAllHistory, deleteHistory, history, init, loading, next, prev, progress, reset, result, skip, submit]);
+  }), [answer, bank, clearAllHistory, deleteHistory, history, init, loading, next, nextPage, prev, prevPage, progress, reset, result, skip, submit]);
 
   return <TestContext.Provider value={value}>{children}</TestContext.Provider>;
 }

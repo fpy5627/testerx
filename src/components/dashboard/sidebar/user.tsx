@@ -90,21 +90,26 @@ export default function SidebarUser({ account }: { account?: Account }) {
                 </DropdownMenuLabel>
                 <DropdownMenuSeparator />
                 <DropdownMenuGroup>
-                  {account?.items?.map((item, index) => (
-                    <Fragment key={index}>
-                      <DropdownMenuItem className="cursor-pointer">
-                        <Link
-                          href={item.url as any}
-                          target={item.target}
-                          className="w-full flex items-center gap-2"
-                        >
-                          {item.icon && <Icon name={item.icon} />}
-                          {item.title}
-                        </Link>
-                      </DropdownMenuItem>
-                      <DropdownMenuSeparator />
-                    </Fragment>
-                  ))}
+                  {account?.items?.map((item, index) => {
+                    if (!item.url || !item.url.trim()) {
+                      return null;
+                    }
+                    return (
+                      <Fragment key={index}>
+                        <DropdownMenuItem className="cursor-pointer">
+                          <Link
+                            href={item.url.trim() as any}
+                            target={item.target || "_self"}
+                            className="w-full flex items-center gap-2"
+                          >
+                            {item.icon && <Icon name={item.icon} />}
+                            {item.title}
+                          </Link>
+                        </DropdownMenuItem>
+                        <DropdownMenuSeparator />
+                      </Fragment>
+                    );
+                  })}
                   <DropdownMenuItem
                     className="cursor-pointer"
                     onClick={() => signOut()}

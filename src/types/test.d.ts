@@ -4,7 +4,7 @@
  * 基于PRD规范：使用category-based结构替代dimension-based结构
  */
 
-export type LikertOptionValue = 1 | 2 | 3 | 4 | 5;
+export type LikertOptionValue = 0 | 1 | 2 | 3 | 4 | 5;
 
 /**
  * 问题类型
@@ -31,6 +31,7 @@ export interface TestBankCategory {
  * - type: 问题类型（scale/single/multi）
  * - scale: Likert量表最大值（通常为5）
  * - weight: 权重（用于计算加权平均分）
+ * - depth: 深度层级（1=基础，2=标准，3=高级）
  * - hint: 可选提示文本
  * - skippable: 是否允许跳过
  */
@@ -41,6 +42,7 @@ export interface TestQuestion {
   type: QuestionType;
   scale: number; // Likert 1-5 or 1-7
   weight: number; // 权重值
+  depth?: number; // 深度层级（1=基础/Quick，2=标准/Standard，3=高级/Deep）
   hint?: string;
   skippable?: boolean;
 }
@@ -48,7 +50,7 @@ export interface TestQuestion {
 /**
  * 单题回答
  * - questionId: 问题ID（number，对应TestQuestion.id）
- * - value: Likert 1-5
+ * - value: Likert 0-5（0=非常不同意，5=非常同意）
  * - skipped: 是否跳过
  */
 export interface TestAnswerItem {

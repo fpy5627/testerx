@@ -44,7 +44,7 @@ export default function Header({ header }: { header: HeaderType }) {
         <nav className="hidden justify-between lg:flex">
           <div className="flex items-center gap-6">
             <Link
-              href={(header.brand?.url as any) || "/"}
+              href={((header.brand?.url && header.brand.url.trim()) || "/") as any}
               className="flex items-center gap-2"
             >
               {header.brand?.logo?.src && (
@@ -87,28 +87,51 @@ export default function Header({ header }: { header: HeaderType }) {
                               <NavigationMenuLink>
                                 {item.children.map((iitem, ii) => (
                                   <li key={ii}>
-                                    <Link
-                                      className={cn(
-                                        "flex select-none gap-4 rounded-md p-3 leading-none no-underline outline-hidden transition-colors hover:bg-accent hover:text-accent-foreground focus:bg-accent focus:text-accent-foreground"
-                                      )}
-                                      href={iitem.url as any}
-                                      target={iitem.target}
-                                    >
-                                      {iitem.icon && (
-                                        <Icon
-                                          name={iitem.icon}
-                                          className="size-5 shrink-0"
-                                        />
-                                      )}
-                                      <div>
-                                        <div className="text-sm font-semibold">
-                                          {iitem.title}
+                                    {iitem.url && iitem.url.trim() ? (
+                                      <Link
+                                        className={cn(
+                                          "flex select-none gap-4 rounded-md p-3 leading-none no-underline outline-hidden transition-colors hover:bg-accent hover:text-accent-foreground focus:bg-accent focus:text-accent-foreground"
+                                        )}
+                                        href={iitem.url.trim() as any}
+                                        target={iitem.target || "_self"}
+                                      >
+                                        {iitem.icon && (
+                                          <Icon
+                                            name={iitem.icon}
+                                            className="size-5 shrink-0"
+                                          />
+                                        )}
+                                        <div>
+                                          <div className="text-sm font-semibold">
+                                            {iitem.title}
+                                          </div>
+                                          <p className="text-sm leading-snug text-muted-foreground">
+                                            {iitem.description}
+                                          </p>
                                         </div>
-                                        <p className="text-sm leading-snug text-muted-foreground">
-                                          {iitem.description}
-                                        </p>
+                                      </Link>
+                                    ) : (
+                                      <div
+                                        className={cn(
+                                          "flex select-none gap-4 rounded-md p-3 leading-none outline-hidden"
+                                        )}
+                                      >
+                                        {iitem.icon && (
+                                          <Icon
+                                            name={iitem.icon}
+                                            className="size-5 shrink-0"
+                                          />
+                                        )}
+                                        <div>
+                                          <div className="text-sm font-semibold">
+                                            {iitem.title}
+                                          </div>
+                                          <p className="text-sm leading-snug text-muted-foreground">
+                                            {iitem.description}
+                                          </p>
+                                        </div>
                                       </div>
-                                    </Link>
+                                    )}
                                   </li>
                                 ))}
                               </NavigationMenuLink>
@@ -118,6 +141,7 @@ export default function Header({ header }: { header: HeaderType }) {
                       );
                     }
 
+                    if (!item.url || !item.url.trim()) return null;
                     return (
                       <NavigationMenuItem key={i}>
                         <Link
@@ -128,8 +152,8 @@ export default function Header({ header }: { header: HeaderType }) {
                               variant: "ghost",
                             })
                           )}
-                          href={item.url as any}
-                          target={item.target}
+                          href={item.url.trim() as any}
+                          target={item.target || "_self"}
                         >
                           {item.icon && (
                             <Icon
@@ -151,6 +175,7 @@ export default function Header({ header }: { header: HeaderType }) {
             {header.show_theme && <ThemeToggle />}
 
             {header.buttons?.map((item, i) => {
+              if (!item.url || !item.url.trim()) return null;
               return (
                 <Button 
                   key={i} 
@@ -158,8 +183,8 @@ export default function Header({ header }: { header: HeaderType }) {
                   className={item.variant === "link" ? "hover:opacity-80 transition-opacity [&>a]:text-[#20E0C0] [&>a]:hover:text-[#20E0C0]" : undefined}
                 >
                   <Link
-                    href={item.url as any}
-                    target={item.target || ""}
+                    href={item.url.trim() as any}
+                    target={item.target || "_self"}
                     className="flex items-center gap-1 cursor-pointer"
                     style={item.variant === "link" ? { color: '#20E0C0' } : undefined}
                   >
@@ -178,7 +203,7 @@ export default function Header({ header }: { header: HeaderType }) {
         <div className="block lg:hidden">
           <div className="flex items-center justify-between">
             <Link
-              href={(header.brand?.url || "/") as any}
+              href={((header.brand?.url && header.brand.url.trim()) || "/") as any}
               className="flex items-center gap-2"
             >
               {header.brand?.logo?.src && (
@@ -207,7 +232,7 @@ export default function Header({ header }: { header: HeaderType }) {
                 <SheetHeader>
                   <SheetTitle>
                     <Link
-                      href={(header.brand?.url || "/") as any}
+                      href={((header.brand?.url && header.brand.url.trim()) || "/") as any}
                       className="flex items-center gap-2"
                     >
                       {header.brand?.logo?.src && (
@@ -243,39 +268,64 @@ export default function Header({ header }: { header: HeaderType }) {
                             </AccordionTrigger>
                             <AccordionContent className="mt-2">
                               {item.children.map((iitem, ii) => (
-                                <Link
-                                  key={ii}
-                                  className={cn(
-                                    "flex select-none gap-4 rounded-md p-3 leading-none outline-hidden transition-colors hover:bg-accent hover:text-accent-foreground focus:bg-accent focus:text-accent-foreground"
-                                  )}
-                                  href={iitem.url as any}
-                                  target={iitem.target}
-                                >
-                                  {iitem.icon && (
-                                    <Icon
-                                      name={iitem.icon}
-                                      className="size-4 shrink-0"
-                                    />
-                                  )}
-                                  <div>
-                                    <div className="text-sm font-semibold">
-                                      {iitem.title}
+                                iitem.url && iitem.url.trim() ? (
+                                  <Link
+                                    key={ii}
+                                    className={cn(
+                                      "flex select-none gap-4 rounded-md p-3 leading-none outline-hidden transition-colors hover:bg-accent hover:text-accent-foreground focus:bg-accent focus:text-accent-foreground"
+                                    )}
+                                    href={iitem.url.trim() as any}
+                                    target={iitem.target || "_self"}
+                                  >
+                                    {iitem.icon && (
+                                      <Icon
+                                        name={iitem.icon}
+                                        className="size-4 shrink-0"
+                                      />
+                                    )}
+                                    <div>
+                                      <div className="text-sm font-semibold">
+                                        {iitem.title}
+                                      </div>
+                                      <p className="text-sm leading-snug text-muted-foreground">
+                                        {iitem.description}
+                                      </p>
                                     </div>
-                                    <p className="text-sm leading-snug text-muted-foreground">
-                                      {iitem.description}
-                                    </p>
+                                  </Link>
+                                ) : (
+                                  <div
+                                    key={ii}
+                                    className={cn(
+                                      "flex select-none gap-4 rounded-md p-3 leading-none outline-hidden"
+                                    )}
+                                  >
+                                    {iitem.icon && (
+                                      <Icon
+                                        name={iitem.icon}
+                                        className="size-4 shrink-0"
+                                      />
+                                    )}
+                                    <div>
+                                      <div className="text-sm font-semibold">
+                                        {iitem.title}
+                                      </div>
+                                      <p className="text-sm leading-snug text-muted-foreground">
+                                        {iitem.description}
+                                      </p>
+                                    </div>
                                   </div>
-                                </Link>
+                                )
                               ))}
                             </AccordionContent>
                           </AccordionItem>
                         );
                       }
+                      if (!item.url || !item.url.trim()) return null;
                       return (
                         <Link
                           key={i}
-                          href={item.url as any}
-                          target={item.target}
+                          href={item.url.trim() as any}
+                          target={item.target || "_self"}
                           className="font-semibold my-4 flex items-center gap-2 px-4"
                         >
                           {item.icon && (
@@ -294,6 +344,7 @@ export default function Header({ header }: { header: HeaderType }) {
                 <div className="border-t pt-4">
                   <div className="mt-2 flex flex-col gap-3">
                     {header.buttons?.map((item, i) => {
+                      if (!item.url || !item.url.trim()) return null;
                       return (
                         <Button 
                           key={i} 
@@ -301,8 +352,8 @@ export default function Header({ header }: { header: HeaderType }) {
                           className={item.variant === "link" ? "hover:opacity-80 transition-opacity [&>a]:text-[#20E0C0] [&>a]:hover:text-[#20E0C0]" : undefined}
                         >
                           <Link
-                            href={item.url as any}
-                            target={item.target || ""}
+                            href={item.url.trim() as any}
+                            target={item.target || "_self"}
                             className="flex items-center gap-1"
                             style={item.variant === "link" ? { color: '#20E0C0' } : undefined}
                           >

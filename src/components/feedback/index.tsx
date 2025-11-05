@@ -143,18 +143,21 @@ export default function Feedback({
                   {t("feedback.contact_tip")}
                 </p>
                 <div className="flex gap-4">
-                  {socialLinks?.map((link, index) => (
-                    <a
-                      key={index}
-                      href={link.url}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="text-muted-foreground hover:text-primary transition-colors"
-                      title={link.title}
-                    >
-                      <Icon name={link.icon || ""} className="text-xl" />
-                    </a>
-                  ))}
+                  {socialLinks?.map((link, index) => {
+                    if (!link.url || !link.url.trim()) return null;
+                    return (
+                      <a
+                        key={index}
+                        href={link.url.trim()}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="text-muted-foreground hover:text-primary transition-colors"
+                        title={link.title}
+                      >
+                        <Icon name={link.icon || ""} className="text-xl" />
+                      </a>
+                    );
+                  })}
                 </div>
               </>
             )}

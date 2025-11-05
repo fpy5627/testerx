@@ -34,10 +34,18 @@ export default function ({ items }: { items: NavItem[] }) {
       </DropdownMenuTrigger>
       <DropdownMenuContent align="end" className="w-[160px]">
         {items.map((item) => {
+          if (!item.url || !item.url.trim()) {
+            return (
+              <DropdownMenuItem key={item.title} disabled>
+                {item.icon && <Icon name={item.icon} className="w-4 h-4" />}
+                {item.title}
+              </DropdownMenuItem>
+            );
+          }
           return (
             <DropdownMenuItem key={item.title}>
               <Link
-                href={item.url || ""}
+                href={item.url.trim()}
                 target={item.target || "_self"}
                 className="flex items-center gap-2"
               >

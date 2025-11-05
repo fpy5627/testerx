@@ -386,15 +386,15 @@
   "footer": {
     "name": "footer",
     "brand": {
-      "title": "ShipAny",
-      "description": "ShipAny is a NextJS boilerplate for building AI SaaS startups. Ship Fast with a variety of templates and components.",
+      "title": "Kynex BDSM Test",
+      "description": "Kynex BDSM Test - BDSM Personality and Orientation Spectrum Test, scientifically quantify your psychological dimensions and sexual orientation spectrum.",
       "logo": {
         "src": "/logo.png",
-        "alt": "ShipAny"
+        "alt": "Kynex BDSM Test"
       },
       "url": "/"
     },
-    "copyright": "© 2025 • ShipAny All rights reserved.",
+    "copyright": "© 2025 • Kynex BDSM Test All rights reserved.",
     "nav": {
       "items": [
         {

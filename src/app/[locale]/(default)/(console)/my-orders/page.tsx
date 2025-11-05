@@ -80,8 +80,12 @@ export default async function () {
         if (sub_id) {
           const billing = await getStripeBilling(sub_id);
 
+          if (!billing?.url || !billing.url.trim()) {
+            return <span>{t("my_orders.table.manage_billing")}</span>;
+          }
+
           return (
-            <Link href={billing.url} target="_blank">
+            <Link href={billing.url.trim()} target="_blank">
               {t("my_orders.table.manage_billing")}
             </Link>
           );

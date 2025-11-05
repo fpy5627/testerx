@@ -21,20 +21,23 @@ export default function CTA({ section }: { section: SectionType }) {
             </p>
             {section.buttons && (
               <div className="mt-8 flex flex-col justify-center gap-4 sm:flex-row">
-                {section.buttons.map((item, idx) => (
-                  <Button key={idx} variant={item.variant || "default"}>
-                    <Link
-                      href={item.url || ""}
-                      target={item.target}
-                      className="flex items-center justify-center gap-1"
-                    >
-                      {item.title}
-                      {item.icon && (
-                        <Icon name={item.icon as string} className="size-6" />
-                      )}
-                    </Link>
-                  </Button>
-                ))}
+                {section.buttons.map((item, idx) => {
+                  if (!item.url || !item.url.trim()) return null;
+                  return (
+                    <Button key={idx} variant={item.variant || "default"}>
+                      <Link
+                        href={item.url.trim()}
+                        target={item.target || "_self"}
+                        className="flex items-center justify-center gap-1"
+                      >
+                        {item.title}
+                        {item.icon && (
+                          <Icon name={item.icon as string} className="size-6" />
+                        )}
+                      </Link>
+                    </Button>
+                  );
+                })}
               </div>
             )}
           </div>

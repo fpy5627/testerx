@@ -386,15 +386,15 @@
   "footer": {
     "name": "footer",
     "brand": {
-      "title": "ShipAny",
-      "description": "ShipAny 是一个用于构建 AI SaaS 创业项目的 NextJS 模板。通过丰富的模板和组件快速启动。",
+      "title": "Kynex BDSM Test",
+      "description": "Kynex BDSM Test - BDSM人格与取向光谱测试，科学量化你的心理维度与性取向光谱。",
       "logo": {
         "src": "/logo.png",
-        "alt": "ShipAny"
+        "alt": "Kynex BDSM Test"
       },
       "url": "/"
     },
-    "copyright": "© 2025 • ShipAny 保留所有权利。",
+    "copyright": "© 2025 • Kynex BDSM Test 保留所有权利。",
     "nav": {
       "items": [
         {
