@@ -390,16 +390,16 @@ function RunInner() {
               <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2 sm:gap-4 mb-3">
                 {/* 左侧：页面信息 */}
                 <div className="flex items-center gap-2 sm:gap-3">
-                  <span 
-                    className="text-sm sm:text-base md:text-lg font-medium"
-                    style={{
-                      color: 'rgba(32, 224, 192, 0.87)'
-                    }}
-                  >
-                    {t("page")}
-                  </span>
+                <span 
+                  className="text-sm sm:text-base md:text-lg font-medium"
+                  style={{
+                    color: 'rgba(32, 224, 192, 0.87)'
+                  }}
+                >
+                  {t("page")}
+                </span>
                   <span className="text-xs sm:text-sm md:text-base font-medium">
-                    <span style={{ color: 'rgba(32, 224, 192, 0.87)' }}>{currentPageNum}</span>
+                  <span style={{ color: 'rgba(32, 224, 192, 0.87)' }}>{currentPageNum}</span>
                     <span style={{ color: 'rgba(32, 224, 192, 0.6)' }}> / {formattedTotalPages}</span>
                   </span>
                 </div>
@@ -427,7 +427,7 @@ function RunInner() {
                       }}
                     >
                       {progressPercentageDisplay}%
-                    </span>
+                </span>
                   </div>
                   
                   {/* 剩余题目数 */}
@@ -439,7 +439,7 @@ function RunInner() {
                       }}
                     >
                       {t("remaining")}: {remainingCount}
-                    </span>
+                </span>
                   )}
                 </div>
               </div>
@@ -469,8 +469,8 @@ function RunInner() {
                     className="absolute inset-0 rounded-full"
                     style={{
                       background: "linear-gradient(90deg, transparent 0%, rgba(255, 255, 255, 0.3) 50%, transparent 100%)"
-                    }}
-                  />
+                  }}
+                />
                 </div>
               </div>
             </div>
@@ -599,14 +599,14 @@ function RunInner() {
                                   }}
                                 >
                                   <svg width="14" height="14" className="sm:w-4 sm:h-4 md:w-5 md:h-5" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                    <path 
-                                      d="M16.667 5L7.5 14.167 3.333 10" 
+                                  <path 
+                                    d="M16.667 5L7.5 14.167 3.333 10" 
                                       stroke="rgba(32, 224, 192, 1)" 
-                                      strokeWidth="2.5" 
-                                      strokeLinecap="round" 
-                                      strokeLinejoin="round"
-                                    />
-                                  </svg>
+                                    strokeWidth="2.5" 
+                                    strokeLinecap="round" 
+                                    strokeLinejoin="round"
+                                  />
+                                </svg>
                                 </div>
                               </div>
                             )}
@@ -755,7 +755,7 @@ function RunInner() {
                     />
                     <span className="relative z-10 flex items-center justify-center gap-2">
                       <Sparkles className="w-4 h-4" />
-                      {t("continue_answer")}
+                    {t("continue_answer")}
                     </span>
                   </Button>
                   {/* 继续查看结果按钮 - 不显眼，但可用 */}

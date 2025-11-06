@@ -7,8 +7,8 @@ export default async function LandingPage({
   params: Promise<{ locale: string }>;
 }) {
   try {
-    const { locale } = await params;
-    const page = await getLandingPage(locale);
+  const { locale } = await params;
+  const page = await getLandingPage(locale);
 
     // 安全检查：确保 page 和 page.feature 存在
     if (!page) {

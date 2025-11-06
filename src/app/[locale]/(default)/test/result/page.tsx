@@ -490,7 +490,7 @@ function ResultInner() {
               {t("title")}
             </h1>
             <p className="mt-2 text-sm text-muted-foreground relative z-10">{t("disclaimer")}</p>
-          </div>
+      </div>
 
           {/* 如果没有结果，显示提示信息 */}
           {!result && (
@@ -551,12 +551,12 @@ function ResultInner() {
                 >
                   <div className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-300" style={{ background: "linear-gradient(135deg, rgba(255, 255, 255, 0.2) 0%, transparent 100%)" }} />
                   <span className="relative z-10">开始测试</span>
-                </Button>
+          </Button>
               )}
-            </div>
+        </div>
           )}
 
-          {/* 分数概览与图表 */}
+        {/* 分数概览与图表 */}
           {result ? (
             <div id="result-export-content" className="space-y-4">
               {/* 图表区域 */}
@@ -582,10 +582,10 @@ function ResultInner() {
                 <div className="relative z-10">
                   <ResultChart bank={bank} result={result} variant="radar" />
                 </div>
-              </div>
+          </div>
 
-              {/* Top 3 Traits 标签 */}
-              {getTopTraits.length > 0 && (
+          {/* Top 3 Traits 标签 */}
+          {getTopTraits.length > 0 && (
                 <div 
                   className="rounded-2xl p-5 relative overflow-hidden"
                   style={{
@@ -617,8 +617,8 @@ function ResultInner() {
                     {getTopTraits.map((trait, index) => {
                       const theme = getColorTheme(index);
                       return (
-                        <div
-                          key={trait.id}
+                  <div
+                    key={trait.id}
                           className="flex items-center gap-2 px-4 py-2 rounded-xl transition-all duration-300 hover:scale-105"
                           style={{
                             background: resolvedTheme === "dark"
@@ -627,7 +627,7 @@ function ResultInner() {
                             border: `1px solid ${theme.border}`,
                             boxShadow: `0 4px 12px ${theme.border.replace('0.3', '0.2')}`
                           }}
-                        >
+                  >
                           <span 
                             className="text-sm font-bold w-6 h-6 flex items-center justify-center rounded-full"
                             style={{ 
@@ -637,19 +637,19 @@ function ResultInner() {
                             }}
                           >
                             {index + 1}
-                          </span>
+                    </span>
                           <span className="text-sm font-semibold" style={{ color: theme.primary }}>
                             {trait.name}
-                          </span>
+                    </span>
                           <span className="text-xs text-muted-foreground">({trait.score}/100)</span>
-                        </div>
+                  </div>
                       );
                     })}
-                  </div>
-                </div>
-              )}
+              </div>
+            </div>
+          )}
 
-              {/* 文本分析 */}
+          {/* 文本分析 */}
               {result.text_analysis ? (
                 <div 
                   className="rounded-2xl p-5 relative overflow-hidden"
@@ -681,17 +681,17 @@ function ResultInner() {
                   <div className="relative z-10">
                     <ResultText result={result} />
                   </div>
-                </div>
-              ) : null}
+        </div>
+      ) : null}
 
-              {/* 类别分数卡片 */}
-              {categories.length > 0 && (
-                <div className="grid gap-4 md:grid-cols-3">
+          {/* 类别分数卡片 */}
+          {categories.length > 0 && (
+            <div className="grid gap-4 md:grid-cols-3">
                   {categories.map((cat, index) => {
-                    const categoryMeta = bank.categories?.[cat];
+                const categoryMeta = bank.categories?.[cat];
                     const score = result.normalized?.[cat] ?? 0;
                     const theme = getColorTheme(index);
-                    return (
+                return (
                       <div 
                         key={cat} 
                         className="rounded-2xl p-4 relative overflow-hidden transition-all duration-300 hover:scale-105"
@@ -721,7 +721,7 @@ function ResultInner() {
                             className="text-2xl font-bold mb-1"
                             style={{ color: theme.primary }}
                           >
-                            {score}
+                      {score}
                             <span className="text-sm text-muted-foreground ml-1 font-normal">/100</span>
                           </div>
                           {/* 进度条 */}
@@ -734,18 +734,18 @@ function ResultInner() {
                                 boxShadow: `0 0 8px ${theme.border.replace('0.3', '0.5')}`
                               }}
                             />
-                          </div>
-                          {categoryMeta?.description ? (
+                    </div>
+                    {categoryMeta?.description ? (
                             <p className="mt-2 text-xs text-muted-foreground line-clamp-2">{categoryMeta.description}</p>
-                          ) : null}
+                    ) : null}
                         </div>
-                      </div>
-                    );
-                  })}
-                </div>
-              )}
+                  </div>
+                );
+              })}
+            </div>
+          )}
 
-              {/* Kinsey光谱展示（如果有Orientation结果） */}
+          {/* Kinsey光谱展示（如果有Orientation结果） */}
               {result.orientation_spectrum !== undefined ? (
                 <div 
                   className="rounded-2xl p-5 relative overflow-hidden"
@@ -776,18 +776,18 @@ function ResultInner() {
                   </h3>
                   <div className="flex items-center gap-3 relative z-10">
                     <div className="flex-1 h-8 rounded-full relative overflow-hidden" style={{ background: resolvedTheme === "dark" ? "rgba(255, 255, 255, 0.1)" : "rgba(0, 0, 0, 0.05)" }}>
-                      <div
+                  <div
                         className="absolute top-0 left-0 h-full rounded-full transition-all duration-500"
                         style={{ 
                           width: `${(result.orientation_spectrum / 7) * 100}%`,
                           background: 'linear-gradient(90deg, rgba(168, 85, 247, 0.9) 0%, rgba(139, 92, 246, 0.9) 50%, rgba(236, 72, 153, 0.9) 100%)',
                           boxShadow: '0 0 12px rgba(168, 85, 247, 0.5)'
                         }}
-                      />
+                  />
                       <div className="absolute top-0 left-0 h-full w-full flex items-center justify-center text-xs font-bold" style={{ zIndex: 1, color: resolvedTheme === "dark" ? "rgba(255, 255, 255, 0.9)" : "rgba(0, 0, 0, 0.8)" }}>
                         {result.orientation_spectrum.toFixed(1)} / 7
-                      </div>
-                    </div>
+                  </div>
+                </div>
                     <div className="text-xs font-medium px-3 py-1 rounded-lg" style={{ 
                       background: resolvedTheme === "dark" ? "rgba(168, 85, 247, 0.15)" : "rgba(168, 85, 247, 0.1)",
                       color: resolvedTheme === "dark" ? "rgba(168, 85, 247, 0.95)" : "rgba(168, 85, 247, 0.9)"
@@ -795,13 +795,13 @@ function ResultInner() {
                       {result.orientation_spectrum <= 1 ? "Heterosexual" :
                        result.orientation_spectrum <= 3 ? "Bisexual/Fluid" :
                        result.orientation_spectrum <= 5 ? "Homosexual" :
-                       "Asexual/Aromantic"}
-                    </div>
-                  </div>
+                   "Asexual/Aromantic"}
                 </div>
-              ) : null}
+              </div>
+      </div>
+          ) : null}
 
-              {/* 分享和下载按钮 */}
+          {/* 分享和下载按钮 */}
               <div 
                 className="flex flex-wrap gap-3 pt-5 pb-2 relative rounded-2xl p-5"
                 style={{
@@ -812,9 +812,9 @@ function ResultInner() {
                 }}
               >
                 {/* 生成分享链接按钮 */}
-                <Button
-                  onClick={handleShare}
-                  disabled={isGeneratingShare}
+            <Button
+              onClick={handleShare}
+              disabled={isGeneratingShare}
                   className="flex items-center gap-2 rounded-xl transition-all duration-300 hover:scale-105 relative overflow-hidden group"
                   style={{
                     background: "linear-gradient(135deg, rgba(32, 224, 192, 0.95) 0%, rgba(20, 184, 166, 0.95) 100%)",
@@ -826,26 +826,26 @@ function ResultInner() {
                   <div className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-300" style={{ background: "linear-gradient(135deg, rgba(255, 255, 255, 0.2) 0%, transparent 100%)" }} />
                   <ShareIcon className="w-4 h-4 relative z-10" />
                   <span className="relative z-10">{isGeneratingShare ? t("share_button") + "..." : t("share_button")}</span>
-                </Button>
-                {shareLink && (
-                  <Button 
-                    variant="outline" 
-                    onClick={handleCopyShareLink} 
+            </Button>
+            {shareLink && (
+              <Button
+                variant="outline"
+                onClick={handleCopyShareLink}
                     className="flex items-center gap-2 rounded-xl transition-all duration-300 hover:scale-105"
                     style={{
                       border: "1px solid rgba(139, 92, 246, 0.3)",
                       background: resolvedTheme === "dark" ? "rgba(139, 92, 246, 0.1)" : "rgba(139, 92, 246, 0.05)",
                       color: resolvedTheme === "dark" ? "rgba(139, 92, 246, 0.9)" : "rgba(139, 92, 246, 0.8)"
                     }}
-                  >
-                    <Copy className="w-4 h-4" />
-                    {t("share_link_copied").split("已")[0]}
-                  </Button>
-                )}
-                <Button 
-                  variant="outline" 
+              >
+                <Copy className="w-4 h-4" />
+                {t("share_link_copied").split("已")[0]}
+              </Button>
+            )}
+            <Button
+              variant="outline"
                   onClick={handleDownloadKinkProfile} 
-                  disabled={isGeneratingPdf} 
+              disabled={isGeneratingPdf}
                   className="flex items-center gap-2 rounded-xl transition-all duration-300 hover:scale-105"
                   style={{
                     border: "1px solid rgba(236, 72, 153, 0.3)",
@@ -866,24 +866,24 @@ function ResultInner() {
                     background: resolvedTheme === "dark" ? "rgba(59, 130, 246, 0.1)" : "rgba(59, 130, 246, 0.05)",
                     color: resolvedTheme === "dark" ? "rgba(59, 130, 246, 0.9)" : "rgba(59, 130, 246, 0.8)"
                   }}
-                >
-                  <Download className="w-4 h-4" />
+            >
+              <Download className="w-4 h-4" />
                   {isGeneratingImage ? t("download_image_processing") || "生成中..." : t("download_image") || "Export as Image"}
-                </Button>
-                <Button 
-                  variant="outline" 
-                  onClick={handleExportJSON} 
+            </Button>
+            <Button
+              variant="outline"
+              onClick={handleExportJSON}
                   className="flex items-center gap-2 rounded-xl transition-all duration-300 hover:scale-105"
                   style={{
                     border: "1px solid rgba(251, 146, 60, 0.3)",
                     background: resolvedTheme === "dark" ? "rgba(251, 146, 60, 0.1)" : "rgba(251, 146, 60, 0.05)",
                     color: resolvedTheme === "dark" ? "rgba(251, 146, 60, 0.9)" : "rgba(251, 146, 60, 0.8)"
                   }}
-                >
-                  <FileJson className="w-4 h-4" />
-                  {t("export_json")}
-                </Button>
-              </div>
+            >
+              <FileJson className="w-4 h-4" />
+              {t("export_json")}
+            </Button>
+          </div>
             </div>
           ) : null}
 
@@ -915,9 +915,9 @@ function ResultInner() {
             >
               {t("history_title")}
             </h2>
-            {history.length === 0 ? (
+        {history.length === 0 ? (
               <p className="text-sm text-muted-foreground relative z-10">{t("no_history")}</p>
-            ) : (
+        ) : (
               <>
                 <ul className="space-y-3 text-sm relative z-10">
                   {(showAllHistory ? history : history.slice(0, 3)).map((h, index) => {
@@ -946,7 +946,7 @@ function ResultInner() {
                             {t("time")}：{new Date(h.createdAt).toLocaleString()}
                           </span>
                           <span className="text-muted-foreground text-xs">{t("record_id")}：{h.id}</span>
-                        </div>
+                </div>
                         <div className="flex items-center gap-2 relative z-10">
                           <Button 
                             size="sm"
@@ -974,11 +974,11 @@ function ResultInner() {
                           >
                             {t("delete")}
                           </Button>
-                        </div>
-                      </li>
+                </div>
+              </li>
                     );
                   })}
-                </ul>
+          </ul>
                 {history.length > 3 && (
                   <div className="pt-3 relative z-10">
                     <Button
@@ -996,8 +996,8 @@ function ResultInner() {
                   </div>
                 )}
               </>
-            )}
-            {history.length > 0 ? (
+        )}
+        {history.length > 0 ? (
               <div className="pt-4 border-t relative z-10" style={{ borderColor: "rgba(34, 197, 94, 0.2)" }}>
                 <Button 
                   size="sm" 
@@ -1012,9 +1012,9 @@ function ResultInner() {
                 >
                   {t("clear_all")}
                 </Button>
-              </div>
-            ) : null}
           </div>
+        ) : null}
+      </div>
 
           {/* 操作按钮 */}
           <div 
@@ -1061,7 +1061,7 @@ function ResultInner() {
             >
               {t("back")}
             </Button>
-          </div>
+      </div>
 
           {/* 隐私声明和GDPR清除数据 */}
           <div 
@@ -1085,21 +1085,21 @@ function ResultInner() {
             />
             <p className="text-sm text-muted-foreground relative z-10 leading-relaxed">{t("principle")}</p>
             <div className="pt-2 relative z-10">
-              <Button 
-                variant="destructive" 
-                size="sm" 
-                onClick={handleClearAllData} 
+          <Button
+            variant="destructive"
+            size="sm"
+            onClick={handleClearAllData}
                 className="w-full sm:w-auto rounded-lg transition-all duration-300 hover:scale-105"
                 style={{
                   background: "linear-gradient(135deg, rgba(239, 68, 68, 0.95) 0%, rgba(220, 38, 38, 0.95) 100%)",
                   boxShadow: "0 2px 8px rgba(239, 68, 68, 0.3)",
                   border: 'none'
                 }}
-              >
-                {t("clear_all_data")}
-              </Button>
+          >
+            {t("clear_all_data")}
+          </Button>
             </div>
-          </div>
+        </div>
       </div>
     </div>
   );
