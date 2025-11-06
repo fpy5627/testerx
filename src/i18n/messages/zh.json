@@ -138,8 +138,11 @@
       "feature_3": "心理倾向测试",
       "mode_label": "选择测试模式",
       "mode_quick": "快速",
+      "mode_quick_desc": "30题 - 移动端或快速浏览者",
       "mode_standard": "标准",
+      "mode_standard_desc": "70题 - 主测试推荐模式",
       "mode_deep": "深度",
+      "mode_deep_desc": "120题 - 高级用户，可选项",
       "start_button": "立即开始"
     },
     "consent": {
@@ -162,6 +165,11 @@
       "submit": "提交并查看结果",
       "page": "页",
       "of": "/",
+      "incomplete_dialog_title": "提示",
+      "incomplete_dialog_message": "你现在只完成了 {percentage}% 的题目，这将会影响测试结果的准确性。\n\n我们建议你完成所有题目，以获得更准确的测试结果。",
+      "continue_answer": "返回继续答题",
+      "go_to_unanswered": "返回到未答题继续答题",
+      "view_result_anyway": "继续查看结果",
       "category": {
         "interests": "兴趣",
         "role_preferences": "角色偏好",
@@ -225,6 +233,8 @@
       "disclaimer": "本测试结果仅供参考，不构成任何医疗或心理建议。",
       "history_title": "历史记录",
       "no_history": "暂无历史记录",
+      "show_more": "显示更多",
+      "show_less": "收起",
       "time": "时间",
       "record_id": "记录ID",
       "delete": "删除",
@@ -236,6 +246,15 @@
       "share_button": "生成分享链接",
       "share_link_copied": "分享链接已复制到剪贴板",
       "share_link_failed": "复制失败，请手动复制",
+      "share_to_email": "分享到邮箱",
+      "email_share_subject": "我的测试结果",
+      "email_share_body_intro": "你好，\n\n我想与你分享我的测试结果：\n\n",
+      "email_share_categories": "各维度分数",
+      "email_share_link": "查看完整结果",
+      "email_share_note": "注：完整结果请访问测试页面查看。",
+      "email_share_footer": "本测试结果仅供参考，不构成任何医疗或心理建议。",
+      "email_share_success": "正在打开邮件客户端...",
+      "email_share_failed": "分享到邮箱失败",
       "download_pdf": "下载报告（PDF）",
       "download_pdf_processing": "正在生成PDF...",
       "top_traits": "Top 3 特征",
@@ -244,7 +263,18 @@
       "chart_score": "得分",
       "export_json": "导出JSON",
       "export_json_success": "JSON导出成功",
-      "export_json_failed": "JSON导出失败"
+      "export_json_failed": "JSON导出失败",
+      "clear_all_data": "清除所有数据（GDPR合规）",
+      "clear_all_data_confirm": "确定要清除所有数据吗？此操作不可恢复。",
+      "clear_all_data_success": "所有数据已清除",
+      "download_pdf_hint": "请使用浏览器的打印功能保存为PDF",
+      "download_profile": "下载你的Kink Profile",
+      "download_profile_processing": "正在生成报告...",
+      "download_profile_success": "请使用浏览器的打印功能保存为PDF",
+      "download_image": "导出图片（PNG）",
+      "download_image_processing": "正在生成图片...",
+      "export_image_success": "图片导出成功",
+      "export_image_failed": "图片导出失败"
     }
   }
 }

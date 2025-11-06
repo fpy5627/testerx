@@ -8,6 +8,7 @@
 
 import React, { useState } from "react";
 import { useTranslations } from "next-intl";
+import { useTheme } from "next-themes";
 import type { TestBankPayload, TestResult } from "@/types/test";
 import {
   RadarChart,
@@ -75,6 +76,7 @@ function buildDataset(bank: TestBankPayload, result: TestResult) {
  */
 export function ResultChart({ bank, result, variant: initialVariant = "radar" }: ResultChartProps) {
   const t = useTranslations("test.result");
+  const { resolvedTheme } = useTheme();
   const [chartType, setChartType] = useState<"radar" | "bar">(initialVariant);
   const { labels, data } = React.useMemo(() => {
     if (!bank || !result) {
@@ -93,59 +95,139 @@ export function ResultChart({ bank, result, variant: initialVariant = "radar" }:
       </div>
     );
   }
-
+  
   return (
     <div className="w-full flex flex-col items-center space-y-4">
       {/* 切换按钮 */}
-      <div className="flex space-x-4">
+      <div className="flex space-x-3">
         <button
           onClick={() => setChartType("radar")}
-          className={`px-4 py-2 rounded-lg transition-colors ${
+          className={`px-5 py-2.5 rounded-xl font-semibold transition-all duration-300 ${
             chartType === "radar"
-              ? "bg-indigo-600 text-white"
-              : "bg-gray-200 text-gray-700 hover:bg-gray-300 dark:bg-gray-700 dark:text-gray-300 dark:hover:bg-gray-600"
+              ? "text-white shadow-lg scale-105"
+              : "text-gray-600 dark:text-gray-400 hover:scale-105"
           }`}
+          style={chartType === "radar" ? {
+            background: "linear-gradient(135deg, rgba(139, 92, 246, 0.95) 0%, rgba(124, 58, 237, 0.95) 100%)",
+            boxShadow: "0 4px 16px rgba(139, 92, 246, 0.4), 0 2px 8px rgba(139, 92, 246, 0.3)"
+          } : {
+            background: "rgba(0, 0, 0, 0.05)",
+            border: "1px solid rgba(139, 92, 246, 0.2)"
+          }}
         >
           {t("chart_radar")}
         </button>
         <button
           onClick={() => setChartType("bar")}
-          className={`px-4 py-2 rounded-lg transition-colors ${
+          className={`px-5 py-2.5 rounded-xl font-semibold transition-all duration-300 ${
             chartType === "bar"
-              ? "bg-indigo-600 text-white"
-              : "bg-gray-200 text-gray-700 hover:bg-gray-300 dark:bg-gray-700 dark:text-gray-300 dark:hover:bg-gray-600"
+              ? "text-white shadow-lg scale-105"
+              : "text-gray-600 dark:text-gray-400 hover:scale-105"
           }`}
+          style={chartType === "bar" ? {
+            background: "linear-gradient(135deg, rgba(236, 72, 153, 0.95) 0%, rgba(219, 39, 119, 0.95) 100%)",
+            boxShadow: "0 4px 16px rgba(236, 72, 153, 0.4), 0 2px 8px rgba(236, 72, 153, 0.3)"
+          } : {
+            background: "rgba(0, 0, 0, 0.05)",
+            border: "1px solid rgba(236, 72, 153, 0.2)"
+          }}
         >
           {t("chart_bar")}
         </button>
       </div>
 
       {/* 图表容器 */}
-      <div className="w-full h-96 bg-white dark:bg-gray-800 rounded-2xl shadow-md p-4">
+      <div className="w-full h-96 bg-transparent p-4">
         {chartType === "radar" ? (
           <ResponsiveContainer width="100%" height="100%">
             <RadarChart data={dataset}>
-              <PolarGrid />
-              <PolarAngleAxis dataKey="name" tick={{ fontSize: 12 }} />
-              <PolarRadiusAxis angle={30} domain={[0, 100]} />
+              <PolarGrid 
+                stroke={resolvedTheme === "dark" ? "rgba(255, 255, 255, 0.1)" : "rgba(0, 0, 0, 0.1)"} 
+              />
+              <PolarAngleAxis 
+                dataKey="name" 
+                tick={{ 
+                  fontSize: 12, 
+                  fill: resolvedTheme === "dark" ? "rgba(255, 255, 255, 0.7)" : "rgba(0, 0, 0, 0.7)",
+                  fontWeight: 500
+                }} 
+              />
+              <PolarRadiusAxis 
+                angle={30} 
+                domain={[0, 100]} 
+                tick={{ 
+                  fontSize: 10, 
+                  fill: resolvedTheme === "dark" ? "rgba(255, 255, 255, 0.5)" : "rgba(0, 0, 0, 0.5)"
+                }}
+              />
               <Radar
                 name={t("chart_score")}
                 dataKey="score"
-                stroke="#4f46e5"
-                fill="#6366f1"
-                fillOpacity={0.6}
+                stroke="url(#radarGradient)"
+                fill="url(#radarGradient)"
+                fillOpacity={0.7}
+                strokeWidth={2}
               />
-              <Tooltip />
+              <defs>
+                <linearGradient id="radarGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+                  <stop offset="0%" stopColor="rgba(139, 92, 246, 0.9)" />
+                  <stop offset="50%" stopColor="rgba(236, 72, 153, 0.9)" />
+                  <stop offset="100%" stopColor="rgba(32, 224, 192, 0.9)" />
+                </linearGradient>
+              </defs>
+              <Tooltip 
+                contentStyle={{
+                  background: "rgba(43, 51, 62, 0.95)",
+                  border: "1px solid rgba(139, 92, 246, 0.3)",
+                  borderRadius: "8px",
+                  color: "white"
+                }}
+              />
             </RadarChart>
           </ResponsiveContainer>
         ) : (
           <ResponsiveContainer width="100%" height="100%">
             <BarChart data={dataset} margin={{ top: 8, right: 16, bottom: 8, left: 0 }}>
-              <CartesianGrid strokeDasharray="3 3" />
-              <XAxis dataKey="name" tick={{ fontSize: 12 }} />
-              <YAxis domain={[0, 100]} tick={{ fontSize: 12 }} />
-              <Tooltip />
-              <Bar dataKey="score" name={`${t("chart_score")}(0-100)`} fill="#4f46e5" />
+              <defs>
+                <linearGradient id="barGradient" x1="0%" y1="0%" x2="0%" y2="100%">
+                  <stop offset="0%" stopColor="rgba(236, 72, 153, 0.9)" />
+                  <stop offset="50%" stopColor="rgba(139, 92, 246, 0.9)" />
+                  <stop offset="100%" stopColor="rgba(59, 130, 246, 0.9)" />
+                </linearGradient>
+              </defs>
+              <CartesianGrid 
+                strokeDasharray="3 3" 
+                stroke={resolvedTheme === "dark" ? "rgba(255, 255, 255, 0.1)" : "rgba(0, 0, 0, 0.1)"} 
+              />
+              <XAxis 
+                dataKey="name" 
+                tick={{ 
+                  fontSize: 12, 
+                  fill: resolvedTheme === "dark" ? "rgba(255, 255, 255, 0.7)" : "rgba(0, 0, 0, 0.7)",
+                  fontWeight: 500
+                }} 
+              />
+              <YAxis 
+                domain={[0, 100]} 
+                tick={{ 
+                  fontSize: 12, 
+                  fill: resolvedTheme === "dark" ? "rgba(255, 255, 255, 0.7)" : "rgba(0, 0, 0, 0.7)"
+                }} 
+              />
+              <Tooltip 
+                contentStyle={{
+                  background: "rgba(43, 51, 62, 0.95)",
+                  border: "1px solid rgba(236, 72, 153, 0.3)",
+                  borderRadius: "8px",
+                  color: "white"
+                }}
+              />
+              <Bar 
+                dataKey="score" 
+                name={`${t("chart_score")}(0-100)`} 
+                fill="url(#barGradient)"
+                radius={[8, 8, 0, 0]}
+              />
             </BarChart>
           </ResponsiveContainer>
         )}

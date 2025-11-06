@@ -138,8 +138,11 @@
       "feature_3": "Psychological Test",
       "mode_label": "Select Test Mode",
       "mode_quick": "Quick",
+      "mode_quick_desc": "30 questions - Mobile or quick browsers",
       "mode_standard": "Standard",
+      "mode_standard_desc": "70 questions - Main recommended mode",
       "mode_deep": "Deep",
+      "mode_deep_desc": "120 questions - Advanced users, optional",
       "start_button": "Start Now"
     },
     "consent": {
@@ -162,6 +165,11 @@
       "submit": "Submit and View Results",
       "page": "Page",
       "of": "/",
+      "incomplete_dialog_title": "Notice",
+      "incomplete_dialog_message": "You have only completed {percentage}% of the questions. This will affect the accuracy of your test results.\nWe recommend completing all questions to get more accurate test results.",
+      "continue_answer": "Continue Answering",
+      "go_to_unanswered": "Go to Unanswered Questions",
+      "view_result_anyway": "View Results Anyway",
       "category": {
         "interests": "Interests",
         "role_preferences": "Role Preferences",
@@ -225,6 +233,8 @@
       "disclaimer": "These test results are for reference only and do not constitute any medical or psychological advice.",
       "history_title": "History",
       "no_history": "No history records",
+      "show_more": "Show More",
+      "show_less": "Show Less",
       "time": "Time",
       "record_id": "Record ID",
       "delete": "Delete",
@@ -236,6 +246,15 @@
       "share_button": "Generate Share Link",
       "share_link_copied": "Share link copied to clipboard",
       "share_link_failed": "Copy failed, please copy manually",
+      "share_to_email": "Share to Email",
+      "email_share_subject": "My Test Results",
+      "email_share_body_intro": "Hello,\n\nI would like to share my test results with you:\n\n",
+      "email_share_categories": "Category Scores",
+      "email_share_link": "View Full Results",
+      "email_share_note": "Note: Please visit the test page to view full results.",
+      "email_share_footer": "These test results are for reference only and do not constitute any medical or psychological advice.",
+      "email_share_success": "Opening email client...",
+      "email_share_failed": "Failed to share to email",
       "download_pdf": "Download Report (PDF)",
       "download_pdf_processing": "Generating PDF...",
       "top_traits": "Top 3 Traits",
@@ -244,7 +263,18 @@
       "chart_score": "Score",
       "export_json": "Export JSON",
       "export_json_success": "JSON exported successfully",
-      "export_json_failed": "Failed to export JSON"
+      "export_json_failed": "Failed to export JSON",
+      "clear_all_data": "Clear All Data (GDPR Compliant)",
+      "clear_all_data_confirm": "Are you sure you want to clear all data? This action cannot be undone.",
+      "clear_all_data_success": "All data has been cleared",
+      "download_pdf_hint": "Please use the browser's print function to save as PDF",
+      "download_profile": "Download your kink profile",
+      "download_profile_processing": "Generating report...",
+      "download_profile_success": "Please use the browser's print function to save as PDF",
+      "download_image": "Export as Image (PNG)",
+      "download_image_processing": "Generating image...",
+      "export_image_success": "Image exported successfully",
+      "export_image_failed": "Failed to export image"
     }
   }
 }

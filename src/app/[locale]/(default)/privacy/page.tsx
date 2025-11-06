@@ -48,11 +48,19 @@ export default function PrivacyPage() {
             本应用完全符合 GDPR（通用数据保护条例）要求：
           </p>
           <ul className="list-disc list-inside space-y-2 mt-3 ml-4">
-            <li>数据最小化：仅存储测试所需的基本数据</li>
-            <li>数据主体权利：您可以随时删除本地数据</li>
-            <li>数据可移植性：支持导出测试结果</li>
-            <li>数据删除权：支持一键清空所有本地数据</li>
+            <li><strong>数据最小化</strong>：仅存储测试所需的基本数据，不收集任何不必要的个人信息</li>
+            <li><strong>数据主体权利</strong>：您可以随时访问、修改或删除本地数据</li>
+            <li><strong>数据可移植性</strong>：支持导出测试结果（PDF、PNG、JSON格式）</li>
+            <li><strong>数据删除权</strong>：支持一键清空所有本地数据，包括测试结果、历史记录和分享链接</li>
+            <li><strong>数据保护</strong>：所有本地数据均采用加密存储，确保数据安全</li>
+            <li><strong>匿名性</strong>：所有测试结果均为匿名处理，不关联任何个人身份信息</li>
           </ul>
+          <p className="text-base leading-relaxed mt-4">
+            <strong>如何清除数据：</strong>在测试结果页面，您可以点击"清除所有数据（GDPR合规）"按钮，这将删除所有本地存储的测试数据。
+          </p>
+          <p className="text-base leading-relaxed mt-2">
+            <strong>如何导出数据：</strong>在测试结果页面，您可以点击"导出JSON"按钮，下载包含完整测试结果的JSON文件。
+          </p>
         </section>
 
         <section>

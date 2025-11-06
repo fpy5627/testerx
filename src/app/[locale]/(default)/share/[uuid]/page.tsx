@@ -6,15 +6,15 @@
 "use client";
 
 import React, { useEffect, useState } from "react";
-import { useTranslations } from "next-intl";
-import { useParams, useRouter } from "next/navigation";
+import { useTranslations, useLocale } from "next-intl";
+import { useParams } from "next/navigation";
+import { useRouter } from "@/i18n/navigation";
 import { Button } from "@/components/ui/button";
 import ResultChart from "@/components/ui/ResultChart";
 import ResultText from "@/components/ResultText";
 import { getShareResult } from "@/lib/share";
 import type { TestResult, TestBankPayload } from "@/types/test";
 import { loadTestBank } from "@/services/test-bank";
-import { useLocale } from "next-intl";
 import { TestProvider } from "@/contexts/test";
 import { Play } from "lucide-react";
 
@@ -70,10 +70,12 @@ function ShareInner() {
   }, [uuid, locale]);
 
   /**
-   * 跳转到测试页面
+   * 跳转到首页（用户可以在首页开始测试）
    */
   const handleStartTest = () => {
-    router.push(`/${locale}/test`);
+    // 使用国际化路由，跳转到首页
+    // 首页会显示测试入口，用户可以点击开始测试
+    router.push("/");
   };
 
   if (loading) {
@@ -104,17 +106,56 @@ function ShareInner() {
     }
   }
 
+  // 计算 Top 3 Traits
+  const getTopTraits = Array.from(categories)
+    .map((cat) => {
+      const categoryMeta = bank.categories?.[cat];
+      const score = shareResult.normalized?.[cat] ?? 0;
+      return {
+        id: cat,
+        name: categoryMeta?.name || cat,
+        score,
+        description: categoryMeta?.description,
+      };
+    })
+    .filter((item) => item.score > 0)
+    .sort((a, b) => b.score - a.score)
+    .slice(0, 3);
+
   return (
     <div className="container mx-auto max-w-3xl py-10 space-y-8">
       <div className="text-center space-y-4">
-        <h1 className="text-3xl font-bold">分享的测试结果</h1>
-        <p className="text-muted-foreground">这是一个匿名分享的测试结果</p>
+        <h1 className="text-3xl font-bold">{t("share_title") || "分享的测试结果"}</h1>
+        <p className="text-muted-foreground">{t("disclaimer") || "这是一个匿名分享的测试结果"}</p>
       </div>
 
       {/* 分数概览与图表 */}
       <div className="rounded-lg border p-4">
         <ResultChart bank={bank} result={shareResult} variant="radar" />
       </div>
+
+      {/* Top 3 Traits 标签 */}
+      {getTopTraits.length > 0 && (
+        <div className="rounded-lg border p-6">
+          <h2 className="text-xl font-semibold mb-4">{t("top_traits") || "Top 3 特征"}</h2>
+          <div className="flex flex-wrap gap-3">
+            {getTopTraits.map((trait, index) => (
+              <div
+                key={trait.id}
+                className="flex items-center gap-2 px-4 py-2 rounded-lg bg-primary/10 border border-primary/20"
+              >
+                <span className="text-sm font-semibold text-primary">
+                  #{index + 1}
+                </span>
+                <span className="text-sm font-medium">{trait.name}</span>
+                <span className="text-xs text-muted-foreground">
+                  ({trait.score}/100)
+                </span>
+              </div>
+            ))}
+          </div>
+        </div>
+      )}
 
       {/* 文本分析 */}
       {shareResult.text_analysis ? (
@@ -175,7 +216,7 @@ function ShareInner() {
       <div className="flex justify-center pt-6">
         <Button size="lg" onClick={handleStartTest} className="flex items-center gap-2">
           <Play className="w-5 h-5" />
-          我也要测试
+          {t("retest") || "我也要测试"}
         </Button>
       </div>
 

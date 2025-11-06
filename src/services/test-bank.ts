@@ -74,9 +74,9 @@ const categoryMetadata: Record<string, { name: string; description?: string }> =
  * @returns 筛选后的题目
  * 
  * 说明：
- * - Quick Mode: 只取 depth <= 1 的题目（基础题，30-40题）
- * - Standard Mode: 取 depth <= 2 的题目（基础+标准题，70-100题）
- * - Deep Mode: 取所有题目（depth <= 3，120-150题）
+ * - Quick Mode: 只取 depth <= 1 的题目（基础题，30题）- 移动端或快速浏览者
+ * - Standard Mode: 取 depth <= 2 的题目（基础+标准题，70题）- 主测试推荐模式
+ * - Deep Mode: 取所有题目（depth <= 3，120题）- 高级用户，可选项
  * 
  * 使用统一的selectQuestions函数实现按depth筛选逻辑
  */
@@ -90,7 +90,7 @@ function filterQuestionsByMode(questions: TestQuestion[], mode: "quick" | "stand
  * @param mode 测试模式（"quick" | "standard" | "deep"）
  * @returns TestBankPayload
  */
-export async function loadTestBank(locale = "en", mode: "quick" | "standard" | "deep" = "standard"): Promise<TestBankPayload> {
+export async function loadTestBank(locale = "en", mode: "quick" | "standard" | "deep" = "quick"): Promise<TestBankPayload> {
   // 客户端：通过API调用获取
   if (typeof window !== "undefined") {
     try {
@@ -100,12 +100,8 @@ export async function loadTestBank(locale = "en", mode: "quick" | "standard" | "
       if (res.ok) {
         const data = (await res.json()) as TestBankPayload;
         if (data && data.questions?.length) {
-          // 根据模式筛选题目（基于depth深度层级）
-          const filtered = filterQuestionsByMode(data.questions, mode);
-          return {
-            ...data,
-            questions: filtered,
-          };
+          // API 已经根据模式筛选了题目，直接返回
+          return data;
         }
       }
     } catch (err) {

@@ -34,13 +34,15 @@ const ResultChart = dynamic(
 function ResultInner() {
   const t = useTranslations("test.result");
   const { resolvedTheme } = useTheme();
-  const { bank, result, progress, history, reset, init, deleteHistory, clearAllHistory } = useTestContext();
+  const { bank, result, progress, history, reset, init, restoreResult, deleteHistory, clearAllHistory } = useTestContext();
   const router = useRouter();
   const locale = useLocale();
   const [shareLink, setShareLink] = useState<string | null>(null);
   const [isGeneratingShare, setIsGeneratingShare] = useState(false);
   const [isGeneratingPdf, setIsGeneratingPdf] = useState(false);
+  const [isGeneratingImage, setIsGeneratingImage] = useState(false);
   const [error, setError] = useState<string | null>(null);
+  const [showAllHistory, setShowAllHistory] = useState(false);
 
   /**
    * 获取所有categories（排除Orientation，单独处理）
@@ -60,26 +62,16 @@ function ResultInner() {
     return Array.from(categorySet);
   }, [bank]);
 
-  // 获取当前要显示的结果（优先使用result，如果没有则使用history中最新的一条）
-  const currentResult = useMemo(() => {
-    if (result) return result;
-    if (history && history.length > 0) {
-      return history[0].result;
-    }
-    return null;
-  }, [result, history]);
-
   /**
    * 计算 Top 3 Traits（按分数排序，取前3个）
    * 必须在所有条件返回之前调用
    */
   const getTopTraits = useMemo(() => {
-    const displayResult = currentResult;
-    if (!displayResult || !displayResult.normalized) return [];
+    if (!result || !result.normalized) return [];
     const categoryScores = categories
       .map((cat) => {
         const categoryMeta = bank?.categories?.[cat];
-        const score = displayResult.normalized?.[cat] ?? 0;
+        const score = result.normalized?.[cat] ?? 0;
         return {
           id: cat,
           name: categoryMeta?.name || cat,
@@ -91,8 +83,11 @@ function ResultInner() {
       .sort((a, b) => b.score - a.score) // 按分数降序排序
       .slice(0, 3); // 取前3个
     return categoryScores;
-  }, [currentResult, bank, categories]);
+  }, [result, bank, categories]);
 
+  /**
+   * 从历史记录恢复最后一次结果
+   */
   useEffect(() => {
     /**
      * 初始化题库，添加错误处理
@@ -109,17 +104,26 @@ function ResultInner() {
   }, [init, locale]);
 
   /**
+   * 如果没有结果但有历史记录，自动加载最后一次结果
+   */
+  useEffect(() => {
+    if (!result && history.length > 0 && bank) {
+      // 从历史记录中自动恢复最后一次结果
+      const lastHistoryItem = history[0];
+      if (lastHistoryItem && lastHistoryItem.result) {
+        restoreResult(lastHistoryItem);
+      }
+    }
+  }, [result, history, bank, restoreResult]);
+
+  /**
    * 生成分享链接
    */
   const handleShare = async () => {
-    const displayResult = currentResult;
-    if (!displayResult) {
-      toast.error("没有可分享的结果");
-      return;
-    }
+    if (!result) return;
     setIsGeneratingShare(true);
     try {
-      const shareId = await createShareLink(displayResult);
+      const shareId = await createShareLink(result);
       const url = `${window.location.origin}/${locale}/share/${shareId}`;
       setShareLink(url);
       await navigator.clipboard.writeText(url);
@@ -148,7 +152,7 @@ function ResultInner() {
 
   /**
    * 导出PDF（使用浏览器打印功能）
-   * 用户可以保存为PDF或打印
+   * 用户可以选择"另存为PDF"或直接打印
    */
   const handleDownloadPdf = () => {
     setIsGeneratingPdf(true);
@@ -156,7 +160,7 @@ function ResultInner() {
       // 使用浏览器打印功能生成PDF
       // 用户可以选择"另存为PDF"或直接打印
       window.print();
-      toast.success(t("download_pdf_hint"));
+      toast.success(t("download_pdf_hint") || "请使用浏览器的打印功能保存为PDF");
     } catch (error) {
       console.error("Failed to generate PDF:", error);
       toast.error("PDF生成失败");
@@ -166,8 +170,150 @@ function ResultInner() {
   };
 
   /**
+   * 导出图片（PNG格式）
+   * 将结果页面内容转换为图片并下载
+   * 使用 html2canvas 库将 DOM 元素转换为图片
+   */
+  const handleDownloadImage = async () => {
+    if (!result || !bank) {
+      toast.error("无法导出：数据不完整");
+      return;
+    }
+
+    setIsGeneratingImage(true);
+    try {
+      // 动态导入 html2canvas（如果库不存在，会抛出错误）
+      let html2canvas;
+      try {
+        html2canvas = (await import("html2canvas")).default;
+      } catch (importError) {
+        console.error("html2canvas not available:", importError);
+        toast.error(t("export_image_failed") || "图片导出功能需要安装 html2canvas 库。请使用打印功能保存为PDF。");
+        setIsGeneratingImage(false);
+        return;
+      }
+      
+      // 获取要导出的内容区域
+      const element = document.getElementById("result-export-content");
+      if (!element) {
+        toast.error("无法找到导出内容");
+        setIsGeneratingImage(false);
+        return;
+      }
+
+      // 转换为canvas
+      const canvas = await html2canvas(element, {
+        backgroundColor: "#ffffff",
+        scale: 2, // 提高图片质量
+        logging: false,
+        useCORS: true,
+        allowTaint: false,
+      });
+
+      // 转换为图片并下载
+      const imageUrl = canvas.toDataURL("image/png", 0.95);
+      const link = document.createElement("a");
+      link.href = imageUrl;
+      link.download = `kink-profile-${new Date().toISOString().split("T")[0]}.png`;
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
+      URL.revokeObjectURL(imageUrl);
+
+      toast.success(t("export_image_success") || "图片导出成功");
+    } catch (error) {
+      console.error("Failed to export image:", error);
+      toast.error(t("export_image_failed") || "图片导出失败，请使用打印功能保存为PDF");
+    } finally {
+      setIsGeneratingImage(false);
+    }
+  };
+
+  /**
+   * 导出完整的Kink Profile（PDF格式）
+   * 包含图表、分析和所有结果的完整报告
+   * 使用 jspdf 和 html2canvas 生成高质量的PDF报告
+   */
+  const handleDownloadKinkProfile = async () => {
+    if (!result || !bank) {
+      toast.error("无法导出：数据不完整");
+      return;
+    }
+
+    setIsGeneratingPdf(true);
+    try {
+      // 动态导入所需的库
+      const [{ default: html2canvas }, { default: jsPDF }] = await Promise.all([
+        import("html2canvas"),
+        import("jspdf"),
+      ]);
+
+      // 获取要导出的内容区域
+      const element = document.getElementById("result-export-content");
+      if (!element) {
+        toast.error("无法找到导出内容");
+        setIsGeneratingPdf(false);
+        return;
+      }
+
+      // 转换为canvas
+      const canvas = await html2canvas(element, {
+        backgroundColor: "#ffffff",
+        scale: 2, // 提高图片质量
+        logging: false,
+        useCORS: true,
+        allowTaint: false,
+      });
+
+      // 创建PDF文档
+      const pdf = new jsPDF({
+        orientation: "portrait",
+        unit: "mm",
+        format: "a4",
+      });
+
+      const imgData = canvas.toDataURL("image/png", 0.95);
+      const imgWidth = 210; // A4 width in mm
+      const pageHeight = 297; // A4 height in mm
+      const imgHeight = (canvas.height * imgWidth) / canvas.width;
+      let heightLeft = imgHeight;
+      let position = 0;
+
+      // 添加第一页
+      pdf.addImage(imgData, "PNG", 0, position, imgWidth, imgHeight);
+      heightLeft -= pageHeight;
+
+      // 如果内容超过一页，添加更多页面
+      while (heightLeft >= 0) {
+        position = heightLeft - imgHeight;
+        pdf.addPage();
+        pdf.addImage(imgData, "PNG", 0, position, imgWidth, imgHeight);
+        heightLeft -= pageHeight;
+      }
+
+      // 保存PDF
+      const fileName = `kink-profile-${new Date().toISOString().split("T")[0]}.pdf`;
+      pdf.save(fileName);
+
+      toast.success(t("download_profile_success") || "PDF报告生成成功");
+    } catch (error) {
+      console.error("Failed to generate PDF:", error);
+      // 如果库加载失败，回退到浏览器打印功能
+      try {
+        window.print();
+        toast.success(t("download_pdf_hint") || "请使用浏览器的打印功能保存为PDF");
+      } catch (printError) {
+        console.error("Print also failed:", printError);
+        toast.error("PDF生成失败，请稍后重试");
+      }
+    } finally {
+      setIsGeneratingPdf(false);
+    }
+  };
+
+  /**
    * 清除所有数据（GDPR合规）
-   * 清除localStorage中的所有测试数据
+   * 清除localStorage中的所有测试数据，包括进度、历史记录和分享链接
    */
   const handleClearAllData = async () => {
     if (!confirm(t("clear_all_data_confirm"))) {
@@ -177,7 +323,7 @@ function ResultInner() {
     try {
       // 清除所有历史记录
       await clearAllHistory();
-      // 清除当前结果
+      // 清除当前结果和进度
       await reset();
       // 清除localStorage中的其他测试相关数据
       if (typeof window !== "undefined") {
@@ -200,8 +346,7 @@ function ResultInner() {
    * 包含完整的答题结果、答案、题目信息等
    */
   const handleExportJSON = () => {
-    const displayResult = currentResult;
-    if (!displayResult || !bank || !progress) {
+    if (!result || !bank || !progress) {
       toast.error("无法导出：数据不完整");
       return;
     }
@@ -218,10 +363,10 @@ function ResultInner() {
         },
         // 测试结果
         result: {
-          scores: displayResult.scores || {},
-          normalized: displayResult.normalized || {},
-          orientation_spectrum: displayResult.orientation_spectrum,
-          text_analysis: displayResult.text_analysis,
+          scores: result.scores || {},
+          normalized: result.normalized || {},
+          orientation_spectrum: result.orientation_spectrum,
+          text_analysis: result.text_analysis,
         },
         // 答题记录
         answers: progress.answers.map((answer) => {
@@ -270,564 +415,691 @@ function ResultInner() {
   // 错误状态显示
   if (error) {
     return (
-      <div className="min-h-screen flex flex-col relative overflow-hidden transition-colors duration-200">
-        <div 
-          className="absolute inset-0 dark:bg-[#2b333e] transition-colors duration-200"
-          style={{
-            background: resolvedTheme === "dark" 
-              ? "#2b333e" 
-              : "linear-gradient(to bottom, rgba(32, 224, 192, 0.5) 0%, rgba(255, 255, 255, 1) 100%)"
-          }}
-        />
-        <div className="relative z-10 w-full px-6 sm:px-8 md:px-12 lg:px-16 flex-1 flex flex-col items-center justify-center pt-16 sm:pt-20 md:pt-24">
-          <div className="w-full max-w-4xl">
-            <div 
-              className="rounded-2xl md:rounded-3xl p-6 relative backdrop-blur-sm"
-              style={{
-                backgroundColor: 'rgba(255, 255, 255, 0.5)'
-              }}
-            >
-              <h2 className="text-xl font-semibold text-red-500 mb-2">错误</h2>
-              <p className="text-muted-foreground">{error}</p>
-              <Button 
-                onClick={() => window.location.reload()} 
-                className="mt-4"
-                style={{
-                  backgroundColor: 'rgba(32, 224, 192, 0.87)',
-                  color: 'white'
-                }}
-              >
-                刷新页面
-              </Button>
-            </div>
-          </div>
+      <div className="container mx-auto max-w-3xl py-10">
+        <div className="rounded-lg border border-red-500 p-6">
+          <h2 className="text-xl font-semibold text-red-500 mb-2">错误</h2>
+          <p className="text-muted-foreground">{error}</p>
+          <Button 
+            onClick={() => window.location.reload()} 
+            className="mt-4"
+          >
+            刷新页面
+          </Button>
         </div>
       </div>
     );
   }
 
   if (!bank || !bank.questions || bank.questions.length === 0) {
-    return (
-      <div className="min-h-screen flex flex-col relative overflow-hidden transition-colors duration-200">
-        <div 
-          className="absolute inset-0 dark:bg-[#2b333e] transition-colors duration-200"
-          style={{
-            background: resolvedTheme === "dark" 
-              ? "#2b333e" 
-              : "linear-gradient(to bottom, rgba(32, 224, 192, 0.5) 0%, rgba(255, 255, 255, 1) 100%)"
-          }}
-        />
-        <div className="relative z-10 w-full px-6 sm:px-8 md:px-12 lg:px-16 flex-1 flex flex-col items-center justify-center pt-16 sm:pt-20 md:pt-24">
-          <div className="w-full max-w-4xl text-center">
-            <p className="text-muted-foreground">加载中…</p>
-          </div>
-        </div>
-      </div>
-    );
+    return <div className="container mx-auto max-w-3xl py-10">加载中…</div>;
   }
 
+  // 定义多种颜色主题
+  const colorThemes = [
+    { primary: "rgba(32, 224, 192, 0.9)", secondary: "rgba(20, 184, 166, 0.9)", bg: "rgba(32, 224, 192, 0.1)", border: "rgba(32, 224, 192, 0.3)" }, // 青色
+    { primary: "rgba(139, 92, 246, 0.9)", secondary: "rgba(124, 58, 237, 0.9)", bg: "rgba(139, 92, 246, 0.1)", border: "rgba(139, 92, 246, 0.3)" }, // 紫色
+    { primary: "rgba(236, 72, 153, 0.9)", secondary: "rgba(219, 39, 119, 0.9)", bg: "rgba(236, 72, 153, 0.1)", border: "rgba(236, 72, 153, 0.3)" }, // 粉色
+    { primary: "rgba(59, 130, 246, 0.9)", secondary: "rgba(37, 99, 235, 0.9)", bg: "rgba(59, 130, 246, 0.1)", border: "rgba(59, 130, 246, 0.3)" }, // 蓝色
+    { primary: "rgba(251, 146, 60, 0.9)", secondary: "rgba(249, 115, 22, 0.9)", bg: "rgba(251, 146, 60, 0.1)", border: "rgba(251, 146, 60, 0.3)" }, // 橙色
+    { primary: "rgba(34, 197, 94, 0.9)", secondary: "rgba(22, 163, 74, 0.9)", bg: "rgba(34, 197, 94, 0.1)", border: "rgba(34, 197, 94, 0.3)" }, // 绿色
+    { primary: "rgba(168, 85, 247, 0.9)", secondary: "rgba(147, 51, 234, 0.9)", bg: "rgba(168, 85, 247, 0.1)", border: "rgba(168, 85, 247, 0.3)" }, // 紫罗兰
+  ];
+
+  // 根据类别获取颜色主题
+  const getColorTheme = (index: number) => colorThemes[index % colorThemes.length];
+
   return (
-    <div className="min-h-screen flex flex-col relative overflow-hidden transition-colors duration-200">
-      {/* 背景 - 与答题界面保持一致 */}
-      <div 
-        className="absolute inset-0 dark:bg-[#2b333e] transition-colors duration-200"
-        style={{
-          background: resolvedTheme === "dark" 
-            ? "radial-gradient(ellipse at top, #3a4550 0%, #2b333e 50%, #1f2630 100%)" 
-            : "radial-gradient(ellipse at top, rgba(32, 224, 192, 0.15) 0%, rgba(255, 255, 255, 0.8) 50%, rgba(240, 253, 250, 0.9) 100%)"
-        }}
-      />
-      
-      {/* 装饰性背景图案 */}
-      <div 
-        className="absolute inset-0 opacity-30 dark:opacity-10"
-        style={{
-          backgroundImage: resolvedTheme === "dark"
-            ? "radial-gradient(circle at 20% 50%, rgba(32, 224, 192, 0.1) 0%, transparent 50%), radial-gradient(circle at 80% 80%, rgba(32, 224, 192, 0.1) 0%, transparent 50%)"
-            : "radial-gradient(circle at 20% 50%, rgba(32, 224, 192, 0.08) 0%, transparent 50%), radial-gradient(circle at 80% 80%, rgba(32, 224, 192, 0.08) 0%, transparent 50%)"
-        }}
-      />
-      
-      <div className="relative z-10 w-full px-4 sm:px-6 md:px-8 lg:px-12 flex-1 flex flex-col items-center justify-center pt-8 sm:pt-10 md:pt-12 pb-8 sm:pb-10 md:pb-12">
-        <div className="w-full max-w-6xl flex-1 flex flex-col space-y-4 md:space-y-6">
-          {/* 标题区域 - 紧凑布局 */}
-          <div className="text-center mb-4 md:mb-6">
-            <h1 
-              className="text-2xl sm:text-3xl md:text-4xl font-bold mb-2"
+    <div 
+      className="min-h-screen"
+      style={{
+        background: resolvedTheme === "dark"
+          ? "linear-gradient(135deg, rgba(27, 33, 42, 1) 0%, rgba(35, 42, 52, 1) 50%, rgba(27, 33, 42, 1) 100%)"
+          : "linear-gradient(135deg, rgba(248, 250, 252, 1) 0%, rgba(241, 245, 249, 1) 50%, rgba(248, 250, 252, 1) 100%)"
+      }}
+    >
+      <div className="container mx-auto max-w-4xl pt-6 pb-8 space-y-5">
+          {/* 标题区域 */}
+          <div 
+            className="rounded-2xl p-6 relative overflow-hidden"
+            style={{
+              background: resolvedTheme === "dark"
+                ? "linear-gradient(135deg, rgba(43, 51, 62, 0.95) 0%, rgba(35, 42, 52, 0.95) 100%)"
+                : "linear-gradient(135deg, rgba(255, 255, 255, 0.95) 0%, rgba(248, 250, 252, 0.95) 100%)",
+              border: "1px solid rgba(32, 224, 192, 0.2)",
+              boxShadow: resolvedTheme === "dark"
+                ? "0 8px 32px rgba(0, 0, 0, 0.3), 0 0 20px rgba(32, 224, 192, 0.1)"
+                : "0 8px 32px rgba(32, 224, 192, 0.15), 0 4px 16px rgba(32, 224, 192, 0.1)"
+            }}
+          >
+            {/* 装饰性背景光晕 */}
+            <div 
+              className="absolute top-0 right-0 w-40 h-40 rounded-full blur-3xl opacity-20"
               style={{
-                color: resolvedTheme === "dark" ? "rgba(255, 255, 255, 0.87)" : "rgba(0, 0, 0, 0.87)"
+                background: "radial-gradient(circle, rgba(32, 224, 192, 0.4) 0%, transparent 70%)"
+              }}
+            />
+            <h1 
+              className="text-2xl sm:text-3xl font-bold relative z-10"
+              style={{
+                background: "linear-gradient(135deg, rgba(32, 224, 192, 1) 0%, rgba(139, 92, 246, 1) 100%)",
+                WebkitBackgroundClip: "text",
+                WebkitTextFillColor: "transparent",
+                backgroundClip: "text"
               }}
             >
               {t("title")}
             </h1>
-            <p 
-              className="text-xs sm:text-sm text-muted-foreground"
-              style={{
-                color: resolvedTheme === "dark" ? "rgba(255, 255, 255, 0.6)" : "rgba(0, 0, 0, 0.6)"
-              }}
-            >
-              {t("disclaimer")}
-            </p>
+            <p className="mt-2 text-sm text-muted-foreground relative z-10">{t("disclaimer")}</p>
           </div>
 
-          {/* 如果没有结果，显示提示 */}
-          {!currentResult ? (
+          {/* 如果没有结果，显示提示信息 */}
+          {!result && (
             <div 
-              className="rounded-xl sm:rounded-2xl p-6 md:p-8 text-center mx-4 sm:mx-6 md:mx-8 lg:mx-10 backdrop-blur-sm"
+              className="rounded-2xl p-6 relative overflow-hidden"
               style={{
-                backgroundColor: 'rgba(255, 255, 255, 0.6)',
-                border: '1px solid rgba(32, 224, 192, 0.3)'
+                background: resolvedTheme === "dark"
+                  ? "linear-gradient(135deg, rgba(251, 191, 36, 0.15) 0%, rgba(245, 158, 11, 0.15) 100%)"
+                  : "linear-gradient(135deg, rgba(254, 243, 199, 0.8) 0%, rgba(253, 230, 138, 0.8) 100%)",
+                border: "1px solid rgba(251, 191, 36, 0.3)",
+                boxShadow: resolvedTheme === "dark"
+                  ? "0 8px 32px rgba(0, 0, 0, 0.3), 0 0 20px rgba(251, 191, 36, 0.1)"
+                  : "0 8px 32px rgba(251, 191, 36, 0.15), 0 4px 16px rgba(251, 191, 36, 0.1)"
               }}
             >
-              <p 
-                className="text-muted-foreground mb-4"
+              {/* 装饰性背景光晕 */}
+              <div 
+                className="absolute top-0 right-0 w-32 h-32 rounded-full blur-3xl opacity-20"
                 style={{
-                  color: resolvedTheme === "dark" ? "rgba(255, 255, 255, 0.6)" : "rgba(0, 0, 0, 0.6)"
+                  background: "radial-gradient(circle, rgba(251, 191, 36, 0.4) 0%, transparent 70%)"
+                }}
+              />
+              <h2 
+                className="text-lg font-semibold mb-3 relative z-10"
+                style={{
+                  color: resolvedTheme === "dark" ? "rgba(251, 191, 36, 0.95)" : "rgba(217, 119, 6, 0.9)"
                 }}
               >
                 暂无测试结果
+              </h2>
+              <p 
+                className="text-sm mb-4 relative z-10"
+                style={{
+                  color: resolvedTheme === "dark" ? "rgba(251, 191, 36, 0.8)" : "rgba(217, 119, 6, 0.8)"
+                }}
+              >
+                您还没有完成测试，或者测试结果尚未加载。
               </p>
-              <Button 
-                onClick={() => router.push(`/${locale}/test`)}
-                style={{
-                  backgroundColor: 'rgba(32, 224, 192, 0.87)',
-                  color: 'white'
-                }}
-              >
-                {t("retest")}
-              </Button>
-            </div>
-          ) : (
-            <div className="px-4 sm:px-6 md:px-8 lg:px-10 space-y-6 md:space-y-8 pb-8 sm:pb-10 md:pb-12">
-              {/* 分数概览与图表 - 美化版 */}
-              <div 
-                className="rounded-2xl md:rounded-3xl p-6 md:p-8 lg:p-10 transition-all duration-300 hover:shadow-xl"
-                style={{
-                  background: resolvedTheme === "dark" 
-                    ? "rgba(255, 255, 255, 0.05)" 
-                    : "rgba(255, 255, 255, 0.7)",
-                  border: `1px solid ${resolvedTheme === "dark" ? "rgba(255, 255, 255, 0.1)" : "rgba(32, 224, 192, 0.2)"}`,
-                  boxShadow: resolvedTheme === "dark"
-                    ? "0 4px 16px rgba(0, 0, 0, 0.3)"
-                    : "0 4px 20px rgba(32, 224, 192, 0.15), 0 2px 8px rgba(32, 224, 192, 0.1)"
-                }}
-              >
-                <ResultChart bank={bank} result={currentResult} variant="radar" />
-              </div>
-
-              {/* Top 3 Traits 标签 - 美化版 */}
-              {getTopTraits.length > 0 && (
-                <div 
-                  className="rounded-2xl md:rounded-3xl p-6 md:p-8 lg:p-10 transition-all duration-300 hover:shadow-xl"
+              {history.length > 0 ? (
+                <p 
+                  className="text-sm relative z-10"
                   style={{
-                    background: resolvedTheme === "dark" 
-                      ? "rgba(255, 255, 255, 0.05)" 
-                      : "rgba(255, 255, 255, 0.7)",
-                    border: `1px solid ${resolvedTheme === "dark" ? "rgba(255, 255, 255, 0.1)" : "rgba(32, 224, 192, 0.2)"}`,
-                    boxShadow: resolvedTheme === "dark"
-                      ? "0 4px 16px rgba(0, 0, 0, 0.3)"
-                      : "0 4px 20px rgba(32, 224, 192, 0.15), 0 2px 8px rgba(32, 224, 192, 0.1)"
+                    color: resolvedTheme === "dark" ? "rgba(251, 191, 36, 0.8)" : "rgba(217, 119, 6, 0.8)"
                   }}
                 >
-                  <h2 
-                    className="text-xl sm:text-2xl md:text-3xl font-bold mb-6"
+                  您有 {history.length} 条历史记录，可以点击下面的历史记录来查看结果：
+                </p>
+              ) : (
+                <Button 
+                  onClick={() => router.push(`/${locale}/test/run`)}
+                  className="mt-2 rounded-xl transition-all duration-300 hover:scale-105 relative overflow-hidden group z-10"
+                  style={{
+                    background: "linear-gradient(135deg, rgba(32, 224, 192, 0.95) 0%, rgba(20, 184, 166, 0.95) 100%)",
+                    color: 'white',
+                    boxShadow: '0 4px 16px rgba(32, 224, 192, 0.4), 0 2px 8px rgba(32, 224, 192, 0.3)',
+                    border: 'none'
+                  }}
+                >
+                  <div className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-300" style={{ background: "linear-gradient(135deg, rgba(255, 255, 255, 0.2) 0%, transparent 100%)" }} />
+                  <span className="relative z-10">开始测试</span>
+                </Button>
+              )}
+            </div>
+          )}
+
+          {/* 分数概览与图表 */}
+          {result ? (
+            <div id="result-export-content" className="space-y-4">
+              {/* 图表区域 */}
+              <div 
+                className="rounded-2xl p-5 relative overflow-hidden"
+                style={{
+                  background: resolvedTheme === "dark"
+                    ? "linear-gradient(135deg, rgba(43, 51, 62, 0.95) 0%, rgba(35, 42, 52, 0.95) 100%)"
+                    : "linear-gradient(135deg, rgba(255, 255, 255, 0.95) 0%, rgba(248, 250, 252, 0.95) 100%)",
+                  border: "1px solid rgba(139, 92, 246, 0.2)",
+                  boxShadow: resolvedTheme === "dark"
+                    ? "0 8px 32px rgba(0, 0, 0, 0.3), 0 0 20px rgba(139, 92, 246, 0.1)"
+                    : "0 8px 32px rgba(139, 92, 246, 0.15), 0 4px 16px rgba(139, 92, 246, 0.1)"
+                }}
+              >
+                {/* 装饰性背景光晕 */}
+                <div 
+                  className="absolute top-0 left-0 w-32 h-32 rounded-full blur-3xl opacity-20"
+                  style={{
+                    background: "radial-gradient(circle, rgba(139, 92, 246, 0.4) 0%, transparent 70%)"
+                  }}
+                />
+                <div className="relative z-10">
+                  <ResultChart bank={bank} result={result} variant="radar" />
+                </div>
+              </div>
+
+              {/* Top 3 Traits 标签 */}
+              {getTopTraits.length > 0 && (
+                <div 
+                  className="rounded-2xl p-5 relative overflow-hidden"
+                  style={{
+                    background: resolvedTheme === "dark"
+                      ? "linear-gradient(135deg, rgba(43, 51, 62, 0.95) 0%, rgba(35, 42, 52, 0.95) 100%)"
+                      : "linear-gradient(135deg, rgba(255, 255, 255, 0.95) 0%, rgba(248, 250, 252, 0.95) 100%)",
+                    border: "1px solid rgba(236, 72, 153, 0.2)",
+                    boxShadow: resolvedTheme === "dark"
+                      ? "0 8px 32px rgba(0, 0, 0, 0.3), 0 0 20px rgba(236, 72, 153, 0.1)"
+                      : "0 8px 32px rgba(236, 72, 153, 0.15), 0 4px 16px rgba(236, 72, 153, 0.1)"
+                  }}
+                >
+                  {/* 装饰性背景光晕 */}
+                  <div 
+                    className="absolute top-0 right-0 w-32 h-32 rounded-full blur-3xl opacity-20"
                     style={{
-                      color: resolvedTheme === "dark" ? "rgba(255, 255, 255, 0.9)" : "rgba(0, 0, 0, 0.85)",
-                      textShadow: resolvedTheme === "dark" 
-                        ? "0 2px 8px rgba(0, 0, 0, 0.3)" 
-                        : "0 2px 12px rgba(32, 224, 192, 0.15)"
+                      background: "radial-gradient(circle, rgba(236, 72, 153, 0.4) 0%, transparent 70%)"
+                    }}
+                  />
+                  <h2 
+                    className="text-lg font-semibold mb-4 relative z-10"
+                    style={{
+                      color: resolvedTheme === "dark" ? "rgba(236, 72, 153, 0.95)" : "rgba(236, 72, 153, 0.9)"
                     }}
                   >
                     {t("top_traits")}
                   </h2>
-                  <div className="flex flex-wrap gap-4">
-                    {getTopTraits.map((trait, index) => (
-                      <div
-                        key={trait.id}
-                        className="flex items-center gap-3 px-5 py-3 rounded-xl transition-all duration-300 hover:scale-105"
-                        style={{
-                          background: "linear-gradient(135deg, rgba(32, 224, 192, 0.2) 0%, rgba(20, 184, 166, 0.2) 100%)",
-                          border: '2px solid rgba(32, 224, 192, 0.5)',
-                          boxShadow: "0 2px 8px rgba(32, 224, 192, 0.3)"
-                        }}
-                      >
-                        {/* 排名徽章 */}
-                        <div 
-                          className="flex items-center justify-center w-8 h-8 rounded-full font-bold text-sm text-white"
-                          style={{
-                            background: "linear-gradient(135deg, rgba(32, 224, 192, 0.9) 0%, rgba(20, 184, 166, 0.9) 100%)",
-                            boxShadow: "0 2px 6px rgba(32, 224, 192, 0.4)"
-                          }}
-                        >
-                          {index + 1}
-                        </div>
-                        <span 
-                          className="text-sm md:text-base font-semibold"
-                          style={{
-                            color: resolvedTheme === "dark" ? "rgba(255, 255, 255, 0.9)" : "rgba(0, 0, 0, 0.85)"
-                          }}
-                        >
-                          {trait.name}
-                        </span>
-                        <span 
-                          className="text-xs md:text-sm font-medium px-2 py-1 rounded-full"
-                          style={{
-                            color: 'rgba(32, 224, 192, 0.9)',
-                            backgroundColor: resolvedTheme === "dark" ? "rgba(32, 224, 192, 0.15)" : "rgba(32, 224, 192, 0.1)"
-                          }}
-                        >
-                          {trait.score}/100
-                        </span>
-                      </div>
-                    ))}
-                  </div>
-                </div>
-              )}
-
-                {/* 文本分析 */}
-                {currentResult.text_analysis || currentResult.normalized ? (
-                  <div 
-                    className="rounded-xl p-4 md:p-6 backdrop-blur-sm"
-                    style={{
-                      backgroundColor: 'rgba(255, 255, 255, 0.6)',
-                      border: '1px solid rgba(32, 224, 192, 0.3)'
-                    }}
-                  >
-                    <h2 
-                      className="text-lg md:text-xl font-semibold mb-3"
-                      style={{
-                        color: resolvedTheme === "dark" ? "rgba(255, 255, 255, 0.87)" : "rgba(0, 0, 0, 0.87)"
-                      }}
-                    >
-                      分析结果
-                    </h2>
-                    <div className="text-sm leading-relaxed">
-                      <ResultText result={currentResult} />
-                    </div>
-                  </div>
-                ) : null}
-              </div>
-
-              {/* 右侧：类别分数卡片和操作按钮 */}
-              <div className="space-y-4 md:space-y-6">
-
-                {/* 类别分数卡片 */}
-                {categories.length > 0 && (
-                  <div className="grid gap-3 md:grid-cols-1">
-                    {categories.map((cat) => {
-                      const categoryMeta = bank.categories?.[cat];
-                      const score = currentResult.normalized?.[cat] ?? 0;
+                  <div className="flex flex-wrap gap-3 relative z-10">
+                    {getTopTraits.map((trait, index) => {
+                      const theme = getColorTheme(index);
                       return (
-                        <div 
-                          key={cat} 
-                          className="rounded-xl p-3 md:p-4 backdrop-blur-sm"
+                        <div
+                          key={trait.id}
+                          className="flex items-center gap-2 px-4 py-2 rounded-xl transition-all duration-300 hover:scale-105"
                           style={{
-                            backgroundColor: 'rgba(255, 255, 255, 0.6)',
-                            border: '1px solid rgba(32, 224, 192, 0.3)'
+                            background: resolvedTheme === "dark"
+                              ? `linear-gradient(135deg, ${theme.bg} 0%, ${theme.bg.replace('0.1', '0.15')} 100%)`
+                              : `linear-gradient(135deg, ${theme.bg} 0%, ${theme.bg.replace('0.1', '0.15')} 100%)`,
+                            border: `1px solid ${theme.border}`,
+                            boxShadow: `0 4px 12px ${theme.border.replace('0.3', '0.2')}`
                           }}
                         >
-                          <div 
-                            className="text-xs mb-1.5"
-                            style={{
-                              color: resolvedTheme === "dark" ? "rgba(255, 255, 255, 0.6)" : "rgba(0, 0, 0, 0.6)"
+                          <span 
+                            className="text-sm font-bold w-6 h-6 flex items-center justify-center rounded-full"
+                            style={{ 
+                              background: `linear-gradient(135deg, ${theme.primary} 0%, ${theme.secondary} 100%)`,
+                              color: 'white',
+                              boxShadow: `0 2px 8px ${theme.border.replace('0.3', '0.4')}`
                             }}
                           >
-                            {categoryMeta?.name || cat}
-                          </div>
-                          <div 
-                            className="text-xl md:text-2xl font-semibold"
-                            style={{
-                              color: 'rgba(32, 224, 192, 0.87)'
-                            }}
-                          >
-                            {score}
-                            <span 
-                              className="text-xs ml-1"
-                              style={{
-                                color: resolvedTheme === "dark" ? "rgba(255, 255, 255, 0.6)" : "rgba(0, 0, 0, 0.6)"
-                              }}
-                            >
-                              /100
-                            </span>
-                          </div>
-                          {categoryMeta?.description ? (
-                            <p 
-                              className="mt-1.5 text-xs leading-tight"
-                              style={{
-                                color: resolvedTheme === "dark" ? "rgba(255, 255, 255, 0.6)" : "rgba(0, 0, 0, 0.6)"
-                              }}
-                            >
-                              {categoryMeta.description}
-                            </p>
-                          ) : null}
+                            {index + 1}
+                          </span>
+                          <span className="text-sm font-semibold" style={{ color: theme.primary }}>
+                            {trait.name}
+                          </span>
+                          <span className="text-xs text-muted-foreground">({trait.score}/100)</span>
                         </div>
                       );
                     })}
                   </div>
-                )}
+                </div>
+              )}
 
-                {/* Kinsey光谱展示（如果有Orientation结果） */}
-                {currentResult.orientation_spectrum !== undefined ? (
+              {/* 文本分析 */}
+              {result.text_analysis ? (
+                <div 
+                  className="rounded-2xl p-5 relative overflow-hidden"
+                  style={{
+                    background: resolvedTheme === "dark"
+                      ? "linear-gradient(135deg, rgba(43, 51, 62, 0.95) 0%, rgba(35, 42, 52, 0.95) 100%)"
+                      : "linear-gradient(135deg, rgba(255, 255, 255, 0.95) 0%, rgba(248, 250, 252, 0.95) 100%)",
+                    border: "1px solid rgba(59, 130, 246, 0.2)",
+                    boxShadow: resolvedTheme === "dark"
+                      ? "0 8px 32px rgba(0, 0, 0, 0.3), 0 0 20px rgba(59, 130, 246, 0.1)"
+                      : "0 8px 32px rgba(59, 130, 246, 0.15), 0 4px 16px rgba(59, 130, 246, 0.1)"
+                  }}
+                >
+                  {/* 装饰性背景光晕 */}
                   <div 
-                    className="rounded-xl p-3 md:p-4 backdrop-blur-sm"
+                    className="absolute top-0 left-0 w-32 h-32 rounded-full blur-3xl opacity-20"
                     style={{
-                      backgroundColor: 'rgba(255, 255, 255, 0.6)',
-                      border: '1px solid rgba(32, 224, 192, 0.3)'
+                      background: "radial-gradient(circle, rgba(59, 130, 246, 0.4) 0%, transparent 70%)"
+                    }}
+                  />
+                  <h2 
+                    className="text-lg font-semibold mb-4 relative z-10"
+                    style={{
+                      color: resolvedTheme === "dark" ? "rgba(59, 130, 246, 0.95)" : "rgba(59, 130, 246, 0.9)"
                     }}
                   >
-                    <h3 
-                      className="text-sm md:text-base font-semibold mb-2"
-                      style={{
-                        color: resolvedTheme === "dark" ? "rgba(255, 255, 255, 0.87)" : "rgba(0, 0, 0, 0.87)"
-                      }}
-                    >
-                      性取向光谱
-                    </h3>
-                    <div className="space-y-2">
+                    分析结果
+                  </h2>
+                  <div className="relative z-10">
+                    <ResultText result={result} />
+                  </div>
+                </div>
+              ) : null}
+
+              {/* 类别分数卡片 */}
+              {categories.length > 0 && (
+                <div className="grid gap-4 md:grid-cols-3">
+                  {categories.map((cat, index) => {
+                    const categoryMeta = bank.categories?.[cat];
+                    const score = result.normalized?.[cat] ?? 0;
+                    const theme = getColorTheme(index);
+                    return (
                       <div 
-                        className="h-6 rounded-full relative overflow-hidden backdrop-blur-sm"
+                        key={cat} 
+                        className="rounded-2xl p-4 relative overflow-hidden transition-all duration-300 hover:scale-105"
                         style={{
-                          backgroundColor: resolvedTheme === "dark" ? "rgba(156, 163, 175, 0.3)" : "rgba(156, 163, 175, 0.3)"
+                          background: resolvedTheme === "dark"
+                            ? `linear-gradient(135deg, ${theme.bg.replace('0.1', '0.15')} 0%, ${theme.bg} 100%)`
+                            : `linear-gradient(135deg, ${theme.bg} 0%, ${theme.bg.replace('0.1', '0.15')} 100%)`,
+                          border: `1px solid ${theme.border}`,
+                          boxShadow: `0 4px 16px ${theme.border.replace('0.3', '0.2')}`
                         }}
                       >
-                        <div
-                          className="absolute top-0 left-0 h-full rounded-full transition-all duration-300"
-                          style={{ 
-                            width: `${(currentResult.orientation_spectrum / 7) * 100}%`,
-                            backgroundColor: 'rgba(32, 224, 192, 0.87)'
+                        {/* 装饰性背景光晕 */}
+                        <div 
+                          className="absolute top-0 right-0 w-24 h-24 rounded-full blur-2xl opacity-30"
+                          style={{
+                            background: `radial-gradient(circle, ${theme.primary.replace('0.9', '0.3')} 0%, transparent 70%)`
                           }}
                         />
-                        <div
-                          className="absolute top-0 left-0 h-full w-full flex items-center justify-center text-xs font-medium"
-                          style={{ zIndex: 1 }}
-                        >
-                          {currentResult.orientation_spectrum.toFixed(1)} / 7
+                        <div className="relative z-10">
+                          <div 
+                            className="text-sm font-medium mb-2"
+                            style={{ color: theme.primary }}
+                          >
+                            {categoryMeta?.name || cat}
+                          </div>
+                          <div 
+                            className="text-2xl font-bold mb-1"
+                            style={{ color: theme.primary }}
+                          >
+                            {score}
+                            <span className="text-sm text-muted-foreground ml-1 font-normal">/100</span>
+                          </div>
+                          {/* 进度条 */}
+                          <div className="mt-3 h-2 rounded-full overflow-hidden" style={{ background: resolvedTheme === "dark" ? "rgba(255, 255, 255, 0.1)" : "rgba(0, 0, 0, 0.05)" }}>
+                            <div 
+                              className="h-full rounded-full transition-all duration-500"
+                              style={{
+                                width: `${score}%`,
+                                background: `linear-gradient(90deg, ${theme.primary} 0%, ${theme.secondary} 100%)`,
+                                boxShadow: `0 0 8px ${theme.border.replace('0.3', '0.5')}`
+                              }}
+                            />
+                          </div>
+                          {categoryMeta?.description ? (
+                            <p className="mt-2 text-xs text-muted-foreground line-clamp-2">{categoryMeta.description}</p>
+                          ) : null}
                         </div>
                       </div>
-                      <div 
-                        className="text-xs text-center"
-                        style={{
-                          color: resolvedTheme === "dark" ? "rgba(255, 255, 255, 0.6)" : "rgba(0, 0, 0, 0.6)"
-                        }}
-                      >
-                        {currentResult.orientation_spectrum <= 1 ? "Heterosexual" :
-                         currentResult.orientation_spectrum <= 3 ? "Bisexual/Fluid" :
-                         currentResult.orientation_spectrum <= 5 ? "Homosexual" :
-                         "Asexual/Aromantic"}
-                      </div>
-                    </div>
-                  </div>
-                ) : null}
+                    );
+                  })}
+                </div>
+              )}
 
-                {/* 分享和下载按钮 */}
+              {/* Kinsey光谱展示（如果有Orientation结果） */}
+              {result.orientation_spectrum !== undefined ? (
                 <div 
-                  className="rounded-xl p-3 md:p-4 backdrop-blur-sm"
+                  className="rounded-2xl p-5 relative overflow-hidden"
                   style={{
-                    backgroundColor: 'rgba(255, 255, 255, 0.6)',
-                    border: '1px solid rgba(32, 224, 192, 0.3)'
+                    background: resolvedTheme === "dark"
+                      ? "linear-gradient(135deg, rgba(43, 51, 62, 0.95) 0%, rgba(35, 42, 52, 0.95) 100%)"
+                      : "linear-gradient(135deg, rgba(255, 255, 255, 0.95) 0%, rgba(248, 250, 252, 0.95) 100%)",
+                    border: "1px solid rgba(168, 85, 247, 0.2)",
+                    boxShadow: resolvedTheme === "dark"
+                      ? "0 8px 32px rgba(0, 0, 0, 0.3), 0 0 20px rgba(168, 85, 247, 0.1)"
+                      : "0 8px 32px rgba(168, 85, 247, 0.15), 0 4px 16px rgba(168, 85, 247, 0.1)"
                   }}
                 >
-                  <div className="grid grid-cols-2 gap-2">
-                    <Button
-                      onClick={handleShare}
-                      disabled={isGeneratingShare}
-                      size="sm"
-                      className="flex items-center gap-1.5 text-xs"
-                      style={{
-                        backgroundColor: 'rgba(32, 224, 192, 0.87)',
-                        color: 'white'
-                      }}
-                    >
-                      <ShareIcon className="w-3 h-3" />
-                      {isGeneratingShare ? "..." : t("share_button")}
-                    </Button>
-                    {shareLink && (
-                      <Button
-                        variant="outline"
-                        onClick={handleCopyShareLink}
-                        size="sm"
-                        className="flex items-center gap-1.5 text-xs"
-                        style={{
-                          borderColor: 'rgba(32, 224, 192, 0.5)',
-                          color: resolvedTheme === "dark" ? "rgba(255, 255, 255, 0.87)" : "rgba(0, 0, 0, 0.87)"
-                        }}
-                      >
-                        <Copy className="w-3 h-3" />
-                        复制链接
-                      </Button>
-                    )}
-                    <Button
-                      variant="outline"
-                      onClick={handleDownloadPdf}
-                      disabled={isGeneratingPdf}
-                      size="sm"
-                      className="flex items-center gap-1.5 text-xs"
-                      style={{
-                        borderColor: 'rgba(32, 224, 192, 0.5)',
-                        color: resolvedTheme === "dark" ? "rgba(255, 255, 255, 0.87)" : "rgba(0, 0, 0, 0.87)"
-                      }}
-                    >
-                      <Download className="w-3 h-3" />
-                      PDF
-                    </Button>
-                    <Button
-                      variant="outline"
-                      onClick={handleExportJSON}
-                      size="sm"
-                      className="flex items-center gap-1.5 text-xs"
-                      style={{
-                        borderColor: 'rgba(32, 224, 192, 0.5)',
-                        color: resolvedTheme === "dark" ? "rgba(255, 255, 255, 0.87)" : "rgba(0, 0, 0, 0.87)"
-                      }}
-                    >
-                      <FileJson className="w-3 h-3" />
-                      JSON
-                    </Button>
-                  </div>
-                </div>
-
-                {/* 操作按钮 */}
-                <div className="flex gap-2">
-                  <Button 
-                    onClick={() => reset()}
-                    size="sm"
-                    className="flex-1 text-xs"
+                  {/* 装饰性背景光晕 */}
+                  <div 
+                    className="absolute top-0 right-0 w-32 h-32 rounded-full blur-3xl opacity-20"
                     style={{
-                      backgroundColor: 'rgba(32, 224, 192, 0.87)',
-                      color: 'white'
+                      background: "radial-gradient(circle, rgba(168, 85, 247, 0.4) 0%, transparent 70%)"
+                    }}
+                  />
+                  <h3 
+                    className="text-base font-semibold mb-4 relative z-10"
+                    style={{
+                      color: resolvedTheme === "dark" ? "rgba(168, 85, 247, 0.95)" : "rgba(168, 85, 247, 0.9)"
                     }}
                   >
-                    {t("retest")}
-                  </Button>
+                    性取向光谱 (Kinsey-like)
+                  </h3>
+                  <div className="flex items-center gap-3 relative z-10">
+                    <div className="flex-1 h-8 rounded-full relative overflow-hidden" style={{ background: resolvedTheme === "dark" ? "rgba(255, 255, 255, 0.1)" : "rgba(0, 0, 0, 0.05)" }}>
+                      <div
+                        className="absolute top-0 left-0 h-full rounded-full transition-all duration-500"
+                        style={{ 
+                          width: `${(result.orientation_spectrum / 7) * 100}%`,
+                          background: 'linear-gradient(90deg, rgba(168, 85, 247, 0.9) 0%, rgba(139, 92, 246, 0.9) 50%, rgba(236, 72, 153, 0.9) 100%)',
+                          boxShadow: '0 0 12px rgba(168, 85, 247, 0.5)'
+                        }}
+                      />
+                      <div className="absolute top-0 left-0 h-full w-full flex items-center justify-center text-xs font-bold" style={{ zIndex: 1, color: resolvedTheme === "dark" ? "rgba(255, 255, 255, 0.9)" : "rgba(0, 0, 0, 0.8)" }}>
+                        {result.orientation_spectrum.toFixed(1)} / 7
+                      </div>
+                    </div>
+                    <div className="text-xs font-medium px-3 py-1 rounded-lg" style={{ 
+                      background: resolvedTheme === "dark" ? "rgba(168, 85, 247, 0.15)" : "rgba(168, 85, 247, 0.1)",
+                      color: resolvedTheme === "dark" ? "rgba(168, 85, 247, 0.95)" : "rgba(168, 85, 247, 0.9)"
+                    }}>
+                      {result.orientation_spectrum <= 1 ? "Heterosexual" :
+                       result.orientation_spectrum <= 3 ? "Bisexual/Fluid" :
+                       result.orientation_spectrum <= 5 ? "Homosexual" :
+                       "Asexual/Aromantic"}
+                    </div>
+                  </div>
+                </div>
+              ) : null}
+
+              {/* 分享和下载按钮 */}
+              <div 
+                className="flex flex-wrap gap-3 pt-5 pb-2 relative rounded-2xl p-5"
+                style={{
+                  background: resolvedTheme === "dark"
+                    ? "linear-gradient(135deg, rgba(43, 51, 62, 0.4) 0%, rgba(35, 42, 52, 0.4) 100%)"
+                    : "linear-gradient(135deg, rgba(255, 255, 255, 0.4) 0%, rgba(248, 250, 252, 0.4) 100%)",
+                  border: "1px solid rgba(32, 224, 192, 0.1)"
+                }}
+              >
+                {/* 生成分享链接按钮 */}
+                <Button
+                  onClick={handleShare}
+                  disabled={isGeneratingShare}
+                  className="flex items-center gap-2 rounded-xl transition-all duration-300 hover:scale-105 relative overflow-hidden group"
+                  style={{
+                    background: "linear-gradient(135deg, rgba(32, 224, 192, 0.95) 0%, rgba(20, 184, 166, 0.95) 100%)",
+                    color: 'white',
+                    boxShadow: '0 4px 16px rgba(32, 224, 192, 0.4), 0 2px 8px rgba(32, 224, 192, 0.3)',
+                    border: 'none'
+                  }}
+                >
+                  <div className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-300" style={{ background: "linear-gradient(135deg, rgba(255, 255, 255, 0.2) 0%, transparent 100%)" }} />
+                  <ShareIcon className="w-4 h-4 relative z-10" />
+                  <span className="relative z-10">{isGeneratingShare ? t("share_button") + "..." : t("share_button")}</span>
+                </Button>
+                {shareLink && (
                   <Button 
                     variant="outline" 
-                    onClick={() => router.back()}
-                    size="sm"
-                    className="flex-1 text-xs"
+                    onClick={handleCopyShareLink} 
+                    className="flex items-center gap-2 rounded-xl transition-all duration-300 hover:scale-105"
                     style={{
-                      borderColor: 'rgba(32, 224, 192, 0.5)',
-                      color: resolvedTheme === "dark" ? "rgba(255, 255, 255, 0.87)" : "rgba(0, 0, 0, 0.87)"
+                      border: "1px solid rgba(139, 92, 246, 0.3)",
+                      background: resolvedTheme === "dark" ? "rgba(139, 92, 246, 0.1)" : "rgba(139, 92, 246, 0.05)",
+                      color: resolvedTheme === "dark" ? "rgba(139, 92, 246, 0.9)" : "rgba(139, 92, 246, 0.8)"
                     }}
                   >
-                    {t("back")}
+                    <Copy className="w-4 h-4" />
+                    {t("share_link_copied").split("已")[0]}
                   </Button>
-                </div>
-              </div>
-            </div>
-          )}
-
-          {/* 历史记录和隐私说明 - 底部紧凑布局 */}
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-6">
-            {/* 历史记录 */}
-            <div 
-              className="rounded-xl p-4 backdrop-blur-sm"
-              style={{
-                backgroundColor: 'rgba(255, 255, 255, 0.6)',
-                border: '1px solid rgba(32, 224, 192, 0.3)'
-              }}
-            >
-              <h2 
-                className="text-base md:text-lg font-semibold mb-3"
-                style={{
-                  color: resolvedTheme === "dark" ? "rgba(255, 255, 255, 0.87)" : "rgba(0, 0, 0, 0.87)"
-                }}
-              >
-                {t("history_title")}
-              </h2>
-              {history.length === 0 ? (
-                <p 
-                  className="text-xs"
+                )}
+                <Button 
+                  variant="outline" 
+                  onClick={handleDownloadKinkProfile} 
+                  disabled={isGeneratingPdf} 
+                  className="flex items-center gap-2 rounded-xl transition-all duration-300 hover:scale-105"
                   style={{
-                    color: resolvedTheme === "dark" ? "rgba(255, 255, 255, 0.6)" : "rgba(0, 0, 0, 0.6)"
+                    border: "1px solid rgba(236, 72, 153, 0.3)",
+                    background: resolvedTheme === "dark" ? "rgba(236, 72, 153, 0.1)" : "rgba(236, 72, 153, 0.05)",
+                    color: resolvedTheme === "dark" ? "rgba(236, 72, 153, 0.9)" : "rgba(236, 72, 153, 0.8)"
                   }}
                 >
-                  {t("no_history")}
-                </p>
-              ) : (
-                <>
-                  <ul className="space-y-2 text-xs max-h-32 overflow-y-auto">
-                    {history.slice(0, 3).map((h) => (
-                      <li 
-                        key={h.id} 
-                        className="rounded-lg p-2 flex items-center justify-between gap-2 backdrop-blur-sm"
-                        style={{
-                          backgroundColor: 'rgba(255, 255, 255, 0.4)',
-                          border: '1px solid rgba(32, 224, 192, 0.2)'
-                        }}
-                      >
-                        <div className="flex flex-col flex-1 min-w-0">
-                          <span 
-                            className="truncate text-xs"
-                            style={{
-                              color: resolvedTheme === "dark" ? "rgba(255, 255, 255, 0.87)" : "rgba(0, 0, 0, 0.87)"
-                            }}
-                          >
-                            {new Date(h.createdAt).toLocaleString()}
-                          </span>
-                        </div>
-                        <Button 
-                          size="sm"
-                          variant="outline" 
-                          onClick={() => deleteHistory(h.id)}
-                          className="h-6 px-2 text-xs"
-                          style={{
-                            borderColor: 'rgba(32, 224, 192, 0.5)',
-                            color: resolvedTheme === "dark" ? "rgba(255, 255, 255, 0.87)" : "rgba(0, 0, 0, 0.87)"
-                          }}
-                        >
-                          删除
-                        </Button>
-                      </li>
-                    ))}
-                  </ul>
-                  {history.length > 3 && (
-                    <p className="text-xs mt-2" style={{ color: resolvedTheme === "dark" ? "rgba(255, 255, 255, 0.6)" : "rgba(0, 0, 0, 0.6)" }}>
-                      还有 {history.length - 3} 条记录...
-                    </p>
-                  )}
-                  {history.length > 0 && (
-                    <div className="pt-2 mt-2 border-t" style={{ borderColor: resolvedTheme === "dark" ? "rgba(255, 255, 255, 0.1)" : "rgba(32, 224, 192, 0.2)" }}>
-                      <Button 
-                        size="sm"
-                        variant="destructive" 
-                        onClick={() => clearAllHistory()}
-                        className="w-full text-xs h-7"
-                      >
-                        {t("clear_all")}
-                      </Button>
-                    </div>
-                  )}
-                </>
-              )}
+                  <Download className="w-4 h-4" />
+                  {isGeneratingPdf ? t("download_profile_processing") || "生成中..." : t("download_profile") || "Download your kink profile"}
+                </Button>
+                <Button 
+                  variant="outline" 
+                  onClick={handleDownloadImage} 
+                  disabled={isGeneratingImage} 
+                  className="flex items-center gap-2 rounded-xl transition-all duration-300 hover:scale-105"
+                  style={{
+                    border: "1px solid rgba(59, 130, 246, 0.3)",
+                    background: resolvedTheme === "dark" ? "rgba(59, 130, 246, 0.1)" : "rgba(59, 130, 246, 0.05)",
+                    color: resolvedTheme === "dark" ? "rgba(59, 130, 246, 0.9)" : "rgba(59, 130, 246, 0.8)"
+                  }}
+                >
+                  <Download className="w-4 h-4" />
+                  {isGeneratingImage ? t("download_image_processing") || "生成中..." : t("download_image") || "Export as Image"}
+                </Button>
+                <Button 
+                  variant="outline" 
+                  onClick={handleExportJSON} 
+                  className="flex items-center gap-2 rounded-xl transition-all duration-300 hover:scale-105"
+                  style={{
+                    border: "1px solid rgba(251, 146, 60, 0.3)",
+                    background: resolvedTheme === "dark" ? "rgba(251, 146, 60, 0.1)" : "rgba(251, 146, 60, 0.05)",
+                    color: resolvedTheme === "dark" ? "rgba(251, 146, 60, 0.9)" : "rgba(251, 146, 60, 0.8)"
+                  }}
+                >
+                  <FileJson className="w-4 h-4" />
+                  {t("export_json")}
+                </Button>
+              </div>
             </div>
+          ) : null}
 
-            {/* 隐私说明 */}
+          {/* 历史记录 */}
+          <div 
+            className="rounded-2xl p-5 relative overflow-hidden"
+            style={{
+              background: resolvedTheme === "dark"
+                ? "linear-gradient(135deg, rgba(43, 51, 62, 0.95) 0%, rgba(35, 42, 52, 0.95) 100%)"
+                : "linear-gradient(135deg, rgba(255, 255, 255, 0.95) 0%, rgba(248, 250, 252, 0.95) 100%)",
+              border: "1px solid rgba(34, 197, 94, 0.2)",
+              boxShadow: resolvedTheme === "dark"
+                ? "0 8px 32px rgba(0, 0, 0, 0.3), 0 0 20px rgba(34, 197, 94, 0.1)"
+                : "0 8px 32px rgba(34, 197, 94, 0.15), 0 4px 16px rgba(34, 197, 94, 0.1)"
+            }}
+          >
+            {/* 装饰性背景光晕 */}
             <div 
-              className="rounded-xl p-4 backdrop-blur-sm"
+              className="absolute top-0 left-0 w-32 h-32 rounded-full blur-3xl opacity-20"
               style={{
-                backgroundColor: 'rgba(255, 255, 255, 0.6)',
-                border: '1px solid rgba(32, 224, 192, 0.3)'
+                background: "radial-gradient(circle, rgba(34, 197, 94, 0.4) 0%, transparent 70%)"
+              }}
+            />
+            <h2 
+              className="text-lg font-semibold mb-4 relative z-10"
+              style={{
+                color: resolvedTheme === "dark" ? "rgba(34, 197, 94, 0.95)" : "rgba(34, 197, 94, 0.9)"
               }}
             >
-              <p 
-                className="text-xs mb-3 leading-relaxed"
+              {t("history_title")}
+            </h2>
+            {history.length === 0 ? (
+              <p className="text-sm text-muted-foreground relative z-10">{t("no_history")}</p>
+            ) : (
+              <>
+                <ul className="space-y-3 text-sm relative z-10">
+                  {(showAllHistory ? history : history.slice(0, 3)).map((h, index) => {
+                    const theme = getColorTheme(index);
+                    return (
+                      <li 
+                        key={h.id} 
+                        className="rounded-xl p-4 flex items-center justify-between gap-3 transition-all duration-300 hover:scale-[1.02] relative overflow-hidden"
+                        style={{
+                          background: resolvedTheme === "dark"
+                            ? `linear-gradient(135deg, ${theme.bg.replace('0.1', '0.08')} 0%, ${theme.bg} 100%)`
+                            : `linear-gradient(135deg, ${theme.bg} 0%, ${theme.bg.replace('0.1', '0.08')} 100%)`,
+                          border: `1px solid ${theme.border}`,
+                          boxShadow: `0 2px 8px ${theme.border.replace('0.3', '0.15')}`
+                        }}
+                      >
+                        {/* 装饰性背景光晕 */}
+                        <div 
+                          className="absolute top-0 right-0 w-20 h-20 rounded-full blur-2xl opacity-20"
+                          style={{
+                            background: `radial-gradient(circle, ${theme.primary.replace('0.9', '0.3')} 0%, transparent 70%)`
+                          }}
+                        />
+                        <div className="flex flex-col flex-1 relative z-10">
+                          <span className="font-medium mb-1" style={{ color: theme.primary }}>
+                            {t("time")}：{new Date(h.createdAt).toLocaleString()}
+                          </span>
+                          <span className="text-muted-foreground text-xs">{t("record_id")}：{h.id}</span>
+                        </div>
+                        <div className="flex items-center gap-2 relative z-10">
+                          <Button 
+                            size="sm"
+                            onClick={() => restoreResult(h)}
+                            className="rounded-lg transition-all duration-300 hover:scale-105"
+                            style={{
+                              background: `linear-gradient(135deg, ${theme.primary} 0%, ${theme.secondary} 100%)`,
+                              color: 'white',
+                              boxShadow: `0 2px 8px ${theme.border.replace('0.3', '0.4')}`,
+                              border: 'none'
+                            }}
+                          >
+                            查看
+                          </Button>
+                          <Button 
+                            size="sm" 
+                            variant="outline" 
+                            onClick={() => deleteHistory(h.id)}
+                            className="rounded-lg transition-all duration-300 hover:scale-105"
+                            style={{
+                              border: "1px solid rgba(239, 68, 68, 0.3)",
+                              background: resolvedTheme === "dark" ? "rgba(239, 68, 68, 0.1)" : "rgba(239, 68, 68, 0.05)",
+                              color: resolvedTheme === "dark" ? "rgba(239, 68, 68, 0.9)" : "rgba(239, 68, 68, 0.8)"
+                            }}
+                          >
+                            {t("delete")}
+                          </Button>
+                        </div>
+                      </li>
+                    );
+                  })}
+                </ul>
+                {history.length > 3 && (
+                  <div className="pt-3 relative z-10">
+                    <Button
+                      variant="outline"
+                      onClick={() => setShowAllHistory(!showAllHistory)}
+                      className="w-full rounded-lg transition-all duration-300 hover:scale-105"
+                      style={{
+                        border: "1px solid rgba(34, 197, 94, 0.3)",
+                        background: resolvedTheme === "dark" ? "rgba(34, 197, 94, 0.1)" : "rgba(34, 197, 94, 0.05)",
+                        color: resolvedTheme === "dark" ? "rgba(34, 197, 94, 0.9)" : "rgba(34, 197, 94, 0.8)"
+                      }}
+                    >
+                      {showAllHistory ? t("show_less") : t("show_more")} ({history.length - 3})
+                    </Button>
+                  </div>
+                )}
+              </>
+            )}
+            {history.length > 0 ? (
+              <div className="pt-4 border-t relative z-10" style={{ borderColor: "rgba(34, 197, 94, 0.2)" }}>
+                <Button 
+                  size="sm" 
+                  variant="destructive" 
+                  onClick={() => clearAllHistory()}
+                  className="rounded-lg transition-all duration-300 hover:scale-105"
+                  style={{
+                    background: "linear-gradient(135deg, rgba(239, 68, 68, 0.95) 0%, rgba(220, 38, 38, 0.95) 100%)",
+                    boxShadow: "0 2px 8px rgba(239, 68, 68, 0.3)",
+                    border: 'none'
+                  }}
+                >
+                  {t("clear_all")}
+                </Button>
+              </div>
+            ) : null}
+          </div>
+
+          {/* 操作按钮 */}
+          <div 
+            className="flex flex-wrap gap-3 rounded-2xl p-5 relative overflow-hidden"
+            style={{
+              background: resolvedTheme === "dark"
+                ? "linear-gradient(135deg, rgba(43, 51, 62, 0.95) 0%, rgba(35, 42, 52, 0.95) 100%)"
+                : "linear-gradient(135deg, rgba(255, 255, 255, 0.95) 0%, rgba(248, 250, 252, 0.95) 100%)",
+              border: "1px solid rgba(32, 224, 192, 0.2)",
+              boxShadow: resolvedTheme === "dark"
+                ? "0 8px 32px rgba(0, 0, 0, 0.3), 0 0 20px rgba(32, 224, 192, 0.1)"
+                : "0 8px 32px rgba(32, 224, 192, 0.15), 0 4px 16px rgba(32, 224, 192, 0.1)"
+            }}
+          >
+            {/* 装饰性背景光晕 */}
+            <div 
+              className="absolute top-0 right-0 w-32 h-32 rounded-full blur-3xl opacity-20"
+              style={{
+                background: "radial-gradient(circle, rgba(32, 224, 192, 0.4) 0%, transparent 70%)"
+              }}
+            />
+            <Button 
+              onClick={() => reset()}
+              className="rounded-xl transition-all duration-300 hover:scale-105 relative overflow-hidden group z-10"
+              style={{
+                background: "linear-gradient(135deg, rgba(32, 224, 192, 0.95) 0%, rgba(20, 184, 166, 0.95) 100%)",
+                color: 'white',
+                boxShadow: '0 4px 16px rgba(32, 224, 192, 0.4), 0 2px 8px rgba(32, 224, 192, 0.3)',
+                border: 'none'
+              }}
+            >
+              <div className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-300" style={{ background: "linear-gradient(135deg, rgba(255, 255, 255, 0.2) 0%, transparent 100%)" }} />
+              <span className="relative z-10">{t("retest")}</span>
+            </Button>
+            <Button 
+              variant="outline" 
+              onClick={() => router.back()}
+              className="rounded-xl transition-all duration-300 hover:scale-105 z-10"
+              style={{
+                border: "1px solid rgba(139, 92, 246, 0.3)",
+                background: resolvedTheme === "dark" ? "rgba(139, 92, 246, 0.1)" : "rgba(139, 92, 246, 0.05)",
+                color: resolvedTheme === "dark" ? "rgba(139, 92, 246, 0.9)" : "rgba(139, 92, 246, 0.8)"
+              }}
+            >
+              {t("back")}
+            </Button>
+          </div>
+
+          {/* 隐私声明和GDPR清除数据 */}
+          <div 
+            className="rounded-2xl p-5 space-y-3 relative overflow-hidden"
+            style={{
+              background: resolvedTheme === "dark"
+                ? "linear-gradient(135deg, rgba(43, 51, 62, 0.95) 0%, rgba(35, 42, 52, 0.95) 100%)"
+                : "linear-gradient(135deg, rgba(255, 255, 255, 0.95) 0%, rgba(248, 250, 252, 0.95) 100%)",
+              border: "1px solid rgba(251, 146, 60, 0.2)",
+              boxShadow: resolvedTheme === "dark"
+                ? "0 8px 32px rgba(0, 0, 0, 0.3), 0 0 20px rgba(251, 146, 60, 0.1)"
+                : "0 8px 32px rgba(251, 146, 60, 0.15), 0 4px 16px rgba(251, 146, 60, 0.1)"
+            }}
+          >
+            {/* 装饰性背景光晕 */}
+            <div 
+              className="absolute top-0 left-0 w-32 h-32 rounded-full blur-3xl opacity-20"
+              style={{
+                background: "radial-gradient(circle, rgba(251, 146, 60, 0.4) 0%, transparent 70%)"
+              }}
+            />
+            <p className="text-sm text-muted-foreground relative z-10 leading-relaxed">{t("principle")}</p>
+            <div className="pt-2 relative z-10">
+              <Button 
+                variant="destructive" 
+                size="sm" 
+                onClick={handleClearAllData} 
+                className="w-full sm:w-auto rounded-lg transition-all duration-300 hover:scale-105"
                 style={{
-                  color: resolvedTheme === "dark" ? "rgba(255, 255, 255, 0.6)" : "rgba(0, 0, 0, 0.6)"
+                  background: "linear-gradient(135deg, rgba(239, 68, 68, 0.95) 0%, rgba(220, 38, 38, 0.95) 100%)",
+                  boxShadow: "0 2px 8px rgba(239, 68, 68, 0.3)",
+                  border: 'none'
                 }}
-              >
-                {t("principle")}
-              </p>
-              <Button
-                variant="destructive"
-                size="sm"
-                onClick={handleClearAllData}
-                className="w-full text-xs h-7"
               >
                 {t("clear_all_data")}
               </Button>
             </div>
           </div>
-        </div>
       </div>
     </div>
   );

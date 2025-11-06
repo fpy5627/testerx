@@ -31,8 +31,11 @@ interface TestContextValue {
   prev: () => void;
   nextPage: () => void;
   prevPage: () => void;
+  jumpToFirstUnanswered: () => void;
+  jumpToNextUnanswered: (fromIndex?: number) => void;
   submit: () => Promise<void>;
   reset: () => Promise<void>;
+  restoreResult: (historyItem: TestHistoryItem) => void;
   deleteHistory: (id: string) => Promise<void>;
   clearAllHistory: () => Promise<void>;
 }
@@ -71,7 +74,7 @@ export function TestProvider({ children }: { children: React.ReactNode }): JSX.E
     setLoading(true);
     try {
       // 从 sessionStorage 读取测试模式
-      let mode: "quick" | "standard" | "deep" = "standard";
+      let mode: "quick" | "standard" | "deep" = "quick";
       if (typeof window !== "undefined") {
         const savedMode = sessionStorage.getItem("testMode");
         if (savedMode === "quick" || savedMode === "standard" || savedMode === "deep") {
@@ -235,6 +238,70 @@ export function TestProvider({ children }: { children: React.ReactNode }): JSX.E
   }, [bank, persistProgress]);
 
   /**
+   * 跳转到第一个未答题的题目。
+   * 找到第一个未回答或未跳过的题目，并跳转到该题目所在的页面。
+   */
+  const jumpToFirstUnanswered = useCallback(() => {
+    setProgress((prev) => {
+      if (!bank || !bank.questions) {
+        return prev;
+      }
+      const QUESTIONS_PER_PAGE = 5;
+      // 查找第一个未答题的题目（既没有答案也没有跳过）
+      const firstUnansweredIndex = bank.questions.findIndex((q) => {
+        const answer = prev.answers.find((a) => a.questionId === q.id);
+        return !answer || (answer.value === undefined && !answer.skipped);
+      });
+      
+      // 如果所有题目都已答完，返回当前进度
+      if (firstUnansweredIndex === -1) {
+        return prev;
+      }
+      
+      // 计算该题目所在的页面，并跳转到该页面的第一题
+      const targetPage = Math.floor(firstUnansweredIndex / QUESTIONS_PER_PAGE);
+      const targetIndex = targetPage * QUESTIONS_PER_PAGE;
+      const next: TestProgress = { ...prev, currentIndex: targetIndex };
+      void persistProgress(next);
+      return next;
+    });
+  }, [bank, persistProgress]);
+
+  /**
+   * 跳转到下一个未答题的题目。
+   * 从指定索引开始查找下一个未回答或未跳过的题目，并跳转到该题目所在的页面。
+   * @param fromIndex 开始查找的索引（可选，默认为当前索引）
+   */
+  const jumpToNextUnanswered = useCallback((fromIndex?: number) => {
+    setProgress((prev) => {
+      if (!bank || !bank.questions) {
+        return prev;
+      }
+      const QUESTIONS_PER_PAGE = 5;
+      const startIndex = fromIndex !== undefined ? fromIndex : prev.currentIndex;
+      
+      // 查找下一个未答题的题目（从startIndex之后开始）
+      const nextUnansweredIndex = bank.questions.findIndex((q, idx) => {
+        if (idx <= startIndex) return false; // 跳过startIndex及之前的题目
+        const answer = prev.answers.find((a) => a.questionId === q.id);
+        return !answer || (answer.value === undefined && !answer.skipped);
+      });
+      
+      // 如果所有题目都已答完，返回当前进度
+      if (nextUnansweredIndex === -1) {
+        return prev;
+      }
+      
+      // 计算该题目所在的页面，并跳转到该页面的第一题
+      const targetPage = Math.floor(nextUnansweredIndex / QUESTIONS_PER_PAGE);
+      const targetIndex = targetPage * QUESTIONS_PER_PAGE;
+      const next: TestProgress = { ...prev, currentIndex: targetIndex };
+      void persistProgress(next);
+      return next;
+    });
+  }, [bank, persistProgress]);
+
+  /**
    * 提交测试：计算结果并写入历史（加密本地）。
    */
   const submit = useCallback(async () => {
@@ -282,6 +349,16 @@ export function TestProvider({ children }: { children: React.ReactNode }): JSX.E
   }, [bank]);
 
   /**
+   * 从历史记录恢复结果。
+   * @param historyItem 历史记录项
+   */
+  const restoreResult = useCallback((historyItem: TestHistoryItem) => {
+    if (historyItem.result) {
+      setResult(historyItem.result);
+    }
+  }, []);
+
+  /**
    * 删除指定历史项。
    * @param id 历史ID
    */
@@ -317,11 +394,14 @@ export function TestProvider({ children }: { children: React.ReactNode }): JSX.E
     prev,
     nextPage,
     prevPage,
+    jumpToFirstUnanswered,
+    jumpToNextUnanswered,
     submit,
     reset,
+    restoreResult,
     deleteHistory,
     clearAllHistory,
-  }), [answer, bank, clearAllHistory, deleteHistory, history, init, loading, next, nextPage, prev, prevPage, progress, reset, result, skip, submit]);
+  }), [answer, bank, clearAllHistory, deleteHistory, history, init, loading, next, nextPage, prev, prevPage, progress, reset, restoreResult, result, skip, submit, jumpToFirstUnanswered, jumpToNextUnanswered]);
 
   return <TestContext.Provider value={value}>{children}</TestContext.Provider>;
 }
