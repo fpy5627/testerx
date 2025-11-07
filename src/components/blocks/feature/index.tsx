@@ -413,8 +413,8 @@ export default function Feature({ section }: { section: SectionType }) {
                 </div>
               </div>
 
-              {/* 模式选择（快速 / 标准 / 深度）- 增强视觉效果 */}
-              <div className="w-full max-w-md mx-auto mb-8 sm:mb-9 md:mb-10">
+              {/* 模式选择（快速 / 标准 / 深度）- 精致美观 */}
+              <div className="w-full max-w-md mx-auto mb-6 sm:mb-7 md:mb-8">
                 <Label 
                   className="text-sm sm:text-base md:text-lg mb-5 sm:mb-6 block text-center font-semibold relative" 
                   style={{
@@ -497,11 +497,11 @@ export default function Feature({ section }: { section: SectionType }) {
                                 ? `linear-gradient(135deg, ${colorTheme.primary} 0%, ${colorTheme.secondary} 100%)`
                                 : "transparent",
                               boxShadow: isSelected 
-                                ? `inset 0 1px 0 rgba(255, 255, 255, 0.4), 0 0 0 1px rgba(255, 255, 255, 0.1)`
+                                ? `inset 0 1px 0 rgba(255, 255, 255, 0.4), 0 0 0 1px rgba(255, 255, 255, 0.1), 0 0 12px ${colorTheme.glow}`
                                 : "0 0 0 1px rgba(32, 224, 192, 0.2)"
                             }}
                           >
-                            {/* 选中时的内部圆点 - 增强 */}
+                            {/* 选中时的内部圆点 */}
                             {isSelected && (
                               <>
                                 {/* 外层光效 */}
@@ -552,7 +552,9 @@ export default function Feature({ section }: { section: SectionType }) {
                               color: resolvedTheme === "dark" 
                                 ? (isSelected ? colorTheme.primary : "rgba(255, 255, 255, 0.6)")
                                 : (isSelected ? colorTheme.primary : "rgba(0, 0, 0, 0.55)"),
-                              textShadow: "none",
+                              textShadow: isSelected 
+                                ? `0 0 8px ${colorTheme.glow}`
+                                : "none",
                               filter: "none"
                             }}
                           >
@@ -566,26 +568,16 @@ export default function Feature({ section }: { section: SectionType }) {
               </div>
 
               {/* 继续按钮 - 精致美观，动态效果 */}
-              <div className="mt-8 sm:mt-9 md:mt-10 text-center relative">
+              <div className="mt-6 sm:mt-7 md:mt-8 text-center relative">
                 {/* 按钮外发光效果 - 多层动态 */}
                 <div 
-                  className="absolute inset-0 blur-3xl opacity-60"
-                  style={{
-                    background: resolvedTheme === "dark"
-                      ? "linear-gradient(135deg, rgba(32, 224, 192, 0.6) 0%, rgba(139, 92, 246, 0.6) 100%)"
-                      : "linear-gradient(135deg, rgba(32, 224, 192, 0.5) 0%, rgba(139, 92, 246, 0.5) 100%)",
-                    transform: "scale(1.15)",
-                    animation: "glowPulse 2.5s ease-in-out infinite"
-                  }}
-                />
-                <div 
-                  className="absolute inset-0 blur-2xl opacity-50"
+                  className="absolute inset-0 blur-3xl opacity-50"
                   style={{
                     background: resolvedTheme === "dark"
                       ? "linear-gradient(135deg, rgba(32, 224, 192, 0.5) 0%, rgba(139, 92, 246, 0.5) 100%)"
                       : "linear-gradient(135deg, rgba(32, 224, 192, 0.4) 0%, rgba(139, 92, 246, 0.4) 100%)",
-                    transform: "scale(1.12)",
-                    animation: "glowPulse 3s ease-in-out infinite 0.5s"
+                    transform: "scale(1.2)",
+                    animation: "glowPulse 3s ease-in-out infinite"
                   }}
                 />
                 <Button
@@ -642,20 +634,8 @@ export default function Feature({ section }: { section: SectionType }) {
                     }}
                   />
                   
-                  <span className="relative z-10 flex items-center justify-center gap-3">
+                  <span className="relative z-10 flex items-center justify-center">
                     {t("start_button")}
-                    <svg 
-                      className="w-5 h-5 sm:w-6 sm:h-6 md:w-7 md:h-7 relative z-10 transition-transform duration-300 group-hover:translate-x-1.5 group-hover:scale-110" 
-                      fill="none" 
-                      stroke="currentColor" 
-                      strokeWidth={2.5}
-                      viewBox="0 0 24 24" 
-                      style={{
-                        filter: "drop-shadow(0 0 2px rgba(255, 255, 255, 0.5))"
-                      }}
-                    >
-                      <path strokeLinecap="round" strokeLinejoin="round" d="M13 7l5 5m0 0l-5 5m5-5H6" />
-                    </svg>
                   </span>
                 </Button>
               </div>

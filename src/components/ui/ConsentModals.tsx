@@ -318,43 +318,8 @@ export function AgePrivacyModal({ open, onClose, onConfirm }: AgePrivacyModalPro
                   />
                 </>
               )}
-              <span className="relative z-10 flex items-center justify-center gap-2.5">
+              <span className="relative z-10 flex items-center justify-center">
                 {t("confirm")}
-                {canSubmit && (
-                  <span className="relative inline-flex items-center justify-center transition-all duration-300 group-hover:translate-x-1.5 group-hover:scale-110">
-                    <svg 
-                      className="w-5 h-5 sm:w-6 sm:h-6"
-                      fill="none" 
-                      stroke="currentColor" 
-                      strokeWidth={2.5}
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      viewBox="0 0 24 24"
-                      style={{
-                        color: 'white',
-                        filter: 'drop-shadow(0 2px 4px rgba(255, 255, 255, 0.5)) drop-shadow(0 0 8px rgba(32, 224, 192, 0.6))'
-                      }}
-                    >
-                      <path d="M5 12h14M12 5l7 7-7 7" />
-                    </svg>
-                    {/* 图标光效 */}
-                    <svg 
-                      className="absolute inset-0 w-5 h-5 sm:w-6 sm:h-6 opacity-0 group-hover:opacity-100 transition-opacity duration-300"
-                      fill="none" 
-                      stroke="currentColor" 
-                      strokeWidth={2.5}
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      viewBox="0 0 24 24"
-                      style={{
-                        color: 'white',
-                        filter: 'drop-shadow(0 0 12px rgba(255, 255, 255, 0.8)) drop-shadow(0 0 16px rgba(32, 224, 192, 1)) blur(1px)'
-                      }}
-                    >
-                      <path d="M5 12h14M12 5l7 7-7 7" />
-                    </svg>
-                  </span>
-                )}
               </span>
             </Button>
           </DialogFooter>

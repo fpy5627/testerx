@@ -311,10 +311,14 @@ export function TestProvider({ children }: { children: React.ReactNode }): JSX.E
     }
     try {
       const r = computeResult(progress.answers, bank);
-      // 生成文本分析
+      // 生成文本分析（使用当前语言环境）
+      const currentLocale = typeof window !== 'undefined' 
+        ? window.location.pathname.split('/')[1] || 'en'
+        : 'en';
       const textAnalysis = generateResultText(
         r.normalized || {},
-        r.orientation_spectrum
+        r.orientation_spectrum,
+        currentLocale
       );
       r.text_analysis = textAnalysis;
       setResult(r);

@@ -30,42 +30,88 @@ async function loadQuestionsFromJSON(locale: string): Promise<TestQuestion[]> {
 }
 
 /**
- * 类别元数据定义
+ * 类别元数据定义（英文）
  */
-const categoryMetadata: Record<string, { name: string; description?: string }> = {
+const categoryMetadataEn: Record<string, { name: string; description?: string }> = {
   Dominance: {
     name: "Dominance",
-    description: "Preference for taking control and leadership in relationships",
+    description: "You find profound satisfaction in guiding the rhythm and flow of intimate connections. Taking the lead feels natural and empowering, allowing you to create meaningful experiences through thoughtful direction and confident decision-making. This preference reflects a deep understanding of your own desires and a willingness to shape the dynamics of connection with clarity and intention.",
   },
   Submission: {
     name: "Submission",
-    description: "Comfort with yielding control and trusting partner's decisions",
+    description: "There is a unique beauty in surrendering control to someone you trust deeply. You discover freedom within structure, finding peace and fulfillment in letting go and allowing your partner to guide the journey. This willingness to yield reflects profound trust, emotional intelligence, and an appreciation for the vulnerability that creates the deepest bonds.",
   },
   Switch: {
     name: "Switch",
-    description: "Flexibility to adapt between dominant and submissive roles",
+    description: "Your emotional landscape is beautifully fluid, allowing you to move gracefully between different roles depending on the moment, the partner, and the connection you're building. This adaptability reflects emotional maturity and a deep understanding that intimacy is not fixed but dynamic—a dance where both partners can lead and follow, creating harmony through balance.",
   },
   Sadistic: {
     name: "Sadistic",
-    description: "Satisfaction from exercising authority in controlled contexts",
+    description: "Within carefully negotiated boundaries, you find fulfillment in exercising authority and control. This preference is not about harm, but about the psychological depth that comes from structured power dynamics. It reflects a sophisticated understanding of consent, trust, and the complex ways in which power can be shared and experienced in intimate contexts.",
   },
   Masochistic: {
     name: "Masochistic",
-    description: "Satisfaction from giving up control to a trusted partner",
+    description: "You discover profound satisfaction in relinquishing control to someone who has earned your complete trust. This preference speaks to the deep psychological rewards of vulnerability and surrender—not as weakness, but as a conscious choice to experience intimacy through a different lens. It reflects courage, trust, and an appreciation for the transformative power of letting go.",
   },
   Vanilla: {
     name: "Vanilla",
-    description: "Preference for traditional, straightforward forms of connection",
+    description: "You cherish the beauty of simplicity and authenticity in intimate connections. Traditional forms of expression resonate deeply with you, not because they are limited, but because they offer clarity, comfort, and genuine connection. This preference reflects an appreciation for the timeless ways humans connect—through tenderness, communication, and the profound simplicity of being truly present with another person.",
   },
   Exploration: {
     name: "Exploration",
-    description: "Openness to trying new forms of intimacy and expression",
+    description: "Your curiosity about the vast landscape of human intimacy and expression knows few bounds. You approach new experiences with an open heart and mind, seeing each encounter as an opportunity to discover more about yourself, your partner, and the infinite ways connection can be expressed. This openness reflects intellectual curiosity, emotional courage, and a deep appreciation for the richness of human experience.",
   },
   Orientation: {
     name: "Orientation",
     description: "Sexual orientation spectrum (Kinsey-like 0-7)",
   },
 };
+
+/**
+ * 类别元数据定义（中文）
+ */
+const categoryMetadataZh: Record<string, { name: string; description?: string }> = {
+  Dominance: {
+    name: "主导",
+    description: "你在引导亲密关系的节奏与流动中找到了深层的满足感。掌控主导权对你而言自然而有力，让你能够通过深思熟虑的引导和自信的决策来创造有意义的体验。这种偏好反映了你对自身欲望的深刻理解，以及以清晰和意图塑造连接动态的意愿。",
+  },
+  Submission: {
+    name: "顺从",
+    description: "向深爱的人交出控制权，有着独特的美感。你在结构中发现自由，在放手与让伴侣引导旅程的过程中找到平静与满足。这种愿意屈服的意愿反映了深刻的信任、情感智慧，以及对创造最深纽带的那种脆弱性的欣赏。",
+  },
+  Switch: {
+    name: "转换",
+    description: "你的情感图景如流水般优美，让你能够优雅地在不同角色间移动，取决于当下的时刻、伴侣以及你正在建立的连接。这种适应性反映了情感成熟度，以及对亲密关系并非固定而是动态的深刻理解——这是一支双方都可以引领和跟随的舞蹈，通过平衡创造和谐。",
+  },
+  Sadistic: {
+    name: "施虐",
+    description: "在精心协商的边界内，你在行使权威和控制中找到了满足感。这种偏好并非关于伤害，而是关于来自结构化权力动态的心理深度。它反映了对同意、信任以及权力在亲密语境中可以被分享和体验的复杂方式的深刻理解。",
+  },
+  Masochistic: {
+    name: "受虐",
+    description: "你在向赢得你完全信任的人交出控制权中发现了深层的满足感。这种偏好诉说着脆弱和屈服的深层心理回报——不是作为弱点，而是作为通过不同视角体验亲密关系的自觉选择。它反映了勇气、信任，以及对放手转化力量的欣赏。",
+  },
+  Vanilla: {
+    name: "传统",
+    description: "你珍视亲密连接中简单与真实的美丽。传统的表达形式与你产生深刻共鸣，不是因为它们有限，而是因为它们提供了清晰、舒适和真正的连接。这种偏好反映了对人类连接永恒方式的欣赏——通过温柔、沟通，以及真正与另一个人同在的深刻简单。",
+  },
+  Exploration: {
+    name: "探索",
+    description: "你对人类亲密与表达的广阔图景的好奇心几乎没有边界。你以开放的心灵和思想接近新体验，将每一次相遇视为发现更多关于自己、伴侣以及连接可以被表达的无限方式的机会。这种开放反映了智力好奇心、情感勇气，以及对人类体验丰富性的深刻欣赏。",
+  },
+  Orientation: {
+    name: "性取向",
+    description: "性取向光谱（类似金赛量表 0-7）",
+  },
+};
+
+/**
+ * 根据语言环境获取类别元数据
+ */
+function getCategoryMetadata(locale: string): Record<string, { name: string; description?: string }> {
+  const isZh = locale === 'zh' || locale.startsWith('zh');
+  return isZh ? categoryMetadataZh : categoryMetadataEn;
+}
 
 /**
  * 根据测试模式筛选题目（基于depth深度层级）
@@ -127,7 +173,8 @@ export async function loadTestBank(locale = "en", mode: "quick" | "standard" | "
   // 根据模式筛选题目
   const filteredQuestions = filterQuestionsByMode(questions, mode);
 
-  // 构建类别元数据
+  // 构建类别元数据（根据语言环境）
+  const categoryMetadata = getCategoryMetadata(locale);
   const categories: Record<string, { name: string; description?: string; i18nKey?: string }> = {};
   for (const [key, meta] of Object.entries(categoryMetadata)) {
     categories[key] = meta;

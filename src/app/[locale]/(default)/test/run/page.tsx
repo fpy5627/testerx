@@ -13,7 +13,7 @@ import { Button } from "@/components/ui/button";
 import { useRouter } from "@/i18n/navigation";
 import type { LikertValue } from "@/components/ui/Likert";
 import { cn } from "@/lib/utils";
-import { ChevronLeft, ChevronRight, AlertCircle, Sparkles } from "lucide-react";
+import { ChevronLeft, ChevronRight, Sparkles } from "lucide-react";
 import {
   Dialog,
   DialogContent,
@@ -663,7 +663,7 @@ function RunInner() {
             {/* 未完成提示对话框 */}
             <Dialog open={showIncompleteDialog} onOpenChange={setShowIncompleteDialog}>
               <DialogContent 
-                className="sm:max-w-md min-h-[320px] sm:min-h-[340px] p-6 sm:p-8 relative overflow-hidden"
+                className="sm:max-w-md min-h-[320px] sm:min-h-[340px] max-h-[85vh] p-6 sm:p-8 overflow-y-auto"
                 style={{
                   background: resolvedTheme === "dark"
                     ? "linear-gradient(135deg, rgba(43, 51, 62, 0.98) 0%, rgba(35, 42, 52, 0.98) 100%)"
@@ -673,7 +673,8 @@ function RunInner() {
                     : "1px solid rgba(32, 224, 192, 0.4)",
                   boxShadow: resolvedTheme === "dark"
                     ? "0 25px 70px rgba(0, 0, 0, 0.6), 0 0 50px rgba(32, 224, 192, 0.15), inset 0 1px 0 rgba(255, 255, 255, 0.05)"
-                    : "0 25px 70px rgba(32, 224, 192, 0.2), 0 10px 40px rgba(32, 224, 192, 0.15), inset 0 1px 0 rgba(255, 255, 255, 0.8)"
+                    : "0 25px 70px rgba(32, 224, 192, 0.2), 0 10px 40px rgba(32, 224, 192, 0.15), inset 0 1px 0 rgba(255, 255, 255, 0.8)",
+                  maxHeight: "85vh"
                 }}
               >
                 {/* 装饰性背景光晕 */}
@@ -684,25 +685,40 @@ function RunInner() {
                   }}
                 />
                 
-                <DialogHeader className="space-y-4 relative z-10">
+                <DialogHeader className="space-y-4 relative z-10 pt-6 sm:pt-8">
                   {/* 标题区域 - 带图标 */}
-                  <div className="flex items-center gap-3">
+                  <div className="flex items-center justify-center gap-2.5">
                     <div 
-                      className="flex items-center justify-center w-10 h-10 rounded-full flex-shrink-0"
+                      className="flex items-center justify-center w-8 h-8 rounded-lg flex-shrink-0 relative group/icon transition-all duration-300 hover:scale-105"
                       style={{
-                        background: "linear-gradient(135deg, rgba(32, 224, 192, 0.2) 0%, rgba(20, 184, 166, 0.2) 100%)",
-                        border: "1px solid rgba(32, 224, 192, 0.3)"
+                        background: resolvedTheme === "dark"
+                          ? "linear-gradient(135deg, rgba(32, 224, 192, 0.2) 0%, rgba(20, 184, 166, 0.18) 100%)"
+                          : "linear-gradient(135deg, rgba(32, 224, 192, 0.15) 0%, rgba(20, 184, 166, 0.12) 100%)",
+                        border: "1.5px solid rgba(32, 224, 192, 0.4)"
                       }}
                     >
-                      <AlertCircle 
-                        className="w-5 h-5"
+                      {/* 自定义提示图标 - 消息气泡带感叹号 */}
+                      <svg 
+                        className="w-4.5 h-4.5 relative z-10 transition-all duration-300"
+                        viewBox="0 0 24 24" 
+                        fill="none" 
+                        stroke="currentColor" 
+                        strokeWidth={2.5}
+                        strokeLinecap="round" 
+                        strokeLinejoin="round"
                         style={{
-                          color: "rgba(32, 224, 192, 0.9)"
+                          color: "rgba(32, 224, 192, 1)"
                         }}
-                      />
+                      >
+                        {/* 消息气泡 */}
+                        <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z" />
+                        {/* 感叹号 */}
+                        <line x1="12" y1="8" x2="12" y2="12" />
+                        <line x1="12" y1="16" x2="12.01" y2="16" />
+                      </svg>
                     </div>
                     <DialogTitle 
-                      className="text-xl sm:text-2xl font-bold flex-1"
+                      className="text-xl sm:text-2xl font-bold text-center"
                       style={{
                         color: resolvedTheme === "dark" 
                           ? "rgba(32, 224, 192, 0.95)" 
