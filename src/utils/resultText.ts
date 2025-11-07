@@ -203,5 +203,5 @@ export function generateResultText(
       : "\n\nRemember: These results reflect tendencies and preferences, not fixed labels or diagnostic conclusions. Human psychology is complex and fluid, and this test is for self-reflection and educational purposes only. Always prioritize consent, safety, and communication in any relationship dynamic."
   );
 
-  return parts.join(" ");
+  return parts.join("\n\n");
 }

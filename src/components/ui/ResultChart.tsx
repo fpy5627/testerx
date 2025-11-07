@@ -118,50 +118,6 @@ export function ResultChart({ bank, result, variant: initialVariant = "radar" }:
   // 确保数据顺序一致：左侧列表和雷达图使用相同的数据源和顺序
   const dataset = labels.map((name, i) => ({ name, score: data[i] }));
 
-  // 处理鼠标滚动事件 - 在左侧面板上滚动时切换维度
-  useEffect(() => {
-    const handleWheel = (e: WheelEvent) => {
-      const target = e.target as HTMLElement;
-      if (!leftPanelRef.current?.contains(target)) {
-        return;
-      }
-      
-      // 如果正在滚动面板内容，不处理
-      if (target.scrollHeight > target.clientHeight && target.scrollTop !== 0) {
-        return;
-      }
-      
-      e.preventDefault();
-      const delta = e.deltaY > 0 ? 1 : -1;
-      setSelectedIndex((prev) => {
-        const newIndex = prev + delta;
-        if (newIndex < 0) return categoryData.length - 1;
-        if (newIndex >= categoryData.length) return 0;
-        return newIndex;
-      });
-    };
-
-    const panel = leftPanelRef.current;
-    if (panel) {
-      panel.addEventListener('wheel', handleWheel, { passive: false });
-      return () => {
-        panel.removeEventListener('wheel', handleWheel);
-      };
-    }
-  }, [categoryData.length]);
-
-  // 当选中项改变时，自动滚动到选中项
-  useEffect(() => {
-    if (leftPanelRef.current) {
-      const selectedElement = leftPanelRef.current.children[selectedIndex] as HTMLElement;
-      if (selectedElement) {
-        selectedElement.scrollIntoView({
-          behavior: 'smooth',
-          block: 'nearest',
-        });
-      }
-    }
-  }, [selectedIndex]);
 
   // 获取当前选中的维度数据
   const selectedCategory = categoryData[selectedIndex] || categoryData[0];
@@ -462,13 +418,7 @@ export function ResultChart({ bank, result, variant: initialVariant = "radar" }:
         {/* 中间：维度百分比滑块列表 */}
         <div 
           ref={leftPanelRef}
-          className="w-full lg:w-72 flex-shrink-0 max-h-[600px] overflow-y-auto pr-2 py-1"
-          style={{
-            scrollbarWidth: 'thin',
-            scrollbarColor: resolvedTheme === "dark" 
-              ? "rgba(139, 92, 246, 0.3) rgba(43, 51, 62, 0.5)"
-              : "rgba(139, 92, 246, 0.3) rgba(248, 250, 252, 0.5)"
-          }}
+          className="w-full lg:w-72 flex-shrink-0 py-2 space-y-3"
         >
           {categoryData.map((item, index) => {
             const isSelected = index === selectedIndex;
@@ -528,8 +478,8 @@ export function ResultChart({ bank, result, variant: initialVariant = "radar" }:
                 onClick={() => setSelectedIndex(index)}
                 className={`relative rounded-xl cursor-pointer transition-all duration-300 ${
                   isSelected 
-                    ? "p-4 my-1" 
-                    : "p-3 hover:scale-[1.005]"
+                    ? "p-5" 
+                    : "p-4 hover:scale-[1.005]"
                 }`}
                 style={{
                   background: isSelected
@@ -555,7 +505,7 @@ export function ResultChart({ bank, result, variant: initialVariant = "radar" }:
               >
                 
                 {/* 维度名称 */}
-                <div className="flex items-center justify-between mb-2 relative z-10">
+                <div className="flex items-center justify-between mb-3 relative z-10">
                   <span 
                     className="text-sm font-semibold tracking-tight"
                     style={{
@@ -570,18 +520,28 @@ export function ResultChart({ bank, result, variant: initialVariant = "radar" }:
                   </span>
                   <div className="flex items-baseline gap-0.5">
                     <span 
-                      className="text-base font-bold"
+                      className={`font-bold ${
+                        isSelected ? "text-xl" : "text-base"
+                      }`}
                       style={{
                         color: dimensionColor,
-                        textShadow: isSelected ? `0 1px 3px ${dimensionColor.replace("0.9)", "0.4)").replace("1)", "0.4)")}` : "none"
+                        textShadow: isSelected ? `0 1px 3px ${dimensionColor.replace("0.9)", "0.4)").replace("1)", "0.4)")}` : "none",
+                        lineHeight: "1.2"
                       }}
                     >
                       {percentage}
                     </span>
                     <span 
-                      className="text-xs font-medium"
+                      className={`font-medium ${
+                        isSelected ? "text-sm" : "text-xs"
+                      }`}
                       style={{
-                        color: resolvedTheme === "dark" ? "rgba(255, 255, 255, 0.6)" : "rgba(0, 0, 0, 0.5)"
+                        color: isSelected
+                          ? dimensionColor.replace("0.9)", "0.7)").replace("1)", "0.8)")
+                          : resolvedTheme === "dark" 
+                            ? "rgba(255, 255, 255, 0.6)" 
+                            : "rgba(0, 0, 0, 0.5)",
+                        lineHeight: "1.2"
                       }}
                     >
                       %

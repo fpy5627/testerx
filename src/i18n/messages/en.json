@@ -274,7 +274,18 @@
       "download_image": "Export as Image (PNG)",
       "download_image_processing": "Generating image...",
       "export_image_success": "Image exported successfully",
-      "export_image_failed": "Failed to export image"
+      "export_image_failed": "Failed to export image",
+      "view": "View",
+      "orientation_spectrum_title": "Sexual Orientation Spectrum (Kinsey-like)",
+      "history_count_message": "You have {count} history records. Click on a record below to view results:",
+      "no_result_title": "No Test Results",
+      "no_result_message": "You haven't completed the test yet, or the test results haven't loaded.",
+      "analysis_result": "Analysis Results",
+      "loading_chart": "Loading chart...",
+      "start_test": "Start Test",
+      "error": "Error",
+      "refresh_page": "Refresh Page",
+      "loading": "Loading..."
     }
   }
 }

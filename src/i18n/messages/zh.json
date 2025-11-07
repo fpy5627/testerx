@@ -274,7 +274,18 @@
       "download_image": "导出图片（PNG）",
       "download_image_processing": "正在生成图片...",
       "export_image_success": "图片导出成功",
-      "export_image_failed": "图片导出失败"
+      "export_image_failed": "图片导出失败",
+      "view": "查看",
+      "orientation_spectrum_title": "性取向光谱 (Kinsey-like)",
+      "history_count_message": "您有 {count} 条历史记录，可以点击下面的历史记录来查看结果：",
+      "no_result_title": "暂无测试结果",
+      "no_result_message": "您还没有完成测试，或者测试结果尚未加载。",
+      "analysis_result": "分析结果",
+      "loading_chart": "加载图表中...",
+      "start_test": "开始测试",
+      "error": "错误",
+      "refresh_page": "刷新页面",
+      "loading": "加载中…"
     }
   }
 }

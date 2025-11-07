@@ -25,7 +25,7 @@ const ResultChart = dynamic(
     ssr: false,
     loading: () => (
       <div className="w-full h-96 flex items-center justify-center bg-white dark:bg-gray-800 rounded-2xl shadow-md p-4">
-        <p className="text-muted-foreground">加载图表中...</p>
+        <p className="text-muted-foreground">Loading...</p>
       </div>
     ),
   }
@@ -193,6 +193,9 @@ function ResultInner() {
         return;
       }
       
+      // 等待一小段时间，确保DOM完全渲染
+      await new Promise(resolve => setTimeout(resolve, 300));
+      
       // 获取要导出的内容区域
       const element = document.getElementById("result-export-content");
       if (!element) {
@@ -201,30 +204,68 @@ function ResultInner() {
         return;
       }
 
-      // 转换为canvas
+      // 滚动到元素位置，确保元素完全可见
+      element.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      await new Promise(resolve => setTimeout(resolve, 500));
+
+      // 转换为canvas，使用更兼容的配置
       const canvas = await html2canvas(element, {
-        backgroundColor: "#ffffff",
+        backgroundColor: resolvedTheme === "dark" ? "#1e293b" : "#ffffff",
         scale: 2, // 提高图片质量
         logging: false,
         useCORS: true,
-        allowTaint: false,
+        allowTaint: true, // 允许跨域图片
+        foreignObjectRendering: true, // 支持SVG和foreignObject
+        removeContainer: false,
+        imageTimeout: 15000, // 增加图片加载超时时间
+        onclone: (clonedDoc) => {
+          // 在克隆的文档中，确保所有样式都正确应用
+          const clonedElement = clonedDoc.getElementById("result-export-content");
+          if (clonedElement) {
+            // 确保背景色正确
+            (clonedElement as HTMLElement).style.backgroundColor = resolvedTheme === "dark" ? "#1e293b" : "#ffffff";
+          }
+        }
       });
 
-      // 转换为图片并下载
-      const imageUrl = canvas.toDataURL("image/png", 0.95);
-      const link = document.createElement("a");
-      link.href = imageUrl;
-      link.download = `kink-profile-${new Date().toISOString().split("T")[0]}.png`;
-      document.body.appendChild(link);
-      link.click();
-      document.body.removeChild(link);
-      URL.revokeObjectURL(imageUrl);
+      // 检查canvas是否成功创建
+      if (!canvas || canvas.width === 0 || canvas.height === 0) {
+        throw new Error("Canvas创建失败：尺寸为0");
+      }
 
-      toast.success(t("export_image_success") || "图片导出成功");
-    } catch (error) {
+      // 转换为图片并下载
+      canvas.toBlob((blob) => {
+        try {
+          if (!blob) {
+            throw new Error("无法创建图片blob");
+          }
+          
+          const imageUrl = URL.createObjectURL(blob);
+          const link = document.createElement("a");
+          link.href = imageUrl;
+          link.download = `kink-profile-${new Date().toISOString().split("T")[0]}.png`;
+          document.body.appendChild(link);
+          link.click();
+          document.body.removeChild(link);
+          
+          // 延迟释放URL，确保下载完成
+          setTimeout(() => {
+            URL.revokeObjectURL(imageUrl);
+          }, 100);
+
+          toast.success(t("export_image_success") || "图片导出成功");
+        } catch (blobError: any) {
+          console.error("Failed to create blob:", blobError);
+          toast.error(`${t("export_image_failed") || "图片导出失败"}：${blobError?.message || "无法创建图片文件"}`);
+        } finally {
+          setIsGeneratingImage(false);
+        }
+      }, "image/png", 0.95);
+      
+    } catch (error: any) {
       console.error("Failed to export image:", error);
-      toast.error(t("export_image_failed") || "图片导出失败，请使用打印功能保存为PDF");
-    } finally {
+      const errorMessage = error?.message || "未知错误";
+      toast.error(`${t("export_image_failed") || "图片导出失败"}：${errorMessage}`);
       setIsGeneratingImage(false);
     }
   };
@@ -417,13 +458,13 @@ function ResultInner() {
     return (
       <div className="container mx-auto max-w-3xl py-10">
         <div className="rounded-lg border border-red-500 p-6">
-          <h2 className="text-xl font-semibold text-red-500 mb-2">错误</h2>
+          <h2 className="text-xl font-semibold text-red-500 mb-2">{t("error")}</h2>
           <p className="text-muted-foreground">{error}</p>
           <Button 
             onClick={() => window.location.reload()} 
             className="mt-4"
           >
-            刷新页面
+            {t("refresh_page")}
           </Button>
         </div>
       </div>
@@ -431,7 +472,7 @@ function ResultInner() {
   }
 
   if (!bank || !bank.questions || bank.questions.length === 0) {
-    return <div className="container mx-auto max-w-3xl py-10">加载中…</div>;
+    return <div className="container mx-auto max-w-3xl py-10">{t("loading")}</div>;
   }
 
   // 定义多种颜色主题
@@ -519,7 +560,7 @@ function ResultInner() {
                   color: resolvedTheme === "dark" ? "rgba(251, 191, 36, 0.95)" : "rgba(217, 119, 6, 0.9)"
                 }}
               >
-                暂无测试结果
+                {t("no_result_title")}
               </h2>
               <p 
                 className="text-sm mb-4 relative z-10"
@@ -527,7 +568,7 @@ function ResultInner() {
                   color: resolvedTheme === "dark" ? "rgba(251, 191, 36, 0.8)" : "rgba(217, 119, 6, 0.8)"
                 }}
               >
-                您还没有完成测试，或者测试结果尚未加载。
+                {t("no_result_message")}
               </p>
               {history.length > 0 ? (
                 <p 
@@ -536,7 +577,7 @@ function ResultInner() {
                     color: resolvedTheme === "dark" ? "rgba(251, 191, 36, 0.8)" : "rgba(217, 119, 6, 0.8)"
                   }}
                 >
-                  您有 {history.length} 条历史记录，可以点击下面的历史记录来查看结果：
+                  {t("history_count_message", { count: history.length })}
                 </p>
               ) : (
                 <Button 
@@ -550,7 +591,7 @@ function ResultInner() {
                   }}
                 >
                   <div className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-300" style={{ background: "linear-gradient(135deg, rgba(255, 255, 255, 0.2) 0%, transparent 100%)" }} />
-                  <span className="relative z-10">开始测试</span>
+                  <span className="relative z-10">{t("start_test")}</span>
           </Button>
               )}
         </div>
@@ -587,7 +628,7 @@ function ResultInner() {
           {/* Top 3 Traits 标签 */}
           {getTopTraits.length > 0 && (
                 <div 
-                  className="rounded-2xl p-5 relative overflow-hidden"
+                  className="rounded-2xl p-6 relative overflow-hidden"
                   style={{
                     background: resolvedTheme === "dark"
                       ? "linear-gradient(135deg, rgba(43, 51, 62, 0.95) 0%, rgba(35, 42, 52, 0.95) 100%)"
@@ -606,42 +647,58 @@ function ResultInner() {
                     }}
                   />
                   <h2 
-                    className="text-lg font-semibold mb-4 relative z-10"
+                    className="text-xl font-bold mb-6 relative z-10 tracking-tight"
                     style={{
-                      color: resolvedTheme === "dark" ? "rgba(236, 72, 153, 0.95)" : "rgba(236, 72, 153, 0.9)"
+                      color: resolvedTheme === "dark" 
+                        ? "rgba(236, 72, 153, 0.95)" 
+                        : "rgba(236, 72, 153, 0.9)",
+                      textShadow: resolvedTheme === "dark"
+                        ? "0 2px 8px rgba(236, 72, 153, 0.3)"
+                        : "0 2px 8px rgba(236, 72, 153, 0.2)"
                     }}
                   >
                     {t("top_traits")}
                   </h2>
-                  <div className="flex flex-wrap gap-3 relative z-10">
+                  <div className="flex flex-wrap gap-4 relative z-10">
                     {getTopTraits.map((trait, index) => {
                       const theme = getColorTheme(index);
                       return (
                   <div
                     key={trait.id}
-                          className="flex items-center gap-2 px-4 py-2 rounded-xl transition-all duration-300 hover:scale-105"
+                          className="flex items-center gap-3 px-5 py-3 rounded-xl transition-all duration-300 hover:scale-105 hover:shadow-lg"
                           style={{
                             background: resolvedTheme === "dark"
                               ? `linear-gradient(135deg, ${theme.bg} 0%, ${theme.bg.replace('0.1', '0.15')} 100%)`
                               : `linear-gradient(135deg, ${theme.bg} 0%, ${theme.bg.replace('0.1', '0.15')} 100%)`,
-                            border: `1px solid ${theme.border}`,
-                            boxShadow: `0 4px 12px ${theme.border.replace('0.3', '0.2')}`
+                            border: `1.5px solid ${theme.border}`,
+                            boxShadow: `0 4px 16px ${theme.border.replace('0.3', '0.25')}, 0 2px 8px ${theme.border.replace('0.3', '0.15')}`
                           }}
                   >
                           <span 
-                            className="text-sm font-bold w-6 h-6 flex items-center justify-center rounded-full"
+                            className="text-sm font-bold w-8 h-8 flex items-center justify-center rounded-full flex-shrink-0"
                             style={{ 
                               background: `linear-gradient(135deg, ${theme.primary} 0%, ${theme.secondary} 100%)`,
                               color: 'white',
-                              boxShadow: `0 2px 8px ${theme.border.replace('0.3', '0.4')}`
+                              boxShadow: `0 2px 8px ${theme.border.replace('0.3', '0.5')}, inset 0 1px 0 rgba(255, 255, 255, 0.3)`
                             }}
                           >
                             {index + 1}
                     </span>
-                          <span className="text-sm font-semibold" style={{ color: theme.primary }}>
-                            {trait.name}
-                    </span>
-                          <span className="text-xs text-muted-foreground">({trait.score}/100)</span>
+                          <div className="flex flex-col gap-0.5">
+                            <span className="text-sm font-bold" style={{ color: theme.primary }}>
+                              {trait.name}
+                            </span>
+                            <span 
+                              className="text-xs font-medium" 
+                              style={{ 
+                                color: resolvedTheme === "dark" 
+                                  ? "rgba(255, 255, 255, 0.6)" 
+                                  : "rgba(0, 0, 0, 0.5)"
+                              }}
+                            >
+                              {trait.score}/100
+                            </span>
+                          </div>
                   </div>
                       );
                     })}
@@ -671,79 +728,23 @@ function ResultInner() {
                     }}
                   />
                   <h2 
-                    className="text-lg font-semibold mb-4 relative z-10"
+                    className="text-xl font-bold mb-6 relative z-10 tracking-tight"
                     style={{
-                      color: resolvedTheme === "dark" ? "rgba(59, 130, 246, 0.95)" : "rgba(59, 130, 246, 0.9)"
+                      color: resolvedTheme === "dark" 
+                        ? "rgba(139, 92, 246, 0.95)" 
+                        : "rgba(139, 92, 246, 0.9)",
+                      textShadow: resolvedTheme === "dark"
+                        ? "0 2px 8px rgba(139, 92, 246, 0.3)"
+                        : "0 2px 8px rgba(139, 92, 246, 0.2)"
                     }}
                   >
-                    分析结果
+                    {t("analysis_result")}
                   </h2>
                   <div className="relative z-10">
                     <ResultText result={result} />
                   </div>
         </div>
       ) : null}
-
-          {/* 类别分数卡片 */}
-          {categories.length > 0 && (
-            <div className="grid gap-4 md:grid-cols-3">
-                  {categories.map((cat, index) => {
-                const categoryMeta = bank.categories?.[cat];
-                    const score = result.normalized?.[cat] ?? 0;
-                    const theme = getColorTheme(index);
-                return (
-                      <div 
-                        key={cat} 
-                        className="rounded-2xl p-4 relative overflow-hidden transition-all duration-300 hover:scale-105"
-                        style={{
-                          background: resolvedTheme === "dark"
-                            ? `linear-gradient(135deg, ${theme.bg.replace('0.1', '0.15')} 0%, ${theme.bg} 100%)`
-                            : `linear-gradient(135deg, ${theme.bg} 0%, ${theme.bg.replace('0.1', '0.15')} 100%)`,
-                          border: `1px solid ${theme.border}`,
-                          boxShadow: `0 4px 16px ${theme.border.replace('0.3', '0.2')}`
-                        }}
-                      >
-                        {/* 装饰性背景光晕 */}
-                        <div 
-                          className="absolute top-0 right-0 w-24 h-24 rounded-full blur-2xl opacity-30"
-                          style={{
-                            background: `radial-gradient(circle, ${theme.primary.replace('0.9', '0.3')} 0%, transparent 70%)`
-                          }}
-                        />
-                        <div className="relative z-10">
-                          <div 
-                            className="text-sm font-medium mb-2"
-                            style={{ color: theme.primary }}
-                          >
-                            {categoryMeta?.name || cat}
-                          </div>
-                          <div 
-                            className="text-2xl font-bold mb-1"
-                            style={{ color: theme.primary }}
-                          >
-                      {score}
-                            <span className="text-sm text-muted-foreground ml-1 font-normal">/100</span>
-                          </div>
-                          {/* 进度条 */}
-                          <div className="mt-3 h-2 rounded-full overflow-hidden" style={{ background: resolvedTheme === "dark" ? "rgba(255, 255, 255, 0.1)" : "rgba(0, 0, 0, 0.05)" }}>
-                            <div 
-                              className="h-full rounded-full transition-all duration-500"
-                              style={{
-                                width: `${score}%`,
-                                background: `linear-gradient(90deg, ${theme.primary} 0%, ${theme.secondary} 100%)`,
-                                boxShadow: `0 0 8px ${theme.border.replace('0.3', '0.5')}`
-                              }}
-                            />
-                    </div>
-                    {categoryMeta?.description ? (
-                            <p className="mt-2 text-xs text-muted-foreground line-clamp-2">{categoryMeta.description}</p>
-                    ) : null}
-                        </div>
-                  </div>
-                );
-              })}
-            </div>
-          )}
 
           {/* Kinsey光谱展示（如果有Orientation结果） */}
               {result.orientation_spectrum !== undefined ? (
@@ -772,7 +773,7 @@ function ResultInner() {
                       color: resolvedTheme === "dark" ? "rgba(168, 85, 247, 0.95)" : "rgba(168, 85, 247, 0.9)"
                     }}
                   >
-                    性取向光谱 (Kinsey-like)
+                    {t("orientation_spectrum_title")}
                   </h3>
                   <div className="flex items-center gap-3 relative z-10">
                     <div className="flex-1 h-8 rounded-full relative overflow-hidden" style={{ background: resolvedTheme === "dark" ? "rgba(255, 255, 255, 0.1)" : "rgba(0, 0, 0, 0.05)" }}>
@@ -959,7 +960,7 @@ function ResultInner() {
                               border: 'none'
                             }}
                           >
-                            查看
+                            {t("view")}
                           </Button>
                           <Button 
                             size="sm" 
