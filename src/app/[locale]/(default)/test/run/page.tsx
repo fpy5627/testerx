@@ -522,8 +522,8 @@ function RunInner() {
                     <p className="mt-2 text-xs sm:text-sm text-muted-foreground pl-9 sm:pl-10 md:pl-11">{q.hint}</p>
                   )}
 
-                  {/* 选项列表 - 一行显示（0-5 Likert量表） */}
-                  <div className="flex flex-row gap-2 sm:gap-2.5 md:gap-3">
+                  {/* 选项列表 - 移动端纵向，桌面端横向 */}
+                  <div className="flex flex-col sm:flex-row gap-2 sm:gap-2.5 md:gap-3">
                     {[0, 1, 2, 3, 4, 5].map((value) => {
                       const isSelected = (a?.value as number) === value;
                       
@@ -533,10 +533,10 @@ function RunInner() {
                           type="button"
                           onClick={() => onSet(q.id, value as LikertValue)}
                           className={cn(
-                            "flex-1 px-2 sm:px-3 md:px-4 py-2.5 sm:py-3 md:py-4 rounded-xl sm:rounded-2xl transition-all duration-300 relative backdrop-blur-sm",
+                            "w-full sm:flex-1 px-4 py-3 sm:px-3 md:px-4 sm:py-2.5 md:py-3 rounded-xl sm:rounded-2xl transition-all duration-300 relative backdrop-blur-sm",
                             isSelected
-                              ? "shadow-lg shadow-cyan-400/40 scale-105"
-                              : "hover:shadow-lg hover:scale-[1.02] hover:-translate-y-0.5"
+                              ? "shadow-lg shadow-cyan-400/40 scale-[1.02] sm:scale-105"
+                              : "hover:shadow-lg hover:scale-[1.01] sm:hover:scale-[1.02] hover:-translate-y-0.5"
                           )}
                           style={{
                             borderWidth: '2px',
@@ -556,57 +556,63 @@ function RunInner() {
                               : "0 2px 8px rgba(0, 0, 0, 0.05)"
                           }}
                         >
-                          <div className="flex flex-col items-center justify-center gap-1 sm:gap-1.5 relative">
-                            {/* 字母标识 - 美化版 */}
-                            <div 
-                              className={cn(
-                                "font-bold text-sm sm:text-base md:text-lg transition-all duration-300",
-                                isSelected && "scale-110"
-                              )}
-                              style={{
-                                color: isSelected 
-                                  ? "white" 
-                                  : resolvedTheme === "dark" 
-                                    ? "rgba(255, 255, 255, 0.9)" 
-                                    : "rgba(0, 0, 0, 0.75)"
-                              }}
-                            >
-                              {optionLetters[value]}
+                          <div className="flex flex-row sm:flex-col items-center justify-between sm:justify-center gap-3 sm:gap-1.5 relative">
+                            {/* 移动端：左侧显示字母和文字，右侧显示选中图标 */}
+                            {/* 桌面端：上方显示字母，下方显示文字 */}
+                            
+                            {/* 左侧/上方：字母和文字 */}
+                            <div className="flex items-center sm:flex-col gap-2 sm:gap-1.5 flex-1 sm:flex-none">
+                              {/* 字母标识 - 美化版 */}
+                              <div 
+                                className={cn(
+                                  "font-bold text-base sm:text-sm md:text-base lg:text-lg transition-all duration-300 flex-shrink-0",
+                                  isSelected && "scale-110"
+                                )}
+                                style={{
+                                  color: isSelected 
+                                    ? "white" 
+                                    : resolvedTheme === "dark" 
+                                      ? "rgba(255, 255, 255, 0.9)" 
+                                      : "rgba(0, 0, 0, 0.75)"
+                                }}
+                              >
+                                {optionLetters[value]}
+                              </div>
+                              
+                              {/* 选项文字 */}
+                              <div 
+                                className="font-medium text-sm sm:text-xs md:text-sm text-left sm:text-center leading-tight flex-1 sm:flex-none"
+                                style={{
+                                  color: isSelected 
+                                    ? "rgba(255, 255, 255, 0.95)" 
+                                    : resolvedTheme === "dark" 
+                                      ? "rgba(255, 255, 255, 0.7)" 
+                                      : "rgba(0, 0, 0, 0.65)"
+                                }}
+                              >
+                                {labels[value]}
+                              </div>
                             </div>
                             
-                            {/* 选项文字 */}
-                            <div 
-                              className="font-medium text-xs sm:text-sm text-center leading-tight"
-                              style={{
-                                color: isSelected 
-                                  ? "rgba(255, 255, 255, 0.95)" 
-                                  : resolvedTheme === "dark" 
-                                    ? "rgba(255, 255, 255, 0.7)" 
-                                    : "rgba(0, 0, 0, 0.65)"
-                              }}
-                            >
-                              {labels[value]}
-                            </div>
-                            
-                            {/* 选中图标 - 美化版 */}
+                            {/* 选中图标 - 移动端右侧，桌面端右上角 */}
                             {isSelected && (
-                              <div className="absolute -top-1 -right-1 flex-shrink-0 animate-in zoom-in duration-300">
+                              <div className="flex-shrink-0 sm:absolute sm:-top-1 sm:-right-1 animate-in zoom-in duration-300">
                                 <div 
-                                  className="rounded-full p-1"
+                                  className="rounded-full p-1.5 sm:p-1"
                                   style={{
                                     background: "rgba(255, 255, 255, 0.9)",
                                     boxShadow: "0 2px 8px rgba(0, 0, 0, 0.2)"
                                   }}
                                 >
-                                  <svg width="14" height="14" className="sm:w-4 sm:h-4 md:w-5 md:h-5" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                  <path 
-                                    d="M16.667 5L7.5 14.167 3.333 10" 
-                                      stroke="rgba(32, 224, 192, 1)" 
-                                    strokeWidth="2.5" 
-                                    strokeLinecap="round" 
-                                    strokeLinejoin="round"
-                                  />
-                                </svg>
+                                  <svg width="18" height="18" className="sm:w-4 sm:h-4 md:w-5 md:h-5" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                    <path 
+                                      d="M16.667 5L7.5 14.167 3.333 10" 
+                                        stroke="rgba(32, 224, 192, 1)" 
+                                      strokeWidth="2.5" 
+                                      strokeLinecap="round" 
+                                      strokeLinejoin="round"
+                                    />
+                                  </svg>
                                 </div>
                               </div>
                             )}

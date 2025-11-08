@@ -818,7 +818,7 @@ export default function Feature({ section }: { section: SectionType }) {
                                     : "rgba(0, 0, 0, 0.55)"),
                               textShadow: isSelected 
                                 ? (resolvedTheme === "dark" 
-                                    ? `0 0 8px ${colorTheme.glow}`
+                                ? `0 0 8px ${colorTheme.glow}`
                                     : `0 1px 2px rgba(0, 0, 0, 0.15)`) // 白天模式添加轻微阴影增强可读性
                                 : "none",
                               filter: "none"

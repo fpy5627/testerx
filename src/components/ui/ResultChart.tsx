@@ -277,148 +277,148 @@ export function ResultChart({ bank, result, variant: initialVariant = "radar" }:
       <div className="flex flex-col lg:flex-row gap-6">
         {/* 左侧：雷达图 */}
         <div className="flex-1">
-          <div 
-            className="w-full h-96 p-6 sm:p-8 rounded-2xl relative overflow-hidden"
-            style={{
-              background: resolvedTheme === "dark"
-                ? "linear-gradient(135deg, rgba(43, 51, 62, 0.5) 0%, rgba(35, 42, 52, 0.5) 100%)"
-                : "linear-gradient(135deg, rgba(255, 255, 255, 0.7) 0%, rgba(248, 250, 252, 0.7) 100%)",
-              border: resolvedTheme === "dark"
-                ? "1.5px solid rgba(139, 92, 246, 0.2)"
-                : "1.5px solid rgba(139, 92, 246, 0.15)",
-              boxShadow: resolvedTheme === "dark"
-                ? "inset 0 2px 12px rgba(0, 0, 0, 0.25), 0 8px 32px rgba(139, 92, 246, 0.15), 0 4px 16px rgba(139, 92, 246, 0.1)"
-                : "inset 0 2px 12px rgba(255, 255, 255, 0.9), 0 8px 32px rgba(139, 92, 246, 0.12), 0 4px 16px rgba(139, 92, 246, 0.08)"
-            }}
-          >
-            {/* 装饰性背景光晕 - 增强版 */}
-            <div 
-              className="absolute top-0 right-0 w-72 h-72 rounded-full blur-3xl opacity-15 -z-0"
-              style={{
-                background: chartType === "radar"
-                  ? "radial-gradient(circle, rgba(139, 92, 246, 0.5) 0%, rgba(139, 92, 246, 0.2) 50%, transparent 70%)"
-                  : "radial-gradient(circle, rgba(236, 72, 153, 0.5) 0%, rgba(236, 72, 153, 0.2) 50%, transparent 70%)"
-              }}
-            />
-            <div 
-              className="absolute bottom-0 left-0 w-56 h-56 rounded-full blur-2xl opacity-15 -z-0"
-              style={{
-                background: chartType === "radar"
-                  ? "radial-gradient(circle, rgba(32, 224, 192, 0.4) 0%, rgba(32, 224, 192, 0.15) 50%, transparent 70%)"
-                  : "radial-gradient(circle, rgba(59, 130, 246, 0.4) 0%, rgba(59, 130, 246, 0.15) 50%, transparent 70%)"
-              }}
-            />
-            {/* 额外的装饰光晕 */}
-            <div 
-              className="absolute top-1/2 left-1/2 w-96 h-96 rounded-full blur-3xl opacity-5 -z-0 transform -translate-x-1/2 -translate-y-1/2"
-              style={{
-                background: chartType === "radar"
-                  ? "radial-gradient(circle, rgba(139, 92, 246, 0.3) 0%, transparent 60%)"
-                  : "radial-gradient(circle, rgba(236, 72, 153, 0.3) 0%, transparent 60%)"
-              }}
-            />
-            <div className="relative z-10 w-full h-full">
-              {chartType === "radar" ? (
-                <ResponsiveContainer width="100%" height="100%">
-                  <RadarChart data={dataset}>
-                    <PolarGrid 
-                      stroke={resolvedTheme === "dark" ? "rgba(255, 255, 255, 0.1)" : "rgba(0, 0, 0, 0.1)"} 
-                    />
-                    <PolarAngleAxis 
-                      dataKey="name" 
-                      tick={{ 
-                        fontSize: 12, 
-                        fill: resolvedTheme === "dark" ? "rgba(255, 255, 255, 0.7)" : "rgba(0, 0, 0, 0.7)",
-                        fontWeight: 500
-                      }} 
-                    />
-                    <PolarRadiusAxis 
-                      angle={30} 
-                      domain={[0, 100]} 
-                      tick={{ 
-                        fontSize: 10, 
-                        fill: resolvedTheme === "dark" ? "rgba(255, 255, 255, 0.5)" : "rgba(0, 0, 0, 0.5)"
-                      }}
-                    />
-                    <defs>
-                      <linearGradient id="radarGradient" x1="0%" y1="0%" x2="100%" y2="100%">
-                        <stop offset="0%" stopColor={resolvedTheme === "dark" ? "rgba(139, 92, 246, 0.95)" : "rgba(139, 92, 246, 1)"} />
-                        <stop offset="50%" stopColor={resolvedTheme === "dark" ? "rgba(236, 72, 153, 0.95)" : "rgba(236, 72, 153, 1)"} />
-                        <stop offset="100%" stopColor={resolvedTheme === "dark" ? "rgba(32, 224, 192, 0.95)" : "rgba(32, 224, 192, 1)"} />
-                      </linearGradient>
-                    </defs>
-                    <Radar
-                      name={t("chart_score")}
-                      dataKey="score"
-                      stroke="url(#radarGradient)"
-                      fill="url(#radarGradient)"
-                      fillOpacity={resolvedTheme === "dark" ? 0.6 : 0.75}
-                      strokeWidth={2.5}
-                    />
-                    <Tooltip 
-                      contentStyle={{
-                        background: "rgba(43, 51, 62, 0.95)",
-                        border: "1px solid rgba(139, 92, 246, 0.3)",
-                        borderRadius: "8px",
-                        color: "white"
-                      }}
-                    />
-                  </RadarChart>
-                </ResponsiveContainer>
-              ) : (
-                <ResponsiveContainer width="100%" height="100%">
-                  <BarChart data={dataset} margin={{ top: 8, right: 16, bottom: 8, left: 0 }}>
-                    <defs>
-                      <linearGradient id="barGradient" x1="0%" y1="0%" x2="0%" y2="100%">
-                        <stop offset="0%" stopColor={resolvedTheme === "dark" ? "rgba(236, 72, 153, 0.95)" : "rgba(236, 72, 153, 1)"} />
-                        <stop offset="50%" stopColor={resolvedTheme === "dark" ? "rgba(139, 92, 246, 0.95)" : "rgba(139, 92, 246, 1)"} />
-                        <stop offset="100%" stopColor={resolvedTheme === "dark" ? "rgba(59, 130, 246, 0.95)" : "rgba(59, 130, 246, 1)"} />
-                      </linearGradient>
-                    </defs>
-                    <CartesianGrid 
-                      strokeDasharray="3 3" 
-                      stroke={resolvedTheme === "dark" ? "rgba(255, 255, 255, 0.1)" : "rgba(0, 0, 0, 0.1)"} 
-                    />
-                    <XAxis 
-                      dataKey="name" 
-                      tick={{ 
-                        fontSize: 12, 
-                        fill: resolvedTheme === "dark" ? "rgba(255, 255, 255, 0.7)" : "rgba(0, 0, 0, 0.7)",
-                        fontWeight: 500
-                      }} 
-                    />
-                    <YAxis 
-                      domain={[0, 100]} 
-                      tick={{ 
-                        fontSize: 12, 
-                        fill: resolvedTheme === "dark" ? "rgba(255, 255, 255, 0.7)" : "rgba(0, 0, 0, 0.7)"
-                      }} 
-                    />
-                    <Tooltip 
-                      contentStyle={{
-                        background: "rgba(43, 51, 62, 0.95)",
-                        border: "1px solid rgba(236, 72, 153, 0.3)",
-                        borderRadius: "8px",
-                        color: "white"
-                      }}
+      <div 
+        className="w-full h-96 p-6 sm:p-8 rounded-2xl relative overflow-hidden"
+        style={{
+          background: resolvedTheme === "dark"
+            ? "linear-gradient(135deg, rgba(43, 51, 62, 0.5) 0%, rgba(35, 42, 52, 0.5) 100%)"
+            : "linear-gradient(135deg, rgba(255, 255, 255, 0.7) 0%, rgba(248, 250, 252, 0.7) 100%)",
+          border: resolvedTheme === "dark"
+            ? "1.5px solid rgba(139, 92, 246, 0.2)"
+            : "1.5px solid rgba(139, 92, 246, 0.15)",
+          boxShadow: resolvedTheme === "dark"
+            ? "inset 0 2px 12px rgba(0, 0, 0, 0.25), 0 8px 32px rgba(139, 92, 246, 0.15), 0 4px 16px rgba(139, 92, 246, 0.1)"
+            : "inset 0 2px 12px rgba(255, 255, 255, 0.9), 0 8px 32px rgba(139, 92, 246, 0.12), 0 4px 16px rgba(139, 92, 246, 0.08)"
+        }}
+      >
+        {/* 装饰性背景光晕 - 增强版 */}
+        <div 
+          className="absolute top-0 right-0 w-72 h-72 rounded-full blur-3xl opacity-15 -z-0"
+          style={{
+            background: chartType === "radar"
+              ? "radial-gradient(circle, rgba(139, 92, 246, 0.5) 0%, rgba(139, 92, 246, 0.2) 50%, transparent 70%)"
+              : "radial-gradient(circle, rgba(236, 72, 153, 0.5) 0%, rgba(236, 72, 153, 0.2) 50%, transparent 70%)"
+          }}
+        />
+        <div 
+          className="absolute bottom-0 left-0 w-56 h-56 rounded-full blur-2xl opacity-15 -z-0"
+          style={{
+            background: chartType === "radar"
+              ? "radial-gradient(circle, rgba(32, 224, 192, 0.4) 0%, rgba(32, 224, 192, 0.15) 50%, transparent 70%)"
+              : "radial-gradient(circle, rgba(59, 130, 246, 0.4) 0%, rgba(59, 130, 246, 0.15) 50%, transparent 70%)"
+          }}
+        />
+        {/* 额外的装饰光晕 */}
+        <div 
+          className="absolute top-1/2 left-1/2 w-96 h-96 rounded-full blur-3xl opacity-5 -z-0 transform -translate-x-1/2 -translate-y-1/2"
+          style={{
+            background: chartType === "radar"
+              ? "radial-gradient(circle, rgba(139, 92, 246, 0.3) 0%, transparent 60%)"
+              : "radial-gradient(circle, rgba(236, 72, 153, 0.3) 0%, transparent 60%)"
+          }}
+        />
+        <div className="relative z-10 w-full h-full">
+          {chartType === "radar" ? (
+            <ResponsiveContainer width="100%" height="100%">
+              <RadarChart data={dataset}>
+                <PolarGrid 
+                  stroke={resolvedTheme === "dark" ? "rgba(255, 255, 255, 0.1)" : "rgba(0, 0, 0, 0.1)"} 
+                />
+                <PolarAngleAxis 
+                  dataKey="name" 
+                  tick={{ 
+                    fontSize: 12, 
+                    fill: resolvedTheme === "dark" ? "rgba(255, 255, 255, 0.7)" : "rgba(0, 0, 0, 0.7)",
+                    fontWeight: 500
+                  }} 
+                />
+                <PolarRadiusAxis 
+                  angle={30} 
+                  domain={[0, 100]} 
+                  tick={{ 
+                    fontSize: 10, 
+                    fill: resolvedTheme === "dark" ? "rgba(255, 255, 255, 0.5)" : "rgba(0, 0, 0, 0.5)"
+                  }}
+                />
+                <defs>
+                  <linearGradient id="radarGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+                    <stop offset="0%" stopColor={resolvedTheme === "dark" ? "rgba(139, 92, 246, 0.95)" : "rgba(139, 92, 246, 1)"} />
+                    <stop offset="50%" stopColor={resolvedTheme === "dark" ? "rgba(236, 72, 153, 0.95)" : "rgba(236, 72, 153, 1)"} />
+                    <stop offset="100%" stopColor={resolvedTheme === "dark" ? "rgba(32, 224, 192, 0.95)" : "rgba(32, 224, 192, 1)"} />
+                  </linearGradient>
+                </defs>
+                <Radar
+                  name={t("chart_score")}
+                  dataKey="score"
+                  stroke="url(#radarGradient)"
+                  fill="url(#radarGradient)"
+                  fillOpacity={resolvedTheme === "dark" ? 0.6 : 0.75}
+                  strokeWidth={2.5}
+                />
+                <Tooltip 
+                  contentStyle={{
+                    background: "rgba(43, 51, 62, 0.95)",
+                    border: "1px solid rgba(139, 92, 246, 0.3)",
+                    borderRadius: "8px",
+                    color: "white"
+                  }}
+                />
+              </RadarChart>
+            </ResponsiveContainer>
+          ) : (
+            <ResponsiveContainer width="100%" height="100%">
+              <BarChart data={dataset} margin={{ top: 8, right: 16, bottom: 8, left: 0 }}>
+                <defs>
+                  <linearGradient id="barGradient" x1="0%" y1="0%" x2="0%" y2="100%">
+                    <stop offset="0%" stopColor={resolvedTheme === "dark" ? "rgba(236, 72, 153, 0.95)" : "rgba(236, 72, 153, 1)"} />
+                    <stop offset="50%" stopColor={resolvedTheme === "dark" ? "rgba(139, 92, 246, 0.95)" : "rgba(139, 92, 246, 1)"} />
+                    <stop offset="100%" stopColor={resolvedTheme === "dark" ? "rgba(59, 130, 246, 0.95)" : "rgba(59, 130, 246, 1)"} />
+                  </linearGradient>
+                </defs>
+                <CartesianGrid 
+                  strokeDasharray="3 3" 
+                  stroke={resolvedTheme === "dark" ? "rgba(255, 255, 255, 0.1)" : "rgba(0, 0, 0, 0.1)"} 
+                />
+                <XAxis 
+                  dataKey="name" 
+                  tick={{ 
+                    fontSize: 12, 
+                    fill: resolvedTheme === "dark" ? "rgba(255, 255, 255, 0.7)" : "rgba(0, 0, 0, 0.7)",
+                    fontWeight: 500
+                  }} 
+                />
+                <YAxis 
+                  domain={[0, 100]} 
+                  tick={{ 
+                    fontSize: 12, 
+                    fill: resolvedTheme === "dark" ? "rgba(255, 255, 255, 0.7)" : "rgba(0, 0, 0, 0.7)"
+                  }} 
+                />
+                <Tooltip 
+                  contentStyle={{
+                    background: "rgba(43, 51, 62, 0.95)",
+                    border: "1px solid rgba(236, 72, 153, 0.3)",
+                    borderRadius: "8px",
+                    color: "white"
+                  }}
                       cursor={{ fill: 'transparent' }}
-                    />
-                    <Bar 
-                      dataKey="score" 
-                      name={`${t("chart_score")}(0-100)`} 
-                      fill="url(#barGradient)"
-                      radius={[10, 10, 0, 0]}
+                />
+                <Bar 
+                  dataKey="score" 
+                  name={`${t("chart_score")}(0-100)`} 
+                  fill="url(#barGradient)"
+                  radius={[10, 10, 0, 0]}
                       activeBar={{
                         fill: "url(#barGradient)",
                         stroke: resolvedTheme === "dark" ? "rgba(255, 255, 255, 0.05)" : "rgba(0, 0, 0, 0.02)",
                         strokeWidth: 0.5,
                         opacity: 1,
                       }}
-                    />
-                  </BarChart>
-                </ResponsiveContainer>
-              )}
-            </div>
+                />
+              </BarChart>
+            </ResponsiveContainer>
+          )}
+        </div>
           </div>
         </div>
 
