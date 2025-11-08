@@ -360,6 +360,10 @@ export function TestProvider({ children }: { children: React.ReactNode }): JSX.E
     if (historyItem.result) {
       setResult(historyItem.result);
     }
+    // 同时恢复进度快照，用于计算答题进度
+    if (historyItem.progressSnapshot) {
+      setProgress(historyItem.progressSnapshot);
+    }
   }, []);
 
   /**

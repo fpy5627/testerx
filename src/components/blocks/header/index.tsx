@@ -39,7 +39,13 @@ export default function Header({ header }: { header: HeaderType }) {
   }
 
   return (
-    <section className="py-3 bg-white dark:bg-[#2b333e] border-b transition-colors duration-200" style={{ borderColor: 'rgba(156, 163, 175, 0.1)' }}>
+    <section 
+      className="sticky top-0 z-50 py-3 bg-white dark:bg-[#2b333e] border-b transition-colors duration-200 backdrop-blur-sm bg-opacity-95 dark:bg-opacity-95" 
+      style={{ 
+        borderColor: 'rgba(156, 163, 175, 0.1)',
+        boxShadow: '0 1px 3px rgba(0, 0, 0, 0.1)'
+      }}
+    >
       <div className="container">
         <nav className="hidden justify-between lg:flex">
           <div className="flex items-center gap-6">

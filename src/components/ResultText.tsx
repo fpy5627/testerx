@@ -269,7 +269,7 @@ export default function ResultText({ result }: ResultTextProps) {
             {/* 提示文本 */}
             <div className="flex-1">
               <p
-                className="text-sm leading-relaxed italic"
+                className="text-sm leading-relaxed"
                 style={{
                   color: theme === "dark" 
                     ? "rgba(255, 255, 255, 0.7)" 

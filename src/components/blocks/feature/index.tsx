@@ -203,67 +203,329 @@ export default function Feature({ section }: { section: SectionType }) {
           className="absolute inset-0 transition-colors duration-200"
           style={{
             background: resolvedTheme === "dark" 
-              ? "radial-gradient(ellipse at top, #3a4550 0%, #2b333e 50%, #1f2630 100%)" 
+              ? "radial-gradient(ellipse at center, #3a4550 0%, #2b333e 30%, #1f2630 70%, #1a1f2e 100%)" 
               : "linear-gradient(180deg, #ffffff 0%, #f0f4f8 100%)"
           }}
         />
         
-        {/* 动态背景光效 - 仅在深色模式下显示，更柔和 */}
+        {/* 中心渐变光效 - 增强版 */}
+        {resolvedTheme === "dark" && (
+          <div 
+            className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[800px] rounded-full blur-3xl opacity-12 pointer-events-none"
+            style={{
+              background: "radial-gradient(circle, rgba(32, 224, 192, 0.3) 0%, rgba(139, 92, 246, 0.2) 30%, rgba(236, 72, 153, 0.15) 60%, transparent 100%)",
+              animation: "pulse-slow 20s ease-in-out infinite"
+            }}
+          />
+        )}
+        
+        {/* 动态背景光效 - 仅在深色模式下显示，增强版 */}
         {resolvedTheme === "dark" && (
           <>
             <div 
-              className="absolute top-1/4 left-1/4 w-64 h-64 rounded-full blur-3xl opacity-8"
+              className="absolute top-1/4 left-1/4 w-80 h-80 rounded-full blur-3xl opacity-10 pointer-events-none"
               style={{
-                background: "radial-gradient(circle, rgba(139, 92, 246, 0.25) 0%, transparent 70%)",
+                background: "radial-gradient(circle, rgba(139, 92, 246, 0.35) 0%, rgba(139, 92, 246, 0.15) 50%, transparent 70%)",
                 animation: "float 12s ease-in-out infinite"
               }}
             />
             <div 
-              className="absolute bottom-1/4 right-1/4 w-64 h-64 rounded-full blur-3xl opacity-8"
+              className="absolute bottom-1/4 right-1/4 w-80 h-80 rounded-full blur-3xl opacity-10 pointer-events-none"
               style={{
-                background: "radial-gradient(circle, rgba(32, 224, 192, 0.25) 0%, transparent 70%)",
+                background: "radial-gradient(circle, rgba(32, 224, 192, 0.35) 0%, rgba(32, 224, 192, 0.15) 50%, transparent 70%)",
                 animation: "float 15s ease-in-out infinite reverse"
               }}
             />
             <div 
-              className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-72 h-72 rounded-full blur-3xl opacity-6"
+              className="absolute top-1/3 right-1/3 w-72 h-72 rounded-full blur-3xl opacity-8 pointer-events-none"
               style={{
-                background: "radial-gradient(circle, rgba(236, 72, 153, 0.2) 0%, transparent 70%)",
+                background: "radial-gradient(circle, rgba(236, 72, 153, 0.3) 0%, rgba(236, 72, 153, 0.1) 50%, transparent 70%)",
                 animation: "float 18s ease-in-out infinite"
               }}
             />
+            <div 
+              className="absolute bottom-1/3 left-1/3 w-64 h-64 rounded-full blur-3xl opacity-8 pointer-events-none"
+              style={{
+                background: "radial-gradient(circle, rgba(139, 92, 246, 0.25) 0%, rgba(32, 224, 192, 0.15) 50%, transparent 70%)",
+                animation: "float 20s ease-in-out infinite reverse"
+              }}
+            />
           </>
         )}
         
-        {/* 浅色模式下的微妙渐变 */}
+        {/* 浅色模式下的微妙渐变 - 增强版 */}
         {resolvedTheme !== "dark" && (
           <>
             <div 
-              className="absolute inset-0 transition-opacity duration-200"
+              className="absolute inset-0 transition-opacity duration-200 pointer-events-none"
               style={{
-                background: "radial-gradient(ellipse at top left, rgba(32, 224, 192, 0.06) 0%, transparent 50%)",
+                background: "radial-gradient(ellipse at top left, rgba(32, 224, 192, 0.08) 0%, rgba(32, 224, 192, 0.04) 30%, transparent 60%)",
                 opacity: 1
               }}
             />
             <div 
-              className="absolute inset-0 transition-opacity duration-200"
+              className="absolute inset-0 transition-opacity duration-200 pointer-events-none"
               style={{
-                background: "radial-gradient(ellipse at bottom right, rgba(139, 92, 246, 0.04) 0%, transparent 50%)",
+                background: "radial-gradient(ellipse at bottom right, rgba(139, 92, 246, 0.06) 0%, rgba(139, 92, 246, 0.03) 30%, transparent 60%)",
+                opacity: 1
+              }}
+            />
+            <div 
+              className="absolute inset-0 transition-opacity duration-200 pointer-events-none"
+              style={{
+                background: "radial-gradient(ellipse at center, rgba(236, 72, 153, 0.04) 0%, transparent 50%)",
                 opacity: 1
               }}
             />
           </>
         )}
         
-        {/* 装饰性网格图案 - 极低透明度 */}
+        {/* 装饰性网格图案 - 增强版 */}
         <div 
           className="absolute inset-0 pointer-events-none transition-opacity duration-200"
           style={{
-            backgroundImage: `linear-gradient(to right, ${resolvedTheme === "dark" ? "rgba(255,255,255,0.02)" : "rgba(0,0,0,0.01)"} 1px, transparent 1px), linear-gradient(to bottom, ${resolvedTheme === "dark" ? "rgba(255,255,255,0.02)" : "rgba(0,0,0,0.01)"} 1px, transparent 1px)`,
+            backgroundImage: `linear-gradient(to right, ${resolvedTheme === "dark" ? "rgba(255,255,255,0.03)" : "rgba(0,0,0,0.015)"} 1px, transparent 1px), linear-gradient(to bottom, ${resolvedTheme === "dark" ? "rgba(255,255,255,0.03)" : "rgba(0,0,0,0.015)"} 1px, transparent 1px)`,
             backgroundSize: "40px 40px",
             opacity: 1
           }}
         />
+        
+        {/* 额外的装饰性光效 - 流动渐变 */}
+        {resolvedTheme === "dark" && (
+          <div 
+            className="absolute inset-0 pointer-events-none opacity-8"
+            style={{
+              backgroundImage: "linear-gradient(135deg, transparent 0%, rgba(32, 224, 192, 0.08) 25%, rgba(139, 92, 246, 0.06) 50%, rgba(236, 72, 153, 0.08) 75%, transparent 100%)",
+              backgroundSize: "200% 200%",
+              backgroundPosition: "0% 50%",
+              animation: "gradientFlow 25s ease infinite"
+            }}
+          />
+        )}
+
+        {/* 主题装饰元素 - 光谱波形和维度图 */}
+        <div className="absolute inset-0 pointer-events-none overflow-hidden">
+          {/* 光谱波形 - 左上角 */}
+          <svg
+            className="absolute top-20 left-10 w-64 h-32 opacity-8 dark:opacity-12"
+            style={{ animation: "float 15s ease-in-out infinite" }}
+            viewBox="0 0 200 100"
+            preserveAspectRatio="none"
+          >
+            <path
+              d="M 0 50 Q 25 30, 50 50 T 100 50 T 150 50 T 200 50"
+              fill="none"
+              stroke={resolvedTheme === "dark" ? "rgba(32, 224, 192, 0.4)" : "rgba(32, 224, 192, 0.2)"}
+              strokeWidth="2"
+              strokeLinecap="round"
+            />
+            <path
+              d="M 0 50 Q 25 70, 50 50 T 100 50 T 150 50 T 200 50"
+              fill="none"
+              stroke={resolvedTheme === "dark" ? "rgba(139, 92, 246, 0.4)" : "rgba(139, 92, 246, 0.2)"}
+              strokeWidth="2"
+              strokeLinecap="round"
+            />
+          </svg>
+
+          {/* 雷达图轮廓 - 右上角 */}
+          <svg
+            className="absolute top-16 right-16 w-48 h-48 opacity-6 dark:opacity-10"
+            style={{ animation: "float 18s ease-in-out infinite reverse" }}
+            viewBox="0 0 100 100"
+          >
+            <polygon
+              points="50,10 70,30 90,50 70,70 50,90 30,70 10,50 30,30"
+              fill="none"
+              stroke={resolvedTheme === "dark" ? "rgba(236, 72, 153, 0.3)" : "rgba(236, 72, 153, 0.15)"}
+              strokeWidth="1.5"
+            />
+            <polygon
+              points="50,20 60,30 70,40 60,50 50,60 40,50 30,40 40,30"
+              fill="none"
+              stroke={resolvedTheme === "dark" ? "rgba(32, 224, 192, 0.3)" : "rgba(32, 224, 192, 0.15)"}
+              strokeWidth="1.5"
+            />
+            <line x1="50" y1="10" x2="50" y2="90" stroke={resolvedTheme === "dark" ? "rgba(139, 92, 246, 0.2)" : "rgba(139, 92, 246, 0.1)"} strokeWidth="1" />
+            <line x1="10" y1="50" x2="90" y2="50" stroke={resolvedTheme === "dark" ? "rgba(139, 92, 246, 0.2)" : "rgba(139, 92, 246, 0.1)"} strokeWidth="1" />
+          </svg>
+
+          {/* 数据点连线 - 左下角 */}
+          <svg
+            className="absolute bottom-24 left-20 w-56 h-40 opacity-7 dark:opacity-11"
+            style={{ animation: "float 20s ease-in-out infinite" }}
+            viewBox="0 0 140 80"
+          >
+            <circle cx="20" cy="20" r="3" fill={resolvedTheme === "dark" ? "rgba(32, 224, 192, 0.5)" : "rgba(32, 224, 192, 0.3)"} />
+            <circle cx="50" cy="40" r="3" fill={resolvedTheme === "dark" ? "rgba(139, 92, 246, 0.5)" : "rgba(139, 92, 246, 0.3)"} />
+            <circle cx="80" cy="25" r="3" fill={resolvedTheme === "dark" ? "rgba(236, 72, 153, 0.5)" : "rgba(236, 72, 153, 0.3)"} />
+            <circle cx="110" cy="50" r="3" fill={resolvedTheme === "dark" ? "rgba(32, 224, 192, 0.5)" : "rgba(32, 224, 192, 0.3)"} />
+            <circle cx="130" cy="30" r="3" fill={resolvedTheme === "dark" ? "rgba(139, 92, 246, 0.5)" : "rgba(139, 92, 246, 0.3)"} />
+            <path
+              d="M 20,20 L 50,40 L 80,25 L 110,50 L 130,30"
+              fill="none"
+              stroke={resolvedTheme === "dark" ? "rgba(32, 224, 192, 0.3)" : "rgba(32, 224, 192, 0.15)"}
+              strokeWidth="1.5"
+              strokeDasharray="4,4"
+            />
+          </svg>
+
+          {/* 光谱条形图 - 右下角 */}
+          <svg
+            className="absolute bottom-16 right-12 w-52 h-36 opacity-6 dark:opacity-10"
+            style={{ animation: "float 16s ease-in-out infinite reverse" }}
+            viewBox="0 0 130 90"
+          >
+            <rect x="10" y="60" width="12" height="20" fill={resolvedTheme === "dark" ? "rgba(32, 224, 192, 0.4)" : "rgba(32, 224, 192, 0.2)"} rx="2" />
+            <rect x="30" y="45" width="12" height="35" fill={resolvedTheme === "dark" ? "rgba(139, 92, 246, 0.4)" : "rgba(139, 92, 246, 0.2)"} rx="2" />
+            <rect x="50" y="30" width="12" height="50" fill={resolvedTheme === "dark" ? "rgba(236, 72, 153, 0.4)" : "rgba(236, 72, 153, 0.2)"} rx="2" />
+            <rect x="70" y="50" width="12" height="30" fill={resolvedTheme === "dark" ? "rgba(32, 224, 192, 0.4)" : "rgba(32, 224, 192, 0.2)"} rx="2" />
+            <rect x="90" y="35" width="12" height="45" fill={resolvedTheme === "dark" ? "rgba(139, 92, 246, 0.4)" : "rgba(139, 92, 246, 0.2)"} rx="2" />
+            <rect x="110" y="55" width="12" height="25" fill={resolvedTheme === "dark" ? "rgba(236, 72, 153, 0.4)" : "rgba(236, 72, 153, 0.2)"} rx="2" />
+          </svg>
+
+          {/* 维度轴 - 中心偏左 */}
+          <svg
+            className="absolute top-1/2 left-8 -translate-y-1/2 w-32 h-64 opacity-5 dark:opacity-8"
+            style={{ animation: "float 22s ease-in-out infinite" }}
+            viewBox="0 0 80 160"
+          >
+            <line x1="40" y1="0" x2="40" y2="160" stroke={resolvedTheme === "dark" ? "rgba(32, 224, 192, 0.3)" : "rgba(32, 224, 192, 0.15)"} strokeWidth="2" />
+            <circle cx="40" cy="20" r="4" fill={resolvedTheme === "dark" ? "rgba(32, 224, 192, 0.5)" : "rgba(32, 224, 192, 0.3)"} />
+            <circle cx="40" cy="60" r="4" fill={resolvedTheme === "dark" ? "rgba(139, 92, 246, 0.5)" : "rgba(139, 92, 246, 0.3)"} />
+            <circle cx="40" cy="100" r="4" fill={resolvedTheme === "dark" ? "rgba(236, 72, 153, 0.5)" : "rgba(236, 72, 153, 0.3)"} />
+            <circle cx="40" cy="140" r="4" fill={resolvedTheme === "dark" ? "rgba(32, 224, 192, 0.5)" : "rgba(32, 224, 192, 0.3)"} />
+          </svg>
+
+          {/* 光谱渐变带 - 中心偏右 */}
+          <div
+            className="absolute top-1/2 right-12 -translate-y-1/2 w-40 h-2 rounded-full opacity-6 dark:opacity-10"
+            style={{
+              background: "linear-gradient(90deg, rgba(32, 224, 192, 0.6) 0%, rgba(139, 92, 246, 0.6) 50%, rgba(236, 72, 153, 0.6) 100%)",
+              animation: "float 17s ease-in-out infinite reverse",
+              transform: "rotate(-15deg)"
+            }}
+          />
+        </div>
+
+        {/* 装饰性几何图形 - SVG 元素 */}
+        {resolvedTheme === "dark" && (
+          <>
+            {/* 左上角装饰圆形 */}
+            <div 
+              className="absolute top-10 left-10 w-32 h-32 pointer-events-none opacity-10"
+              style={{
+                background: "radial-gradient(circle, rgba(32, 224, 192, 0.3) 0%, transparent 70%)",
+                borderRadius: "50%",
+                filter: "blur(20px)"
+              }}
+            />
+            {/* 右上角装饰圆形 */}
+            <div 
+              className="absolute top-20 right-20 w-40 h-40 pointer-events-none opacity-8"
+              style={{
+                background: "radial-gradient(circle, rgba(139, 92, 246, 0.3) 0%, transparent 70%)",
+                borderRadius: "50%",
+                filter: "blur(25px)"
+              }}
+            />
+            {/* 左下角装饰圆形 */}
+            <div 
+              className="absolute bottom-20 left-20 w-36 h-36 pointer-events-none opacity-8"
+              style={{
+                background: "radial-gradient(circle, rgba(236, 72, 153, 0.3) 0%, transparent 70%)",
+                borderRadius: "50%",
+                filter: "blur(22px)"
+              }}
+            />
+            {/* 右下角装饰圆形 */}
+            <div 
+              className="absolute bottom-10 right-10 w-28 h-28 pointer-events-none opacity-10"
+              style={{
+                background: "radial-gradient(circle, rgba(32, 224, 192, 0.3) 0%, transparent 70%)",
+                borderRadius: "50%",
+                filter: "blur(18px)"
+              }}
+            />
+            
+            {/* SVG 装饰线条 */}
+            <svg 
+              className="absolute inset-0 w-full h-full pointer-events-none opacity-5"
+              style={{ zIndex: 0 }}
+              viewBox="0 0 100 100"
+              preserveAspectRatio="none"
+            >
+              <defs>
+                <linearGradient id="lineGradient1" x1="0%" y1="0%" x2="100%" y2="100%">
+                  <stop offset="0%" stopColor="rgba(32, 224, 192, 0.3)" stopOpacity="0" />
+                  <stop offset="50%" stopColor="rgba(32, 224, 192, 0.5)" stopOpacity="0.3" />
+                  <stop offset="100%" stopColor="rgba(139, 92, 246, 0.3)" stopOpacity="0" />
+                </linearGradient>
+                <linearGradient id="lineGradient2" x1="100%" y1="0%" x2="0%" y2="100%">
+                  <stop offset="0%" stopColor="rgba(236, 72, 153, 0.3)" stopOpacity="0" />
+                  <stop offset="50%" stopColor="rgba(236, 72, 153, 0.5)" stopOpacity="0.3" />
+                  <stop offset="100%" stopColor="rgba(139, 92, 246, 0.3)" stopOpacity="0" />
+                </linearGradient>
+              </defs>
+              {/* 对角线装饰线条 */}
+              <line x1="0" y1="0" x2="100" y2="100" stroke="url(#lineGradient1)" strokeWidth="0.5" />
+              <line x1="100" y1="0" x2="0" y2="100" stroke="url(#lineGradient2)" strokeWidth="0.5" />
+            </svg>
+
+            {/* 装饰性几何图案 - 六边形 */}
+            <div 
+              className="absolute top-1/3 right-1/4 w-24 h-24 pointer-events-none opacity-5"
+              style={{
+                clipPath: "polygon(50% 0%, 100% 25%, 100% 75%, 50% 100%, 0% 75%, 0% 25%)",
+                background: "linear-gradient(135deg, rgba(32, 224, 192, 0.4) 0%, rgba(139, 92, 246, 0.4) 100%)",
+                filter: "blur(10px)",
+                transform: "rotate(30deg)"
+              }}
+            />
+            <div 
+              className="absolute bottom-1/3 left-1/4 w-20 h-20 pointer-events-none opacity-5"
+              style={{
+                clipPath: "polygon(50% 0%, 100% 25%, 100% 75%, 50% 100%, 0% 75%, 0% 25%)",
+                background: "linear-gradient(135deg, rgba(236, 72, 153, 0.4) 0%, rgba(139, 92, 246, 0.4) 100%)",
+                filter: "blur(10px)",
+                transform: "rotate(-30deg)"
+              }}
+            />
+          </>
+        )}
+
+        {/* 浅色模式下的装饰元素 - 增强版 */}
+        {resolvedTheme !== "dark" && (
+          <>
+            {/* 左上角装饰圆形 */}
+            <div 
+              className="absolute top-10 left-10 w-48 h-48 pointer-events-none opacity-6"
+              style={{
+                background: "radial-gradient(circle, rgba(32, 224, 192, 0.25) 0%, rgba(32, 224, 192, 0.1) 50%, transparent 70%)",
+                borderRadius: "50%",
+                filter: "blur(30px)"
+              }}
+            />
+            {/* 右下角装饰圆形 */}
+            <div 
+              className="absolute bottom-10 right-10 w-56 h-56 pointer-events-none opacity-5"
+              style={{
+                background: "radial-gradient(circle, rgba(139, 92, 246, 0.25) 0%, rgba(139, 92, 246, 0.1) 50%, transparent 70%)",
+                borderRadius: "50%",
+                filter: "blur(35px)"
+              }}
+            />
+            {/* 中心装饰圆形 */}
+            <div 
+              className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-96 h-96 pointer-events-none opacity-4"
+              style={{
+                background: "radial-gradient(circle, rgba(32, 224, 192, 0.15) 0%, rgba(139, 92, 246, 0.1) 50%, transparent 70%)",
+                borderRadius: "50%",
+                filter: "blur(40px)"
+              }}
+            />
+          </>
+        )}
 
         <div className="relative z-10 container mx-auto flex max-w-4xl flex-col items-center justify-center px-4 py-8 sm:py-10 md:py-12 min-h-screen">
           {/* 主内容卡片 - 增强玻璃态效果 */}
@@ -551,9 +813,13 @@ export default function Feature({ section }: { section: SectionType }) {
                             style={{
                               color: resolvedTheme === "dark" 
                                 ? (isSelected ? colorTheme.primary : "rgba(255, 255, 255, 0.6)")
-                                : (isSelected ? colorTheme.primary : "rgba(0, 0, 0, 0.55)"),
+                                : (isSelected 
+                                    ? (mode === "quick" ? "#0d9488" : colorTheme.primary) // 快速选项使用更深的青绿色，增强对比度
+                                    : "rgba(0, 0, 0, 0.55)"),
                               textShadow: isSelected 
-                                ? `0 0 8px ${colorTheme.glow}`
+                                ? (resolvedTheme === "dark" 
+                                    ? `0 0 8px ${colorTheme.glow}`
+                                    : `0 1px 2px rgba(0, 0, 0, 0.15)`) // 白天模式添加轻微阴影增强可读性
                                 : "none",
                               filter: "none"
                             }}
@@ -584,10 +850,11 @@ export default function Feature({ section }: { section: SectionType }) {
                   ref={buttonRef}
                   className="px-14 sm:px-18 md:px-24 lg:px-28 py-6 sm:py-7 md:py-8 lg:py-9 rounded-2xl text-lg sm:text-xl md:text-2xl lg:text-2xl font-bold transition-all duration-300 hover:scale-105 active:scale-100 border-0 relative overflow-hidden group"
                   style={{
-                    background: resolvedTheme === "dark"
+                    backgroundImage: resolvedTheme === "dark"
                       ? "linear-gradient(135deg, rgba(32, 224, 192, 0.98) 0%, rgba(20, 184, 166, 0.95) 50%, rgba(139, 92, 246, 0.98) 100%)"
                       : "linear-gradient(135deg, rgba(32, 224, 192, 1) 0%, rgba(20, 184, 166, 0.98) 50%, rgba(139, 92, 246, 1) 100%)",
                     backgroundSize: "200% 200%",
+                    backgroundPosition: "0% 50%",
                     color: 'white',
                     boxShadow: resolvedTheme === "dark"
                       ? '0 10px 40px rgba(32, 224, 192, 0.5), 0 5px 20px rgba(139, 92, 246, 0.4), inset 0 1px 0 rgba(255, 255, 255, 0.25), 0 0 30px rgba(32, 224, 192, 0.3)'

@@ -259,6 +259,16 @@
       "download_pdf_processing": "正在生成PDF...",
       "top_traits": "Top 3 特征",
       "chart_radar": "雷达图",
+      "low_progress_title": "答题进度不足",
+      "low_progress_message": "您当前答题进度为 {percentage}%，为了获得准确的测试结果，建议完成至少10%的题目。",
+      "continue_test": "继续答题",
+      "incomplete_progress_title": "建议完成全部答题",
+      "incomplete_progress_message": "您当前答题进度为 {percentage}%，为了获得更准确的测试结果，建议完成全部题目。",
+      "complete_test": "完成全部答题",
+      "no_result_title": "暂无测试结果",
+      "no_result_message": "您还没有完成测试，请先完成测试后再查看结果。",
+      "start_test": "开始测试",
+      "analysis_result": "分析结果",
       "chart_bar": "柱状图",
       "chart_score": "得分",
       "export_json": "导出JSON",
@@ -285,7 +295,9 @@
       "start_test": "开始测试",
       "error": "错误",
       "refresh_page": "刷新页面",
-      "loading": "加载中…"
+      "loading": "加载中…",
+      "export_simplified_message": "访问 {siteUrl} 查看完整的分析和详细结果。",
+      "export_generated_by": "由 {siteName} 生成"
     }
   }
 }

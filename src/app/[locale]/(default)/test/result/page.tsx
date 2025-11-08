@@ -17,6 +17,8 @@ import { useLocale } from "next-intl";
 import { createShareLink } from "@/lib/share";
 import { Copy, Download, Share2 as ShareIcon, FileJson } from "lucide-react";
 import { toast } from "sonner";
+import ExportImageDialog from "@/components/ExportImageDialog";
+import ExportImageLayout from "@/components/ExportImageLayout";
 
 // 动态导入 ResultChart 组件，确保只在客户端加载
 const ResultChart = dynamic(
@@ -43,6 +45,10 @@ function ResultInner() {
   const [isGeneratingImage, setIsGeneratingImage] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [showAllHistory, setShowAllHistory] = useState(false);
+  const [showExportDialog, setShowExportDialog] = useState(false);
+  const [exportLayoutVisible, setExportLayoutVisible] = useState(false);
+  const [exportIsSimplified, setExportIsSimplified] = useState(true);
+  const [exportChartType, setExportChartType] = useState<"radar" | "bar">("radar");
 
   /**
    * 获取所有categories（排除Orientation，单独处理）
@@ -63,11 +69,59 @@ function ResultInner() {
   }, [bank]);
 
   /**
+   * 计算答题进度百分比（与答题页面保持一致）
+   * 使用与答题页面完全相同的计算逻辑
+   */
+  const progressPercentage = useMemo(() => {
+    if (!bank || !bank.questions || !progress || !progress.answers) {
+      return 0;
+    }
+    const total = bank.questions.length;
+    if (total === 0) return 0;
+    
+    // 使用与答题页面完全相同的计算逻辑
+    const answeredCount = progress.answers.filter((a) => a.value !== undefined).length;
+    const skippedCount = progress.answers.filter((a) => a.skipped === true).length;
+    const completedCount = answeredCount + skippedCount; // 已完成（已回答或跳过）的题目数
+    
+    const progressPercentage = total > 0 ? (completedCount / total) * 100 : 0;
+    return Math.round(progressPercentage); // 四舍五入，与答题页面保持一致
+  }, [bank, progress]);
+
+  /**
+   * 检查是否有实际答题数据
+   * 1. 检查答题进度是否达到10%（优先检查）
+   * 2. 检查 result.normalized 是否有非零分数（说明是从历史记录恢复的有效结果）
+   * 3. 检查 progress.answers 中是否有实际答案
+   */
+  const hasAnsweredQuestions = useMemo(() => {
+    // 优先检查答题进度是否达到10%
+    if (progressPercentage >= 10) {
+      return true;
+    }
+    
+    // 如果 result 存在且有 normalized 数据，检查是否有非零分数
+    if (result && result.normalized) {
+      const hasNonZeroScore = Object.values(result.normalized).some(score => score > 0);
+      if (hasNonZeroScore) {
+        return true; // 有有效分数，说明是有效结果（可能是从历史记录恢复的）
+      }
+    }
+    
+    // 检查 progress.answers 中是否有实际答案
+    if (!progress || !progress.answers || progress.answers.length === 0) {
+      return false;
+    }
+    // 检查是否有至少一道题有实际答案（有 value 且不是 skipped）
+    return progress.answers.some(answer => answer.value !== undefined && !answer.skipped);
+  }, [progress, result, progressPercentage]);
+
+  /**
    * 计算 Top 3 Traits（按分数排序，取前3个）
    * 必须在所有条件返回之前调用
    */
   const getTopTraits = useMemo(() => {
-    if (!result || !result.normalized) return [];
+    if (!result || !result.normalized || !hasAnsweredQuestions) return [];
     const categoryScores = categories
       .map((cat) => {
         const categoryMeta = bank?.categories?.[cat];
@@ -83,7 +137,7 @@ function ResultInner() {
       .sort((a, b) => b.score - a.score) // 按分数降序排序
       .slice(0, 3); // 取前3个
     return categoryScores;
-  }, [result, bank, categories]);
+  }, [result, bank, categories, hasAnsweredQuestions]);
 
   /**
    * 从历史记录恢复最后一次结果
@@ -115,6 +169,33 @@ function ResultInner() {
       }
     }
   }, [result, history, bank, restoreResult]);
+
+  /**
+   * 如果 result 存在但 progress 为空或进度为0，尝试从历史记录中恢复对应的 progressSnapshot
+   */
+  useEffect(() => {
+    if (result && bank && history.length > 0) {
+      // 检查当前 progress 是否有效
+      const currentProgress = progressPercentage;
+      
+      // 如果进度为0或很小，尝试从历史记录中恢复进度快照
+      if (currentProgress === 0 || (!progress || !progress.answers || progress.answers.length === 0)) {
+        // 查找与当前 result 匹配的历史记录（通过 normalized 数据匹配）
+        const matchingHistory = history.find((item) => {
+          if (!item.result || !item.progressSnapshot) return false;
+          // 简单匹配：检查 normalized 数据是否相似
+          const resultNormalized = JSON.stringify(result.normalized || {});
+          const itemNormalized = JSON.stringify(item.result.normalized || {});
+          return resultNormalized === itemNormalized;
+        });
+        
+        if (matchingHistory && matchingHistory.progressSnapshot) {
+          // 恢复进度快照
+          restoreResult(matchingHistory);
+        }
+      }
+    }
+  }, [result, progress, history, bank, progressPercentage, restoreResult]);
 
   /**
    * 生成分享链接
@@ -170,17 +251,32 @@ function ResultInner() {
   };
 
   /**
+   * 打开导出图片对话框
+   */
+  const handleOpenExportDialog = () => {
+    if (!result || !bank) {
+      toast.error("无法导出：数据不完整");
+      return;
+    }
+    setShowExportDialog(true);
+  };
+
+  /**
    * 导出图片（PNG格式）
    * 将结果页面内容转换为图片并下载
    * 使用 html2canvas 库将 DOM 元素转换为图片
+   * @param isSimplified 是否导出精简版
    */
-  const handleDownloadImage = async () => {
+  const handleDownloadImage = async (isSimplified: boolean, chartType: "radar" | "bar" = "radar") => {
     if (!result || !bank) {
       toast.error("无法导出：数据不完整");
       return;
     }
 
     setIsGeneratingImage(true);
+    setExportIsSimplified(isSimplified);
+    setExportChartType(chartType);
+    
     try {
       // 动态导入 html2canvas（如果库不存在，会抛出错误）
       let html2canvas;
@@ -193,37 +289,210 @@ function ResultInner() {
         return;
       }
       
-      // 等待一小段时间，确保DOM完全渲染
-      await new Promise(resolve => setTimeout(resolve, 300));
+      // 显示导出布局
+      setExportLayoutVisible(true);
+      
+      // 等待布局渲染 - 增加等待时间确保所有内容加载完成
+      await new Promise(resolve => setTimeout(resolve, 1000));
       
       // 获取要导出的内容区域
-      const element = document.getElementById("result-export-content");
+      let element = document.getElementById("export-image-layout");
+      if (!element) {
+        // 如果找不到，再等待一下
+        await new Promise(resolve => setTimeout(resolve, 1000));
+        element = document.getElementById("export-image-layout");
+      }
+      
       if (!element) {
         toast.error("无法找到导出内容");
         setIsGeneratingImage(false);
+        setExportLayoutVisible(false);
         return;
       }
 
-      // 滚动到元素位置，确保元素完全可见
-      element.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      // 确保元素样式正确
+      const el = element as HTMLElement;
+      el.style.position = 'relative';
+      el.style.visibility = 'visible';
+      el.style.opacity = '1';
+      el.style.display = 'block';
+      el.style.width = '100%';
+      el.style.height = 'auto';
+      el.style.left = '0';
+      el.style.top = '0';
+      el.style.marginTop = '0';
+      el.style.marginBottom = '0';
+      el.style.paddingTop = '3rem';
+      el.style.paddingBottom = '3rem';
+      el.style.zIndex = '10';
+      
+      // 滚动到顶部，确保内容从顶部开始显示
+      window.scrollTo({ top: 0, left: 0, behavior: 'instant' });
+      
+      // 获取导出布局的父容器（固定定位的容器）
+      const exportContainer = el.parentElement;
+      if (exportContainer) {
+        exportContainer.scrollTop = 0;
+        (exportContainer as HTMLElement).style.overflow = 'visible';
+      }
+      
+      // 等待滚动完成
+      await new Promise(resolve => setTimeout(resolve, 500));
+      
+      // 再次确保滚动到顶部
+      window.scrollTo({ top: 0, left: 0, behavior: 'instant' });
+      if (exportContainer) {
+        exportContainer.scrollTop = 0;
+      }
+      
+      // 等待内容渲染 - 增加等待时间
+      await new Promise(resolve => setTimeout(resolve, 3000));
+      
+      // 确保所有图片都已加载
+      const images = element.querySelectorAll('img');
+      const imagePromises = Array.from(images).map((img: HTMLImageElement) => {
+        if (img.complete) return Promise.resolve();
+        return new Promise((resolve) => {
+          img.onload = resolve;
+          img.onerror = resolve; // 即使失败也继续
+          setTimeout(resolve, 3000); // 超时保护
+        });
+      });
+      await Promise.all(imagePromises);
+      
+      // 等待SVG和Recharts图表渲染完成
+      // Recharts需要额外时间渲染SVG
+      await new Promise(resolve => setTimeout(resolve, 4000));
+      
+      // 检查是否有Recharts的SVG元素
+      const svgElements = element.querySelectorAll('svg');
+      console.log('找到SVG元素数量:', svgElements.length);
+      if (svgElements.length > 0) {
+        // 等待SVG完全渲染
+        await new Promise(resolve => setTimeout(resolve, 3000));
+        
+        // 检查SVG是否有内容
+        svgElements.forEach((svg, index) => {
+          console.log(`SVG ${index} 尺寸:`, svg.clientWidth, svg.clientHeight);
+          console.log(`SVG ${index} 内容:`, svg.innerHTML.substring(0, 100));
+          // 确保SVG可见
+          const svgEl = svg as unknown as HTMLElement;
+          if (svgEl && svgEl.style) {
+            svgEl.style.display = 'block';
+            svgEl.style.visibility = 'visible';
+            svgEl.style.opacity = '1';
+          }
+        });
+      }
+      
+      // 检查元素尺寸和内容
+      console.log('导出元素尺寸:', el.scrollWidth, el.scrollHeight, el.clientWidth, el.clientHeight);
+      console.log('导出元素内容长度:', el.innerHTML.length);
+      console.log('导出元素位置:', el.offsetTop, el.offsetLeft, el.getBoundingClientRect());
+      
+      // 如果元素尺寸为0，抛出错误
+      if (el.scrollWidth === 0 || el.scrollHeight === 0) {
+        console.error('元素尺寸为0，尝试强制设置尺寸');
+        el.style.minHeight = '1000px';
+        el.style.minWidth = '800px';
+        await new Promise(resolve => setTimeout(resolve, 1000));
+        if (el.scrollWidth === 0 || el.scrollHeight === 0) {
+          throw new Error(`元素尺寸为0: ${el.scrollWidth}x${el.scrollHeight}`);
+        }
+      }
+      
+      // 确保元素在视口中可见
+      el.scrollIntoView({ behavior: 'auto', block: 'start' });
       await new Promise(resolve => setTimeout(resolve, 500));
 
       // 转换为canvas，使用更兼容的配置
+      // 计算实际内容高度，确保捕获完整内容
+      const contentHeight = Math.max(
+        el.scrollHeight,
+        el.offsetHeight,
+        el.clientHeight
+      );
+      const contentWidth = Math.max(
+        el.scrollWidth,
+        el.offsetWidth,
+        el.clientWidth
+      );
+      
+      console.log('内容尺寸:', contentWidth, contentHeight);
+      console.log('元素位置:', el.offsetTop, el.offsetLeft);
+      
+      // 确保元素在视口中
+      const rect = el.getBoundingClientRect();
+      console.log('元素位置信息:', rect);
+      
+      // 如果元素不在视口中，滚动到可见位置
+      if (rect.top < 0 || rect.left < 0) {
+        el.scrollIntoView({ behavior: 'auto', block: 'start', inline: 'start' });
+        await new Promise(resolve => setTimeout(resolve, 500));
+      }
+      
       const canvas = await html2canvas(element, {
-        backgroundColor: resolvedTheme === "dark" ? "#1e293b" : "#ffffff",
+        backgroundColor: resolvedTheme === "dark" ? "#0f172a" : "#ffffff",
         scale: 2, // 提高图片质量
-        logging: false,
+        logging: true, // 开启日志以便调试
         useCORS: true,
         allowTaint: true, // 允许跨域图片
         foreignObjectRendering: true, // 支持SVG和foreignObject
         removeContainer: false,
-        imageTimeout: 15000, // 增加图片加载超时时间
+        imageTimeout: 30000, // 增加图片加载超时时间
+        scrollX: 0, // 确保从左侧开始
+        scrollY: 0, // 确保从顶部开始
         onclone: (clonedDoc) => {
           // 在克隆的文档中，确保所有样式都正确应用
-          const clonedElement = clonedDoc.getElementById("result-export-content");
+          const clonedElement = clonedDoc.getElementById("export-image-layout");
           if (clonedElement) {
+            const clonedEl = clonedElement as HTMLElement;
             // 确保背景色正确
-            (clonedElement as HTMLElement).style.backgroundColor = resolvedTheme === "dark" ? "#1e293b" : "#ffffff";
+            clonedEl.style.backgroundColor = resolvedTheme === "dark" ? "#0f172a" : "#ffffff";
+            // 确保元素可见
+            clonedEl.style.position = 'relative';
+            clonedEl.style.visibility = 'visible';
+            clonedEl.style.opacity = '1';
+            clonedEl.style.display = 'block';
+            clonedEl.style.width = '100%';
+            clonedEl.style.height = 'auto';
+            clonedEl.style.left = '0';
+            clonedEl.style.top = '0';
+            
+            // 确保所有子元素也可见
+            const allChildren = clonedEl.querySelectorAll('*');
+            allChildren.forEach((child) => {
+              const el = child as HTMLElement;
+              el.style.visibility = 'visible';
+              el.style.opacity = '1';
+              el.style.display = el.style.display || 'block';
+              // 确保SVG元素可见
+              if (el.tagName === 'svg') {
+                el.style.display = 'block';
+                el.style.visibility = 'visible';
+                el.style.opacity = '1';
+              }
+              // 确保所有内容元素都在背景之上
+              if (el.classList.contains('relative') || el.classList.contains('z-10')) {
+                el.style.zIndex = '10';
+                el.style.position = 'relative';
+              }
+            });
+            
+            // 特别处理SVG元素
+            const clonedSvgs = clonedEl.querySelectorAll('svg');
+            clonedSvgs.forEach((svg) => {
+              const svgEl = svg as unknown as HTMLElement;
+              if (svgEl && svgEl.style) {
+                svgEl.style.display = 'block';
+                svgEl.style.visibility = 'visible';
+                svgEl.style.opacity = '1';
+                const width = svg.getAttribute('width') || '800px';
+                const height = svg.getAttribute('height') || '400px';
+                svgEl.style.width = width;
+                svgEl.style.height = height;
+              }
+            });
           }
         }
       });
@@ -241,24 +510,29 @@ function ResultInner() {
           }
           
           const imageUrl = URL.createObjectURL(blob);
-          const link = document.createElement("a");
-          link.href = imageUrl;
-          link.download = `kink-profile-${new Date().toISOString().split("T")[0]}.png`;
-          document.body.appendChild(link);
-          link.click();
-          document.body.removeChild(link);
+      const link = document.createElement("a");
+      link.href = imageUrl;
+          const version = isSimplified ? "simplified" : "full";
+          link.download = `kink-profile-${version}-${new Date().toISOString().split("T")[0]}.png`;
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
           
           // 延迟释放URL，确保下载完成
           setTimeout(() => {
-            URL.revokeObjectURL(imageUrl);
+      URL.revokeObjectURL(imageUrl);
           }, 100);
 
-          toast.success(t("export_image_success") || "图片导出成功");
+      toast.success(t("export_image_success") || "图片导出成功");
         } catch (blobError: any) {
           console.error("Failed to create blob:", blobError);
           toast.error(`${t("export_image_failed") || "图片导出失败"}：${blobError?.message || "无法创建图片文件"}`);
-        } finally {
-          setIsGeneratingImage(false);
+    } finally {
+          // 延迟隐藏布局，确保下载完成
+          setTimeout(() => {
+      setIsGeneratingImage(false);
+            setExportLayoutVisible(false);
+          }, 500);
         }
       }, "image/png", 0.95);
       
@@ -267,6 +541,7 @@ function ResultInner() {
       const errorMessage = error?.message || "未知错误";
       toast.error(`${t("export_image_failed") || "图片导出失败"}：${errorMessage}`);
       setIsGeneratingImage(false);
+      setExportLayoutVisible(false);
     }
   };
 
@@ -475,27 +750,87 @@ function ResultInner() {
     return <div className="container mx-auto max-w-3xl py-10">{t("loading")}</div>;
   }
 
-  // 定义多种颜色主题
-  const colorThemes = [
-    { primary: "rgba(32, 224, 192, 0.9)", secondary: "rgba(20, 184, 166, 0.9)", bg: "rgba(32, 224, 192, 0.1)", border: "rgba(32, 224, 192, 0.3)" }, // 青色
-    { primary: "rgba(139, 92, 246, 0.9)", secondary: "rgba(124, 58, 237, 0.9)", bg: "rgba(139, 92, 246, 0.1)", border: "rgba(139, 92, 246, 0.3)" }, // 紫色
-    { primary: "rgba(236, 72, 153, 0.9)", secondary: "rgba(219, 39, 119, 0.9)", bg: "rgba(236, 72, 153, 0.1)", border: "rgba(236, 72, 153, 0.3)" }, // 粉色
-    { primary: "rgba(59, 130, 246, 0.9)", secondary: "rgba(37, 99, 235, 0.9)", bg: "rgba(59, 130, 246, 0.1)", border: "rgba(59, 130, 246, 0.3)" }, // 蓝色
-    { primary: "rgba(251, 146, 60, 0.9)", secondary: "rgba(249, 115, 22, 0.9)", bg: "rgba(251, 146, 60, 0.1)", border: "rgba(251, 146, 60, 0.3)" }, // 橙色
-    { primary: "rgba(34, 197, 94, 0.9)", secondary: "rgba(22, 163, 74, 0.9)", bg: "rgba(34, 197, 94, 0.1)", border: "rgba(34, 197, 94, 0.3)" }, // 绿色
-    { primary: "rgba(168, 85, 247, 0.9)", secondary: "rgba(147, 51, 234, 0.9)", bg: "rgba(168, 85, 247, 0.1)", border: "rgba(168, 85, 247, 0.3)" }, // 紫罗兰
-  ];
-
-  // 根据类别获取颜色主题
-  const getColorTheme = (index: number) => colorThemes[index % colorThemes.length];
-
   return (
+    <>
+      {/* 导出图片对话框 */}
+      <ExportImageDialog
+        open={showExportDialog}
+        onOpenChange={setShowExportDialog}
+        onExport={handleDownloadImage}
+      />
+
+      {/* 导出布局（临时显示，仅用于导出） */}
+      {exportLayoutVisible && result && bank && (
+        <div 
+          style={{ 
+            position: 'fixed', 
+            left: '0', 
+            top: '0', 
+            width: '100vw',
+            height: '100vh',
+            zIndex: 99999,
+            overflow: 'auto',
+            backgroundColor: resolvedTheme === "dark" ? "#0f172a" : "#ffffff",
+            pointerEvents: 'auto', // 允许交互以便html2canvas捕获
+            scrollBehavior: 'auto', // 确保滚动行为
+          }}
+        >
+          {/* 加载提示 */}
+          <div 
+            style={{
+              position: 'fixed',
+              top: '50%',
+              left: '50%',
+              transform: 'translate(-50%, -50%)',
+              zIndex: 100000,
+              padding: '20px 40px',
+              borderRadius: '12px',
+              background: resolvedTheme === "dark" 
+                ? "rgba(43, 51, 62, 0.95)" 
+                : "rgba(255, 255, 255, 0.95)",
+              border: "1px solid rgba(32, 224, 192, 0.3)",
+              boxShadow: "0 8px 32px rgba(0, 0, 0, 0.3)",
+            }}
+          >
+            <p style={{ 
+              color: resolvedTheme === "dark" ? "rgba(255, 255, 255, 0.9)" : "rgba(0, 0, 0, 0.9)",
+              fontWeight: 'bold'
+            }}>
+              正在生成图片...
+            </p>
+          </div>
+          <ExportImageLayout
+            bank={bank}
+            result={result}
+            isSimplified={exportIsSimplified}
+            chartType={exportChartType}
+            getTopTraits={getTopTraits}
+          />
+        </div>
+      )}
+
+      {/* 定义多种颜色主题 */}
+      {(() => {
+        const colorThemes = [
+          { primary: "rgba(32, 224, 192, 0.9)", secondary: "rgba(20, 184, 166, 0.9)", bg: "rgba(32, 224, 192, 0.1)", border: "rgba(32, 224, 192, 0.3)" }, // 青色
+          { primary: "rgba(139, 92, 246, 0.9)", secondary: "rgba(124, 58, 237, 0.9)", bg: "rgba(139, 92, 246, 0.1)", border: "rgba(139, 92, 246, 0.3)" }, // 紫色
+          { primary: "rgba(236, 72, 153, 0.9)", secondary: "rgba(219, 39, 119, 0.9)", bg: "rgba(236, 72, 153, 0.1)", border: "rgba(236, 72, 153, 0.3)" }, // 粉色
+          { primary: "rgba(59, 130, 246, 0.9)", secondary: "rgba(37, 99, 235, 0.9)", bg: "rgba(59, 130, 246, 0.1)", border: "rgba(59, 130, 246, 0.3)" }, // 蓝色
+          { primary: "rgba(251, 146, 60, 0.9)", secondary: "rgba(249, 115, 22, 0.9)", bg: "rgba(251, 146, 60, 0.1)", border: "rgba(251, 146, 60, 0.3)" }, // 橙色
+          { primary: "rgba(34, 197, 94, 0.9)", secondary: "rgba(22, 163, 74, 0.9)", bg: "rgba(34, 197, 94, 0.1)", border: "rgba(34, 197, 94, 0.3)" }, // 绿色
+          { primary: "rgba(168, 85, 247, 0.9)", secondary: "rgba(147, 51, 234, 0.9)", bg: "rgba(168, 85, 247, 0.1)", border: "rgba(168, 85, 247, 0.3)" }, // 紫罗兰
+        ];
+
+        // 根据类别获取颜色主题
+        const getColorTheme = (index: number) => colorThemes[index % colorThemes.length];
+
+        return (
     <div 
       className="min-h-screen"
       style={{
         background: resolvedTheme === "dark"
-          ? "linear-gradient(135deg, rgba(27, 33, 42, 1) 0%, rgba(35, 42, 52, 1) 50%, rgba(27, 33, 42, 1) 100%)"
-          : "linear-gradient(135deg, rgba(248, 250, 252, 1) 0%, rgba(241, 245, 249, 1) 50%, rgba(248, 250, 252, 1) 100%)"
+          ? "#0f172a" // 深色模式：使用纯色背景，更干净
+          : "#ffffff" // 浅色模式：使用纯白色背景，更干净
       }}
     >
       <div className="container mx-auto max-w-4xl pt-6 pb-8 space-y-5">
@@ -504,34 +839,181 @@ function ResultInner() {
             className="rounded-2xl p-6 relative overflow-hidden"
             style={{
               background: resolvedTheme === "dark"
-                ? "linear-gradient(135deg, rgba(43, 51, 62, 0.95) 0%, rgba(35, 42, 52, 0.95) 100%)"
-                : "linear-gradient(135deg, rgba(255, 255, 255, 0.95) 0%, rgba(248, 250, 252, 0.95) 100%)",
-              border: "1px solid rgba(32, 224, 192, 0.2)",
+                ? "rgba(30, 41, 59, 0.98)" // 深色模式：使用更纯的背景色
+                : "#ffffff", // 浅色模式：使用纯白色背景
+              border: `1px solid ${resolvedTheme === "dark" ? "rgba(32, 224, 192, 0.3)" : "rgba(32, 224, 192, 0.2)"}`,
               boxShadow: resolvedTheme === "dark"
                 ? "0 8px 32px rgba(0, 0, 0, 0.3), 0 0 20px rgba(32, 224, 192, 0.1)"
                 : "0 8px 32px rgba(32, 224, 192, 0.15), 0 4px 16px rgba(32, 224, 192, 0.1)"
             }}
           >
-            {/* 装饰性背景光晕 */}
-            <div 
-              className="absolute top-0 right-0 w-40 h-40 rounded-full blur-3xl opacity-20"
-              style={{
-                background: "radial-gradient(circle, rgba(32, 224, 192, 0.4) 0%, transparent 70%)"
-              }}
-            />
             <h1 
-              className="text-2xl sm:text-3xl font-bold relative z-10"
+              className="text-3xl sm:text-4xl font-extrabold relative z-10 mb-4 text-center"
               style={{
-                background: "linear-gradient(135deg, rgba(32, 224, 192, 1) 0%, rgba(139, 92, 246, 1) 100%)",
+                background: "linear-gradient(135deg, #20E0C0 0%, #8B5CF6 50%, #EC4899 100%)",
                 WebkitBackgroundClip: "text",
                 WebkitTextFillColor: "transparent",
-                backgroundClip: "text"
+                backgroundClip: "text",
+                letterSpacing: "-0.02em",
+                lineHeight: "1.2"
               }}
             >
               {t("title")}
             </h1>
-            <p className="mt-2 text-sm text-muted-foreground relative z-10">{t("disclaimer")}</p>
+            {/* 发光线条效果 */}
+            <div 
+              className="relative z-10 mb-4"
+              style={{
+                height: '2px',
+                width: '100%',
+                maxWidth: '400px',
+                margin: '0 auto',
+                background: 'linear-gradient(90deg, transparent 0%, #20E0C0 15%, #8B5CF6 50%, #20E0C0 85%, transparent 100%)',
+                boxShadow: `0 0 10px rgba(32, 224, 192, 0.6), 0 0 20px rgba(139, 92, 246, 0.5), 0 0 30px rgba(32, 224, 192, 0.3), 0 0 40px rgba(139, 92, 246, 0.2)`,
+                borderRadius: '1px'
+              }}
+            />
+            <p 
+              className="mt-3 text-sm sm:text-base relative z-10 text-center font-medium"
+              style={{
+                color: resolvedTheme === "dark" 
+                  ? "rgba(255, 255, 255, 0.7)" 
+                  : "rgba(0, 0, 0, 0.6)",
+                letterSpacing: "0.02em",
+                lineHeight: "1.6"
+              }}
+            >
+          {t("disclaimer")}
+        </p>
       </div>
+
+          {/* 如果答题进度小于10%，显示提醒（不显示结果） */}
+          {result && progressPercentage < 10 && (
+            <div 
+              className="rounded-2xl p-6 relative overflow-hidden"
+              style={{
+                background: resolvedTheme === "dark"
+                  ? "rgba(251, 191, 36, 0.1)"
+                  : "rgba(254, 243, 199, 0.9)",
+                border: `1px solid ${resolvedTheme === "dark" ? "rgba(251, 191, 36, 0.3)" : "rgba(251, 191, 36, 0.25)"}`,
+                boxShadow: resolvedTheme === "dark"
+                  ? "0 8px 32px rgba(0, 0, 0, 0.3), 0 0 20px rgba(251, 191, 36, 0.1)"
+                  : "0 8px 32px rgba(251, 191, 36, 0.15), 0 4px 16px rgba(251, 191, 36, 0.1)"
+              }}
+            >
+              <div className="flex items-start gap-4">
+                {/* 警告图标 */}
+                <div 
+                  className="flex-shrink-0 w-12 h-12 rounded-xl flex items-center justify-center"
+                  style={{
+                    background: resolvedTheme === "dark"
+                      ? "linear-gradient(135deg, rgba(251, 191, 36, 0.2) 0%, rgba(251, 191, 36, 0.1) 100%)"
+                      : "linear-gradient(135deg, rgba(251, 191, 36, 0.15) 0%, rgba(251, 191, 36, 0.08) 100%)",
+                    border: `1.5px solid ${resolvedTheme === "dark" ? "rgba(251, 191, 36, 0.4)" : "rgba(251, 191, 36, 0.3)"}`,
+                  }}
+                >
+                  <span className="text-2xl">⚠️</span>
+                </div>
+                
+                {/* 提醒内容 */}
+                <div className="flex-1">
+                  <h2 
+                    className="text-lg font-semibold mb-2 relative z-10"
+                    style={{
+                      color: resolvedTheme === "dark" ? "rgba(251, 191, 36, 0.95)" : "rgba(217, 119, 6, 0.9)"
+                    }}
+                  >
+                    {t("low_progress_title")}
+                  </h2>
+                  <p 
+                    className="text-sm mb-4 relative z-10"
+                    style={{
+                      color: resolvedTheme === "dark" ? "rgba(251, 191, 36, 0.8)" : "rgba(217, 119, 6, 0.8)"
+                    }}
+                  >
+                    {t("low_progress_message", { percentage: progressPercentage })}
+                  </p>
+                  <Button 
+                    onClick={() => router.push(`/${locale}/test/run`)}
+                    className="rounded-xl transition-all duration-300 hover:scale-105 relative overflow-hidden group z-10"
+                    style={{
+                      background: "linear-gradient(135deg, rgba(32, 224, 192, 0.95) 0%, rgba(20, 184, 166, 0.95) 100%)",
+                      color: 'white',
+                      boxShadow: '0 4px 16px rgba(32, 224, 192, 0.4), 0 2px 8px rgba(32, 224, 192, 0.3)',
+                      border: 'none'
+                    }}
+                  >
+                    <div className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-300" style={{ background: "linear-gradient(135deg, rgba(255, 255, 255, 0.2) 0%, transparent 100%)" }} />
+                    <span className="relative z-10">{t("continue_test")}</span>
+                  </Button>
+                </div>
+              </div>
+            </div>
+          )}
+
+          {/* 如果答题进度 >= 10% 但 < 100%，显示提醒完成全部答题 */}
+          {result && progressPercentage >= 10 && progressPercentage < 100 && (
+            <div 
+              className="rounded-2xl p-6 relative overflow-hidden"
+              style={{
+                background: resolvedTheme === "dark"
+                  ? "rgba(59, 130, 246, 0.1)"
+                  : "rgba(219, 234, 254, 0.9)",
+                border: `1px solid ${resolvedTheme === "dark" ? "rgba(59, 130, 246, 0.3)" : "rgba(59, 130, 246, 0.25)"}`,
+                boxShadow: resolvedTheme === "dark"
+                  ? "0 8px 32px rgba(0, 0, 0, 0.3), 0 0 20px rgba(59, 130, 246, 0.1)"
+                  : "0 8px 32px rgba(59, 130, 246, 0.15), 0 4px 16px rgba(59, 130, 246, 0.1)"
+              }}
+            >
+              <div className="flex items-start gap-4">
+                {/* 提示图标 */}
+                <div 
+                  className="flex-shrink-0 w-12 h-12 rounded-xl flex items-center justify-center"
+                  style={{
+                    background: resolvedTheme === "dark"
+                      ? "linear-gradient(135deg, rgba(59, 130, 246, 0.2) 0%, rgba(59, 130, 246, 0.1) 100%)"
+                      : "linear-gradient(135deg, rgba(59, 130, 246, 0.15) 0%, rgba(59, 130, 246, 0.08) 100%)",
+                    border: `1.5px solid ${resolvedTheme === "dark" ? "rgba(59, 130, 246, 0.4)" : "rgba(59, 130, 246, 0.3)"}`,
+                  }}
+                >
+                  <span className="text-2xl">💡</span>
+                </div>
+                
+                {/* 提醒内容 */}
+                <div className="flex-1">
+                  <h2 
+                    className="text-lg font-semibold mb-2 relative z-10"
+                    style={{
+                      color: resolvedTheme === "dark" ? "rgba(59, 130, 246, 0.95)" : "rgba(37, 99, 235, 0.9)"
+                    }}
+                  >
+                    {t("incomplete_progress_title")}
+                  </h2>
+                  <p 
+                    className="text-sm mb-4 relative z-10"
+                    style={{
+                      color: resolvedTheme === "dark" ? "rgba(59, 130, 246, 0.8)" : "rgba(37, 99, 235, 0.8)"
+                    }}
+                  >
+                    {t("incomplete_progress_message", { percentage: progressPercentage })}
+                  </p>
+                  <Button 
+                    onClick={() => router.push(`/${locale}/test/run`)}
+                    className="rounded-xl transition-all duration-300 hover:scale-105 relative overflow-hidden group z-10"
+                    style={{
+                      background: "linear-gradient(135deg, rgba(59, 130, 246, 0.95) 0%, rgba(37, 99, 235, 0.95) 100%)",
+                      color: 'white',
+                      boxShadow: '0 4px 16px rgba(59, 130, 246, 0.4), 0 2px 8px rgba(59, 130, 246, 0.3)',
+                      border: 'none'
+                    }}
+                  >
+                    <div className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-300" style={{ background: "linear-gradient(135deg, rgba(255, 255, 255, 0.2) 0%, transparent 100%)" }} />
+                    <span className="relative z-10">{t("complete_test")}</span>
+                  </Button>
+                </div>
+              </div>
+            </div>
+          )}
 
           {/* 如果没有结果，显示提示信息 */}
           {!result && (
@@ -539,21 +1021,14 @@ function ResultInner() {
               className="rounded-2xl p-6 relative overflow-hidden"
               style={{
                 background: resolvedTheme === "dark"
-                  ? "linear-gradient(135deg, rgba(251, 191, 36, 0.15) 0%, rgba(245, 158, 11, 0.15) 100%)"
-                  : "linear-gradient(135deg, rgba(254, 243, 199, 0.8) 0%, rgba(253, 230, 138, 0.8) 100%)",
-                border: "1px solid rgba(251, 191, 36, 0.3)",
+                  ? "rgba(251, 191, 36, 0.1)" // 深色模式：使用更纯的背景色
+                  : "rgba(254, 243, 199, 0.9)", // 浅色模式：使用更纯的背景色
+                border: `1px solid ${resolvedTheme === "dark" ? "rgba(251, 191, 36, 0.3)" : "rgba(251, 191, 36, 0.25)"}`,
                 boxShadow: resolvedTheme === "dark"
                   ? "0 8px 32px rgba(0, 0, 0, 0.3), 0 0 20px rgba(251, 191, 36, 0.1)"
                   : "0 8px 32px rgba(251, 191, 36, 0.15), 0 4px 16px rgba(251, 191, 36, 0.1)"
               }}
             >
-              {/* 装饰性背景光晕 */}
-              <div 
-                className="absolute top-0 right-0 w-32 h-32 rounded-full blur-3xl opacity-20"
-                style={{
-                  background: "radial-gradient(circle, rgba(251, 191, 36, 0.4) 0%, transparent 70%)"
-                }}
-              />
               <h2 
                 className="text-lg font-semibold mb-3 relative z-10"
                 style={{
@@ -594,34 +1069,27 @@ function ResultInner() {
                   <span className="relative z-10">{t("start_test")}</span>
           </Button>
               )}
-        </div>
+      </div>
           )}
 
-        {/* 分数概览与图表 */}
-          {result ? (
+      {/* 分数概览与图表 */}
+      {result && hasAnsweredQuestions ? (
             <div id="result-export-content" className="space-y-4">
               {/* 图表区域 */}
               <div 
                 className="rounded-2xl p-5 relative overflow-hidden"
                 style={{
                   background: resolvedTheme === "dark"
-                    ? "linear-gradient(135deg, rgba(43, 51, 62, 0.95) 0%, rgba(35, 42, 52, 0.95) 100%)"
-                    : "linear-gradient(135deg, rgba(255, 255, 255, 0.95) 0%, rgba(248, 250, 252, 0.95) 100%)",
-                  border: "1px solid rgba(139, 92, 246, 0.2)",
+                    ? "rgba(30, 41, 59, 0.98)" // 深色模式：使用更纯的背景色
+                    : "#ffffff", // 浅色模式：使用纯白色背景
+                  border: `1px solid ${resolvedTheme === "dark" ? "rgba(139, 92, 246, 0.3)" : "rgba(139, 92, 246, 0.2)"}`,
                   boxShadow: resolvedTheme === "dark"
                     ? "0 8px 32px rgba(0, 0, 0, 0.3), 0 0 20px rgba(139, 92, 246, 0.1)"
                     : "0 8px 32px rgba(139, 92, 246, 0.15), 0 4px 16px rgba(139, 92, 246, 0.1)"
                 }}
               >
-                {/* 装饰性背景光晕 */}
-                <div 
-                  className="absolute top-0 left-0 w-32 h-32 rounded-full blur-3xl opacity-20"
-                  style={{
-                    background: "radial-gradient(circle, rgba(139, 92, 246, 0.4) 0%, transparent 70%)"
-                  }}
-                />
                 <div className="relative z-10">
-                  <ResultChart bank={bank} result={result} variant="radar" />
+          <ResultChart bank={bank} result={result} variant="radar" />
                 </div>
           </div>
 
@@ -631,21 +1099,14 @@ function ResultInner() {
                   className="rounded-2xl p-6 relative overflow-hidden"
                   style={{
                     background: resolvedTheme === "dark"
-                      ? "linear-gradient(135deg, rgba(43, 51, 62, 0.95) 0%, rgba(35, 42, 52, 0.95) 100%)"
-                      : "linear-gradient(135deg, rgba(255, 255, 255, 0.95) 0%, rgba(248, 250, 252, 0.95) 100%)",
-                    border: "1px solid rgba(236, 72, 153, 0.2)",
+                      ? "rgba(30, 41, 59, 0.98)" // 深色模式：使用更纯的背景色
+                      : "#ffffff", // 浅色模式：使用纯白色背景
+                    border: `1px solid ${resolvedTheme === "dark" ? "rgba(236, 72, 153, 0.3)" : "rgba(236, 72, 153, 0.2)"}`,
                     boxShadow: resolvedTheme === "dark"
                       ? "0 8px 32px rgba(0, 0, 0, 0.3), 0 0 20px rgba(236, 72, 153, 0.1)"
                       : "0 8px 32px rgba(236, 72, 153, 0.15), 0 4px 16px rgba(236, 72, 153, 0.1)"
                   }}
                 >
-                  {/* 装饰性背景光晕 */}
-                  <div 
-                    className="absolute top-0 right-0 w-32 h-32 rounded-full blur-3xl opacity-20"
-                    style={{
-                      background: "radial-gradient(circle, rgba(236, 72, 153, 0.4) 0%, transparent 70%)"
-                    }}
-                  />
                   <h2 
                     className="text-xl font-bold mb-6 relative z-10 tracking-tight"
                     style={{
@@ -671,7 +1132,7 @@ function ResultInner() {
                               ? `linear-gradient(135deg, ${theme.bg} 0%, ${theme.bg.replace('0.1', '0.15')} 100%)`
                               : `linear-gradient(135deg, ${theme.bg} 0%, ${theme.bg.replace('0.1', '0.15')} 100%)`,
                             border: `1.5px solid ${theme.border}`,
-                            boxShadow: `0 4px 16px ${theme.border.replace('0.3', '0.25')}, 0 2px 8px ${theme.border.replace('0.3', '0.15')}`
+                            boxShadow: `0 2px 8px ${theme.border.replace('0.3', '0.1')}, 0 1px 4px ${theme.border.replace('0.3', '0.08')}`
                           }}
                   >
                           <span 
@@ -679,7 +1140,7 @@ function ResultInner() {
                             style={{ 
                               background: `linear-gradient(135deg, ${theme.primary} 0%, ${theme.secondary} 100%)`,
                               color: 'white',
-                              boxShadow: `0 2px 8px ${theme.border.replace('0.3', '0.5')}, inset 0 1px 0 rgba(255, 255, 255, 0.3)`
+                              boxShadow: `0 1px 4px ${theme.border.replace('0.3', '0.2')}, inset 0 1px 0 rgba(255, 255, 255, 0.3)`
                             }}
                           >
                             {index + 1}
@@ -697,8 +1158,8 @@ function ResultInner() {
                               }}
                             >
                               {trait.score}/100
-                            </span>
-                          </div>
+                    </span>
+                  </div>
                   </div>
                       );
                     })}
@@ -707,26 +1168,19 @@ function ResultInner() {
           )}
 
           {/* 文本分析 */}
-              {result.text_analysis ? (
+          {result.text_analysis && hasAnsweredQuestions ? (
                 <div 
                   className="rounded-2xl p-5 relative overflow-hidden"
                   style={{
                     background: resolvedTheme === "dark"
-                      ? "linear-gradient(135deg, rgba(43, 51, 62, 0.95) 0%, rgba(35, 42, 52, 0.95) 100%)"
-                      : "linear-gradient(135deg, rgba(255, 255, 255, 0.95) 0%, rgba(248, 250, 252, 0.95) 100%)",
-                    border: "1px solid rgba(59, 130, 246, 0.2)",
+                      ? "rgba(30, 41, 59, 0.98)" // 深色模式：使用更纯的背景色
+                      : "#ffffff", // 浅色模式：使用纯白色背景
+                    border: `1px solid ${resolvedTheme === "dark" ? "rgba(59, 130, 246, 0.3)" : "rgba(59, 130, 246, 0.2)"}`,
                     boxShadow: resolvedTheme === "dark"
                       ? "0 8px 32px rgba(0, 0, 0, 0.3), 0 0 20px rgba(59, 130, 246, 0.1)"
                       : "0 8px 32px rgba(59, 130, 246, 0.15), 0 4px 16px rgba(59, 130, 246, 0.1)"
                   }}
                 >
-                  {/* 装饰性背景光晕 */}
-                  <div 
-                    className="absolute top-0 left-0 w-32 h-32 rounded-full blur-3xl opacity-20"
-                    style={{
-                      background: "radial-gradient(circle, rgba(59, 130, 246, 0.4) 0%, transparent 70%)"
-                    }}
-                  />
                   <h2 
                     className="text-xl font-bold mb-6 relative z-10 tracking-tight"
                     style={{
@@ -741,32 +1195,25 @@ function ResultInner() {
                     {t("analysis_result")}
                   </h2>
                   <div className="relative z-10">
-                    <ResultText result={result} />
-                  </div>
+              <ResultText result={result} />
         </div>
-      ) : null}
+                    </div>
+                    ) : null}
 
           {/* Kinsey光谱展示（如果有Orientation结果） */}
-              {result.orientation_spectrum !== undefined ? (
+          {result.orientation_spectrum !== undefined ? (
                 <div 
                   className="rounded-2xl p-5 relative overflow-hidden"
                   style={{
                     background: resolvedTheme === "dark"
-                      ? "linear-gradient(135deg, rgba(43, 51, 62, 0.95) 0%, rgba(35, 42, 52, 0.95) 100%)"
-                      : "linear-gradient(135deg, rgba(255, 255, 255, 0.95) 0%, rgba(248, 250, 252, 0.95) 100%)",
-                    border: "1px solid rgba(168, 85, 247, 0.2)",
+                      ? "rgba(30, 41, 59, 0.98)" // 深色模式：使用更纯的背景色
+                      : "#ffffff", // 浅色模式：使用纯白色背景
+                    border: `1px solid ${resolvedTheme === "dark" ? "rgba(168, 85, 247, 0.3)" : "rgba(168, 85, 247, 0.2)"}`,
                     boxShadow: resolvedTheme === "dark"
                       ? "0 8px 32px rgba(0, 0, 0, 0.3), 0 0 20px rgba(168, 85, 247, 0.1)"
                       : "0 8px 32px rgba(168, 85, 247, 0.15), 0 4px 16px rgba(168, 85, 247, 0.1)"
                   }}
                 >
-                  {/* 装饰性背景光晕 */}
-                  <div 
-                    className="absolute top-0 right-0 w-32 h-32 rounded-full blur-3xl opacity-20"
-                    style={{
-                      background: "radial-gradient(circle, rgba(168, 85, 247, 0.4) 0%, transparent 70%)"
-                    }}
-                  />
                   <h3 
                     className="text-base font-semibold mb-4 relative z-10"
                     style={{
@@ -786,16 +1233,16 @@ function ResultInner() {
                         }}
                   />
                       <div className="absolute top-0 left-0 h-full w-full flex items-center justify-center text-xs font-bold" style={{ zIndex: 1, color: resolvedTheme === "dark" ? "rgba(255, 255, 255, 0.9)" : "rgba(0, 0, 0, 0.8)" }}>
-                        {result.orientation_spectrum.toFixed(1)} / 7
+                    {result.orientation_spectrum.toFixed(1)} / 7
                   </div>
                 </div>
                     <div className="text-xs font-medium px-3 py-1 rounded-lg" style={{ 
                       background: resolvedTheme === "dark" ? "rgba(168, 85, 247, 0.15)" : "rgba(168, 85, 247, 0.1)",
                       color: resolvedTheme === "dark" ? "rgba(168, 85, 247, 0.95)" : "rgba(168, 85, 247, 0.9)"
                     }}>
-                      {result.orientation_spectrum <= 1 ? "Heterosexual" :
-                       result.orientation_spectrum <= 3 ? "Bisexual/Fluid" :
-                       result.orientation_spectrum <= 5 ? "Homosexual" :
+                  {result.orientation_spectrum <= 1 ? "Heterosexual" :
+                   result.orientation_spectrum <= 3 ? "Bisexual/Fluid" :
+                   result.orientation_spectrum <= 5 ? "Homosexual" :
                    "Asexual/Aromantic"}
                 </div>
               </div>
@@ -845,7 +1292,7 @@ function ResultInner() {
             )}
             <Button
               variant="outline"
-                  onClick={handleDownloadKinkProfile} 
+              onClick={handleDownloadKinkProfile}
               disabled={isGeneratingPdf}
                   className="flex items-center gap-2 rounded-xl transition-all duration-300 hover:scale-105"
                   style={{
@@ -853,14 +1300,14 @@ function ResultInner() {
                     background: resolvedTheme === "dark" ? "rgba(236, 72, 153, 0.1)" : "rgba(236, 72, 153, 0.05)",
                     color: resolvedTheme === "dark" ? "rgba(236, 72, 153, 0.9)" : "rgba(236, 72, 153, 0.8)"
                   }}
-                >
-                  <Download className="w-4 h-4" />
-                  {isGeneratingPdf ? t("download_profile_processing") || "生成中..." : t("download_profile") || "Download your kink profile"}
-                </Button>
-                <Button 
-                  variant="outline" 
-                  onClick={handleDownloadImage} 
-                  disabled={isGeneratingImage} 
+            >
+              <Download className="w-4 h-4" />
+              {isGeneratingPdf ? t("download_profile_processing") || "生成中..." : t("download_profile") || "Download your kink profile"}
+            </Button>
+            <Button
+              variant="outline"
+                  onClick={handleOpenExportDialog} 
+              disabled={isGeneratingImage}
                   className="flex items-center gap-2 rounded-xl transition-all duration-300 hover:scale-105"
                   style={{
                     border: "1px solid rgba(59, 130, 246, 0.3)",
@@ -869,7 +1316,7 @@ function ResultInner() {
                   }}
             >
               <Download className="w-4 h-4" />
-                  {isGeneratingImage ? t("download_image_processing") || "生成中..." : t("download_image") || "Export as Image"}
+              {isGeneratingImage ? t("download_image_processing") || "生成中..." : t("download_image") || "Export as Image"}
             </Button>
             <Button
               variant="outline"
@@ -885,8 +1332,8 @@ function ResultInner() {
               {t("export_json")}
             </Button>
           </div>
-            </div>
-          ) : null}
+        </div>
+      ) : null}
 
           {/* 历史记录 */}
           <div 
@@ -901,13 +1348,6 @@ function ResultInner() {
                 : "0 8px 32px rgba(34, 197, 94, 0.15), 0 4px 16px rgba(34, 197, 94, 0.1)"
             }}
           >
-            {/* 装饰性背景光晕 */}
-            <div 
-              className="absolute top-0 left-0 w-32 h-32 rounded-full blur-3xl opacity-20"
-              style={{
-                background: "radial-gradient(circle, rgba(34, 197, 94, 0.4) 0%, transparent 70%)"
-              }}
-            />
             <h2 
               className="text-lg font-semibold mb-4 relative z-10"
               style={{
@@ -935,13 +1375,6 @@ function ResultInner() {
                           boxShadow: `0 2px 8px ${theme.border.replace('0.3', '0.15')}`
                         }}
                       >
-                        {/* 装饰性背景光晕 */}
-                        <div 
-                          className="absolute top-0 right-0 w-20 h-20 rounded-full blur-2xl opacity-20"
-                          style={{
-                            background: `radial-gradient(circle, ${theme.primary.replace('0.9', '0.3')} 0%, transparent 70%)`
-                          }}
-                        />
                         <div className="flex flex-col flex-1 relative z-10">
                           <span className="font-medium mb-1" style={{ color: theme.primary }}>
                             {t("time")}：{new Date(h.createdAt).toLocaleString()}
@@ -1030,13 +1463,6 @@ function ResultInner() {
                 : "0 8px 32px rgba(32, 224, 192, 0.15), 0 4px 16px rgba(32, 224, 192, 0.1)"
             }}
           >
-            {/* 装饰性背景光晕 */}
-            <div 
-              className="absolute top-0 right-0 w-32 h-32 rounded-full blur-3xl opacity-20"
-              style={{
-                background: "radial-gradient(circle, rgba(32, 224, 192, 0.4) 0%, transparent 70%)"
-              }}
-            />
             <Button 
               onClick={() => reset()}
               className="rounded-xl transition-all duration-300 hover:scale-105 relative overflow-hidden group z-10"
@@ -1077,13 +1503,6 @@ function ResultInner() {
                 : "0 8px 32px rgba(251, 146, 60, 0.15), 0 4px 16px rgba(251, 146, 60, 0.1)"
             }}
           >
-            {/* 装饰性背景光晕 */}
-            <div 
-              className="absolute top-0 left-0 w-32 h-32 rounded-full blur-3xl opacity-20"
-              style={{
-                background: "radial-gradient(circle, rgba(251, 146, 60, 0.4) 0%, transparent 70%)"
-              }}
-            />
             <p className="text-sm text-muted-foreground relative z-10 leading-relaxed">{t("principle")}</p>
             <div className="pt-2 relative z-10">
           <Button
@@ -1103,6 +1522,9 @@ function ResultInner() {
         </div>
       </div>
     </div>
+        );
+      })()}
+    </>
   );
 }
 

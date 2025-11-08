@@ -108,7 +108,7 @@ const categoryMetadataZh: Record<string, { name: string; description?: string }>
 /**
  * 根据语言环境获取类别元数据
  */
-function getCategoryMetadata(locale: string): Record<string, { name: string; description?: string }> {
+export function getCategoryMetadata(locale: string): Record<string, { name: string; description?: string }> {
   const isZh = locale === 'zh' || locale.startsWith('zh');
   return isZh ? categoryMetadataZh : categoryMetadataEn;
 }

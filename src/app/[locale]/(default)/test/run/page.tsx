@@ -730,14 +730,7 @@ function RunInner() {
                   </div>
                   
                   {/* 描述文本 - 带装饰 */}
-                  <DialogDescription 
-                    className="whitespace-pre-line mt-6 leading-relaxed text-base sm:text-lg relative pl-4"
-                    style={{
-                      color: resolvedTheme === "dark" 
-                        ? "rgba(255, 255, 255, 0.85)" 
-                        : "rgba(0, 0, 0, 0.75)"
-                    }}
-                  >
+                  <div className="relative pl-4">
                     {/* 左侧装饰线 */}
                     <div 
                       className="absolute left-0 top-0 bottom-0 w-1 rounded-full"
@@ -745,8 +738,17 @@ function RunInner() {
                         background: "linear-gradient(180deg, rgba(32, 224, 192, 0.6) 0%, rgba(32, 224, 192, 0.3) 100%)"
                       }}
                     />
-                    {t("incomplete_dialog_message", { percentage: Math.round(progressPercentage) })}
-                  </DialogDescription>
+                    <DialogDescription 
+                      className="whitespace-pre-line mt-6 leading-relaxed text-base sm:text-lg"
+                      style={{
+                        color: resolvedTheme === "dark" 
+                          ? "rgba(255, 255, 255, 0.85)" 
+                          : "rgba(0, 0, 0, 0.75)"
+                      }}
+                    >
+                      {t("incomplete_dialog_message", { percentage: Math.round(progressPercentage) })}
+                    </DialogDescription>
+                  </div>
                 </DialogHeader>
                 
                 <DialogFooter className="flex-col sm:flex-row gap-3 sm:gap-4 mt-10 sm:mt-12 relative z-10">

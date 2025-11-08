@@ -401,12 +401,19 @@ export function ResultChart({ bank, result, variant: initialVariant = "radar" }:
                         borderRadius: "8px",
                         color: "white"
                       }}
+                      cursor={{ fill: 'transparent' }}
                     />
                     <Bar 
                       dataKey="score" 
                       name={`${t("chart_score")}(0-100)`} 
                       fill="url(#barGradient)"
                       radius={[10, 10, 0, 0]}
+                      activeBar={{
+                        fill: "url(#barGradient)",
+                        stroke: resolvedTheme === "dark" ? "rgba(255, 255, 255, 0.05)" : "rgba(0, 0, 0, 0.02)",
+                        strokeWidth: 0.5,
+                        opacity: 1,
+                      }}
                     />
                   </BarChart>
                 </ResponsiveContainer>
