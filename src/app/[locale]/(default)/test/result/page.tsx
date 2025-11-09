@@ -762,50 +762,136 @@ function ResultInner() {
       {/* 导出布局（临时显示，仅用于导出） */}
       {exportLayoutVisible && result && bank && (
         <div 
+          className="fixed inset-0 w-screen h-screen overflow-hidden"
           style={{ 
-            position: 'fixed', 
-            left: '0', 
-            top: '0', 
-            width: '100vw',
-            height: '100vh',
             zIndex: 99999,
-            overflow: 'auto',
-            backgroundColor: resolvedTheme === "dark" ? "#0f172a" : "#ffffff",
+            background: resolvedTheme === "dark"
+              ? "radial-gradient(ellipse at top, #3a4550 0%, #2b333e 50%, #1f2630 100%)" 
+              : "radial-gradient(ellipse at top, rgba(32, 224, 192, 0.15) 0%, rgba(255, 255, 255, 0.8) 50%, rgba(240, 253, 250, 0.9) 100%)",
             pointerEvents: 'auto', // 允许交互以便html2canvas捕获
             scrollBehavior: 'auto', // 确保滚动行为
+            minHeight: '100vh', // 确保最小高度
           }}
         >
-          {/* 加载提示 */}
+          {/* 背景装饰 - 与测试结果页面风格一致 */}
           <div 
+            className="absolute inset-0 pointer-events-none overflow-hidden"
             style={{
-              position: 'fixed',
-              top: '50%',
-              left: '50%',
-              transform: 'translate(-50%, -50%)',
-              zIndex: 100000,
-              padding: '20px 40px',
-              borderRadius: '12px',
-              background: resolvedTheme === "dark" 
-                ? "rgba(43, 51, 62, 0.95)" 
-                : "rgba(255, 255, 255, 0.95)",
-              border: "1px solid rgba(32, 224, 192, 0.3)",
-              boxShadow: "0 8px 32px rgba(0, 0, 0, 0.3)",
+              opacity: resolvedTheme === "dark" ? 0.3 : 0.1,
             }}
           >
-            <p style={{ 
-              color: resolvedTheme === "dark" ? "rgba(255, 255, 255, 0.9)" : "rgba(0, 0, 0, 0.9)",
-              fontWeight: 'bold'
-            }}>
-              正在生成图片...
-            </p>
+            {/* 渐变光晕效果 */}
+            <div 
+              className="absolute top-20 left-10 w-64 h-64 rounded-full blur-3xl"
+              style={{
+                background: "radial-gradient(circle, rgba(32, 224, 192, 0.4) 0%, transparent 70%)",
+                animation: "pulse-slow 4s ease-in-out infinite",
+              }}
+            />
+            <div 
+              className="absolute bottom-20 right-10 w-80 h-80 rounded-full blur-3xl"
+              style={{
+                background: "radial-gradient(circle, rgba(139, 92, 246, 0.4) 0%, transparent 70%)",
+                animation: "pulse-slow 5s ease-in-out infinite reverse",
+              }}
+            />
+            <div 
+              className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-96 h-96 rounded-full blur-3xl"
+              style={{
+                background: "radial-gradient(circle, rgba(236, 72, 153, 0.3) 0%, transparent 70%)",
+                animation: "pulse-slow 6s ease-in-out infinite",
+              }}
+            />
+            
+            {/* 装饰性网格线 */}
+            <div 
+              className="absolute inset-0"
+              style={{
+                backgroundImage: resolvedTheme === "dark"
+                  ? "linear-gradient(rgba(32, 224, 192, 0.03) 1px, transparent 1px), linear-gradient(90deg, rgba(32, 224, 192, 0.03) 1px, transparent 1px)"
+                  : "linear-gradient(rgba(32, 224, 192, 0.02) 1px, transparent 1px), linear-gradient(90deg, rgba(32, 224, 192, 0.02) 1px, transparent 1px)",
+                backgroundSize: "50px 50px",
+              }}
+            />
           </div>
-          <ExportImageLayout
-            bank={bank}
-            result={result}
-            isSimplified={exportIsSimplified}
-            chartType={exportChartType}
-            getTopTraits={getTopTraits}
-          />
+
+          {/* 加载提示弹窗 - 居中显示，美化设计 */}
+          <div 
+            className="fixed left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 z-[100000] px-8 py-6 sm:px-10 sm:py-8 rounded-2xl sm:rounded-3xl"
+            style={{
+              minWidth: '280px',
+              maxWidth: '90vw',
+              background: resolvedTheme === "dark" 
+                ? "linear-gradient(135deg, rgba(43, 51, 62, 0.98) 0%, rgba(35, 42, 52, 0.98) 100%)" 
+                : "linear-gradient(135deg, rgba(255, 255, 255, 0.98) 0%, rgba(248, 250, 252, 0.98) 100%)",
+              border: `2px solid ${resolvedTheme === "dark" ? "rgba(32, 224, 192, 0.4)" : "rgba(32, 224, 192, 0.3)"}`,
+              boxShadow: resolvedTheme === "dark"
+                ? "0 20px 60px rgba(0, 0, 0, 0.4), 0 0 40px rgba(32, 224, 192, 0.2), inset 0 1px 0 rgba(255, 255, 255, 0.1)"
+                : "0 20px 60px rgba(32, 224, 192, 0.2), 0 8px 32px rgba(139, 92, 246, 0.15), inset 0 1px 0 rgba(255, 255, 255, 0.9)",
+              backdropFilter: 'blur(20px)',
+            }}
+          >
+            {/* 内部光晕效果 */}
+            <div 
+              className="absolute top-0 right-0 w-32 h-32 rounded-full blur-2xl opacity-30 pointer-events-none"
+              style={{
+                background: "radial-gradient(circle, rgba(32, 224, 192, 0.4) 0%, transparent 70%)",
+              }}
+            />
+            
+            <div className="relative z-10 flex flex-col items-center gap-4">
+              {/* 加载动画图标 */}
+              <div className="relative w-16 h-16 sm:w-20 sm:h-20">
+                <div 
+                  className="absolute inset-0 rounded-full border-4 border-transparent"
+                  style={{
+                    borderTopColor: "#20E0C0",
+                    borderRightColor: "#8B5CF6",
+                    animation: "spin 1s linear infinite",
+                  }}
+                />
+                <div 
+                  className="absolute inset-2 rounded-full border-4 border-transparent"
+                  style={{
+                    borderBottomColor: "#EC4899",
+                    borderLeftColor: "#20E0C0",
+                    animation: "spin 1.5s linear infinite reverse",
+                  }}
+                />
+              </div>
+              
+              {/* 提示文字 */}
+              <div className="text-center">
+                <p 
+                  className="text-lg sm:text-xl font-semibold mb-2"
+                  style={{ 
+                    color: resolvedTheme === "dark" ? "rgba(255, 255, 255, 0.95)" : "rgba(0, 0, 0, 0.9)",
+                  }}
+                >
+                  正在导出结果
+                </p>
+                <p 
+                  className="text-sm sm:text-base font-medium"
+                  style={{ 
+                    color: resolvedTheme === "dark" ? "rgba(255, 255, 255, 0.7)" : "rgba(0, 0, 0, 0.6)",
+                  }}
+                >
+                  请您耐心等待...
+                </p>
+              </div>
+            </div>
+          </div>
+
+          {/* 隐藏的导出布局（用于html2canvas捕获，但不显示） */}
+          <div style={{ position: 'absolute', left: '-9999px', top: '-9999px', visibility: 'hidden' }}>
+            <ExportImageLayout
+              bank={bank}
+              result={result}
+              isSimplified={exportIsSimplified}
+              chartType={exportChartType}
+              getTopTraits={getTopTraits}
+            />
+          </div>
         </div>
       )}
 

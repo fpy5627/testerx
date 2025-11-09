@@ -385,61 +385,73 @@ function RunInner() {
             </div>
 
             {/* 进度信息 - 优化版 */}
-            <div className="mb-4 sm:mb-5 md:mb-6 px-4 sm:px-6 md:px-8 lg:px-10 mt-8 sm:mt-10 md:mt-12">
-              {/* 进度信息头部 - 显示页面和完成情况 */}
-              <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2 sm:gap-4 mb-3">
+            <div className="mb-4 sm:mb-5 md:mb-6 px-3 sm:px-6 md:px-8 lg:px-10 mt-8 sm:mt-10 md:mt-12">
+              {/* 进度信息头部 - 移动端左右对齐，PC端单行显示 */}
+              <div className="flex flex-row items-center justify-between gap-1 sm:gap-1.5 md:gap-2 mb-3 overflow-x-auto">
                 {/* 左侧：页面信息 */}
-                <div className="flex items-center gap-2 sm:gap-3">
-                <span 
-                  className="text-sm sm:text-base md:text-lg font-medium"
-                  style={{
-                    color: 'rgba(32, 224, 192, 0.87)'
-                  }}
-                >
-                  {t("page")}
-                </span>
-                  <span className="text-xs sm:text-sm md:text-base font-medium">
-                  <span style={{ color: 'rgba(32, 224, 192, 0.87)' }}>{currentPageNum}</span>
-                    <span style={{ color: 'rgba(32, 224, 192, 0.6)' }}> / {formattedTotalPages}</span>
+                <div className="flex items-center gap-0.5 sm:gap-1 md:gap-1.5 flex-shrink-0">
+                  <span 
+                    className="text-[11px] sm:text-xs md:text-sm font-medium whitespace-nowrap"
+                    style={{
+                      color: 'rgba(32, 224, 192, 0.87)'
+                    }}
+                  >
+                    {t("page")}
+                  </span>
+                  <span className="text-[11px] sm:text-xs md:text-sm font-medium whitespace-nowrap">
+                    <span style={{ color: 'rgba(32, 224, 192, 0.87)' }}>{currentPageNum}</span>
+                    <span style={{ color: 'rgba(32, 224, 192, 0.6)' }}>/ {formattedTotalPages}</span>
                   </span>
                 </div>
                 
                 {/* 右侧：答题进度信息 */}
-                <div className="flex items-center gap-2 sm:gap-3">
+                <div className="flex items-center gap-0.5 sm:gap-1 md:gap-1.5 flex-shrink-0">
                   {/* 完成进度 */}
-                  <div className="flex items-center gap-1.5 sm:gap-2">
+                  <div className="flex items-center gap-0.5 sm:gap-1 md:gap-1.5 flex-shrink-0">
                     <span 
-                      className="text-sm sm:text-base md:text-lg font-bold"
+                      className="text-[11px] sm:text-xs md:text-sm font-bold whitespace-nowrap"
                       style={{
                         color: 'rgba(32, 224, 192, 0.95)'
                       }}
                     >
                       {completedCount}
                     </span>
-                    <span className="text-xs sm:text-sm md:text-base font-medium text-muted-foreground">
+                    <span className="text-[11px] sm:text-xs md:text-sm font-medium text-muted-foreground whitespace-nowrap">
                       / {total}
                     </span>
-                    <span 
-                      className="text-xs sm:text-sm font-medium px-2 py-0.5 rounded-full"
-                      style={{
-                        color: 'rgba(32, 224, 192, 0.9)',
-                        backgroundColor: resolvedTheme === "dark" ? "rgba(32, 224, 192, 0.15)" : "rgba(32, 224, 192, 0.1)"
-                      }}
-                    >
-                      {progressPercentageDisplay}%
-                </span>
                   </div>
+                  
+                  {/* 百分比 */}
+                  <span 
+                    className="text-[10px] sm:text-xs md:text-sm font-medium px-1 sm:px-1.5 md:px-2 py-0.5 rounded-full whitespace-nowrap flex-shrink-0"
+                    style={{
+                      color: 'rgba(32, 224, 192, 0.9)',
+                      backgroundColor: resolvedTheme === "dark" ? "rgba(32, 224, 192, 0.15)" : "rgba(32, 224, 192, 0.1)"
+                    }}
+                  >
+                    {progressPercentageDisplay}%
+                  </span>
                   
                   {/* 剩余题目数 */}
                   {remainingCount > 0 && (
-                    <span 
-                      className="text-xs sm:text-sm font-medium"
-                      style={{
-                        color: resolvedTheme === "dark" ? "rgba(255, 255, 255, 0.5)" : "rgba(0, 0, 0, 0.5)"
-                      }}
-                    >
-                      {t("remaining")}: {remainingCount}
-                </span>
+                    <>
+                      <span 
+                        className="text-[10px] sm:text-xs text-muted-foreground flex-shrink-0 whitespace-nowrap ml-1 sm:ml-1.5 md:ml-2"
+                        style={{
+                          color: resolvedTheme === "dark" ? "rgba(255, 255, 255, 0.3)" : "rgba(0, 0, 0, 0.3)"
+                        }}
+                      >
+                        {t("remaining")}:
+                      </span>
+                      <span 
+                        className="text-[11px] sm:text-xs md:text-sm font-medium whitespace-nowrap flex-shrink-0"
+                        style={{
+                          color: resolvedTheme === "dark" ? "rgba(255, 255, 255, 0.5)" : "rgba(0, 0, 0, 0.5)"
+                        }}
+                      >
+                        {remainingCount}
+                      </span>
+                    </>
                   )}
                 </div>
               </div>
