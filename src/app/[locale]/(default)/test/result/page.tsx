@@ -431,6 +431,10 @@ function ResultInner() {
         await new Promise(resolve => setTimeout(resolve, 500));
       }
       
+      // 隐藏加载弹窗，确保只捕获导出内容
+      setIsGeneratingImage(false);
+      await new Promise(resolve => setTimeout(resolve, 300));
+      
       const canvas = await html2canvas(element, {
         backgroundColor: resolvedTheme === "dark" ? "#0f172a" : "#ffffff",
         scale: 2, // 提高图片质量
@@ -502,6 +506,17 @@ function ResultInner() {
         throw new Error("Canvas创建失败：尺寸为0");
       }
 
+      // Canvas创建成功后立即隐藏布局，避免显示中间页面
+      // 直接操作DOM确保立即隐藏，不等待React状态更新
+      const exportContainer = document.getElementById('export-layout-overlay');
+      if (exportContainer) {
+        exportContainer.style.display = 'none';
+      }
+      
+      // 同时更新React状态
+      setIsGeneratingImage(false);
+      setExportLayoutVisible(false);
+
       // 转换为图片并下载
       canvas.toBlob((blob) => {
         try {
@@ -527,12 +542,9 @@ function ResultInner() {
         } catch (blobError: any) {
           console.error("Failed to create blob:", blobError);
           toast.error(`${t("export_image_failed") || "图片导出失败"}：${blobError?.message || "无法创建图片文件"}`);
-    } finally {
-          // 延迟隐藏布局，确保下载完成
-          setTimeout(() => {
-      setIsGeneratingImage(false);
-            setExportLayoutVisible(false);
-          }, 500);
+          // 出错时也要立即隐藏布局
+          setIsGeneratingImage(false);
+          setExportLayoutVisible(false);
         }
       }, "image/png", 0.95);
       
@@ -762,6 +774,7 @@ function ResultInner() {
       {/* 导出布局（临时显示，仅用于导出） */}
       {exportLayoutVisible && result && bank && (
         <div 
+          id="export-layout-overlay"
           className="fixed inset-0 w-screen h-screen overflow-hidden"
           style={{ 
             zIndex: 99999,
@@ -816,74 +829,89 @@ function ResultInner() {
           </div>
 
           {/* 加载提示弹窗 - 居中显示，美化设计 */}
-          <div 
-            className="fixed left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 z-[100000] px-8 py-6 sm:px-10 sm:py-8 rounded-2xl sm:rounded-3xl"
-            style={{
-              minWidth: '280px',
-              maxWidth: '90vw',
-              background: resolvedTheme === "dark" 
-                ? "linear-gradient(135deg, rgba(43, 51, 62, 0.98) 0%, rgba(35, 42, 52, 0.98) 100%)" 
-                : "linear-gradient(135deg, rgba(255, 255, 255, 0.98) 0%, rgba(248, 250, 252, 0.98) 100%)",
-              border: `2px solid ${resolvedTheme === "dark" ? "rgba(32, 224, 192, 0.4)" : "rgba(32, 224, 192, 0.3)"}`,
-              boxShadow: resolvedTheme === "dark"
-                ? "0 20px 60px rgba(0, 0, 0, 0.4), 0 0 40px rgba(32, 224, 192, 0.2), inset 0 1px 0 rgba(255, 255, 255, 0.1)"
-                : "0 20px 60px rgba(32, 224, 192, 0.2), 0 8px 32px rgba(139, 92, 246, 0.15), inset 0 1px 0 rgba(255, 255, 255, 0.9)",
-              backdropFilter: 'blur(20px)',
-            }}
-          >
-            {/* 内部光晕效果 */}
+          {isGeneratingImage && (
             <div 
-              className="absolute top-0 right-0 w-32 h-32 rounded-full blur-2xl opacity-30 pointer-events-none"
+              className="fixed left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 z-[100000] px-8 py-6 sm:px-10 sm:py-8 rounded-2xl sm:rounded-3xl"
               style={{
-                background: "radial-gradient(circle, rgba(32, 224, 192, 0.4) 0%, transparent 70%)",
+                minWidth: '280px',
+                maxWidth: '90vw',
+                background: resolvedTheme === "dark" 
+                  ? "linear-gradient(135deg, rgba(43, 51, 62, 0.98) 0%, rgba(35, 42, 52, 0.98) 100%)" 
+                  : "linear-gradient(135deg, rgba(255, 255, 255, 0.98) 0%, rgba(248, 250, 252, 0.98) 100%)",
+                border: `2px solid ${resolvedTheme === "dark" ? "rgba(32, 224, 192, 0.4)" : "rgba(32, 224, 192, 0.3)"}`,
+                boxShadow: resolvedTheme === "dark"
+                  ? "0 20px 60px rgba(0, 0, 0, 0.4), 0 0 40px rgba(32, 224, 192, 0.2), inset 0 1px 0 rgba(255, 255, 255, 0.1)"
+                  : "0 20px 60px rgba(32, 224, 192, 0.2), 0 8px 32px rgba(139, 92, 246, 0.15), inset 0 1px 0 rgba(255, 255, 255, 0.9)",
+                backdropFilter: 'blur(20px)',
               }}
-            />
-            
-            <div className="relative z-10 flex flex-col items-center gap-4">
-              {/* 加载动画图标 */}
-              <div className="relative w-16 h-16 sm:w-20 sm:h-20">
-                <div 
-                  className="absolute inset-0 rounded-full border-4 border-transparent"
-                  style={{
-                    borderTopColor: "#20E0C0",
-                    borderRightColor: "#8B5CF6",
-                    animation: "spin 1s linear infinite",
-                  }}
-                />
-                <div 
-                  className="absolute inset-2 rounded-full border-4 border-transparent"
-                  style={{
-                    borderBottomColor: "#EC4899",
-                    borderLeftColor: "#20E0C0",
-                    animation: "spin 1.5s linear infinite reverse",
-                  }}
-                />
-              </div>
+            >
+              {/* 内部光晕效果 */}
+              <div 
+                className="absolute top-0 right-0 w-32 h-32 rounded-full blur-2xl opacity-30 pointer-events-none"
+                style={{
+                  background: "radial-gradient(circle, rgba(32, 224, 192, 0.4) 0%, transparent 70%)",
+                }}
+              />
               
-              {/* 提示文字 */}
-              <div className="text-center">
-                <p 
-                  className="text-lg sm:text-xl font-semibold mb-2"
-                  style={{ 
-                    color: resolvedTheme === "dark" ? "rgba(255, 255, 255, 0.95)" : "rgba(0, 0, 0, 0.9)",
-                  }}
-                >
-                  正在导出结果
-                </p>
-                <p 
-                  className="text-sm sm:text-base font-medium"
-                  style={{ 
-                    color: resolvedTheme === "dark" ? "rgba(255, 255, 255, 0.7)" : "rgba(0, 0, 0, 0.6)",
-                  }}
-                >
-                  请您耐心等待...
-                </p>
+              <div className="relative z-10 flex flex-col items-center gap-4">
+                {/* 加载动画图标 */}
+                <div className="relative w-16 h-16 sm:w-20 sm:h-20">
+                  <div 
+                    className="absolute inset-0 rounded-full border-4 border-transparent"
+                    style={{
+                      borderTopColor: "#20E0C0",
+                      borderRightColor: "#8B5CF6",
+                      animation: "spin 1s linear infinite",
+                    }}
+                  />
+                  <div 
+                    className="absolute inset-2 rounded-full border-4 border-transparent"
+                    style={{
+                      borderBottomColor: "#EC4899",
+                      borderLeftColor: "#20E0C0",
+                      animation: "spin 1.5s linear infinite reverse",
+                    }}
+                  />
+                </div>
+                
+                {/* 提示文字 */}
+                <div className="text-center">
+                  <p 
+                    className="text-lg sm:text-xl font-semibold mb-2"
+                    style={{ 
+                      color: resolvedTheme === "dark" ? "rgba(255, 255, 255, 0.95)" : "rgba(0, 0, 0, 0.9)",
+                    }}
+                  >
+                    正在导出结果
+                  </p>
+                  <p 
+                    className="text-sm sm:text-base font-medium"
+                    style={{ 
+                      color: resolvedTheme === "dark" ? "rgba(255, 255, 255, 0.7)" : "rgba(0, 0, 0, 0.6)",
+                    }}
+                  >
+                    请您耐心等待...
+                  </p>
+                </div>
               </div>
             </div>
-          </div>
+          )}
 
-          {/* 隐藏的导出布局（用于html2canvas捕获，但不显示） */}
-          <div style={{ position: 'absolute', left: '-9999px', top: '-9999px', visibility: 'hidden' }}>
+          {/* 导出布局（在DOM中，用于html2canvas捕获） */}
+          <div 
+            style={{ 
+              position: 'absolute', 
+              left: '0', 
+              top: '0', 
+              width: '100%',
+              height: 'auto',
+              opacity: isGeneratingImage ? 0 : 1, // 生成图片时隐藏，捕获时显示
+              visibility: isGeneratingImage ? 'hidden' : 'visible', // 生成图片时隐藏，捕获时显示
+              pointerEvents: isGeneratingImage ? 'none' : 'auto', // 生成图片时禁用交互
+              zIndex: 1, // 确保在背景之上
+            }}
+            id="export-layout-container"
+          >
             <ExportImageLayout
               bank={bank}
               result={result}
