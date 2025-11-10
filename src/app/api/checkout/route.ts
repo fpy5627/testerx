@@ -5,8 +5,6 @@ import { respData, respErr } from "@/lib/resp";
 import Stripe from "stripe";
 import { findUserByUuid } from "@/models/user";
 import { getSnowId } from "@/lib/hash";
-import { getPricingPage } from "@/services/page";
-import { PricingItem } from "@/types/blocks/pricing";
 import { newStripeClient } from "@/integrations/stripe";
 import { Order } from "@/types/order";
 import { newCreemClient } from "@/integrations/creem";
@@ -27,21 +25,24 @@ export async function POST(req: Request) {
       return respErr("invalid params");
     }
 
-    // validate checkout params
-    const page = await getPricingPage(locale);
-    if (!page || !page.pricing || !page.pricing.items) {
-      return respErr("invalid pricing table");
+    // validate checkout params - pricing page removed, require params from request
+    let { amount, interval, valid_months, credits, product_name } = await req.json();
+    
+    if (!amount || !interval || !currency) {
+      return respErr("invalid checkout params: missing required fields");
     }
-
-    const item = page.pricing.items.find(
-      (item: PricingItem) => item.product_id === product_id
-    );
-
-    if (!item || !item.amount || !item.interval || !item.currency) {
-      return respErr("invalid checkout params");
+    
+    if (!product_name) {
+      product_name = `Product ${product_id}`;
     }
-
-    let { amount, interval, valid_months, credits, product_name } = item;
+    
+    if (!valid_months) {
+      valid_months = interval === "year" ? 12 : interval === "month" ? 1 : 0;
+    }
+    
+    if (!credits) {
+      credits = 0;
+    }
 
     if (!["year", "month", "one-time"].includes(interval)) {
       return respErr("invalid interval");

@@ -18,21 +18,6 @@
           "icon": "RiSparkling2Line"
         },
         {
-          "title": "Pricing",
-          "url": "/pricing",
-          "icon": "RiMoneyDollarCircleLine"
-        },
-        {
-          "title": "Showcase",
-          "url": "/showcase",
-          "icon": "RiApps2Line"
-        },
-        {
-          "title": "Docs",
-          "url": "/docs",
-          "icon": "RiBookOpenLine"
-        },
-        {
           "title": "View History",
           "url": "/test/history",
           "icon": "RiHistoryLine"
@@ -59,14 +44,14 @@
     "announcement": {
       "label": "2025",
       "title": "🎉 Happy New Year",
-      "url": "/pricing"
+      "url": "/test"
     },
     "tip": "🎁 50% off before 2025",
     "buttons": [
       {
         "title": "Get Started",
         "icon": "RiFlashlightFill",
-        "url": "/pricing",
+        "url": "/test",
         "target": "_self",
         "variant": "default"
       },
@@ -409,16 +394,6 @@
               "title": "Features",
               "url": "/#feature",
               "target": "_self"
-            },
-            {
-              "title": "Showcases",
-              "url": "/#showcase",
-              "target": "_self"
-            },
-            {
-              "title": "Pricing",
-              "url": "/#pricing",
-              "target": "_self"
             }
           ]
         },
@@ -446,18 +421,13 @@
           "title": "Friends",
           "children": [
             {
-              "title": "ThinkAny",
-              "url": "https://thinkany.ai",
+              "title": "MergePDF",
+              "url": "https://mergepdf.toolina.com",
               "target": "_blank"
             },
             {
-              "title": "HeyBeauty",
-              "url": "https://heybeauty.ai",
-              "target": "_blank"
-            },
-            {
-              "title": "Pagen",
-              "url": "https://pagen.so",
+              "title": "Timero",
+              "url": "https://clock.toolina.com",
               "target": "_blank"
             }
           ]
