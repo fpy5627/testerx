@@ -78,134 +78,69 @@ export default function ExportImageLayout({
           zIndex: 0,
         }}
       />
-      {/* 水印 - 右下角，更精美的设计 */}
-      <div
-        className="absolute bottom-6 right-6 pointer-events-none"
-        style={{
-          opacity: 0.2,
-          transform: "rotate(-5deg)",
-          zIndex: 100,
-        }}
-      >
-        <div
-          className="px-4 py-2 rounded-xl backdrop-blur-md"
-          style={{
-            background: isDark 
-              ? "linear-gradient(135deg, rgba(32, 224, 192, 0.15) 0%, rgba(139, 92, 246, 0.15) 100%)"
-              : "linear-gradient(135deg, rgba(32, 224, 192, 0.08) 0%, rgba(139, 92, 246, 0.08) 100%)",
-            border: `1.5px solid ${isDark ? "rgba(32, 224, 192, 0.3)" : "rgba(32, 224, 192, 0.2)"}`,
-            boxShadow: isDark
-              ? "0 4px 16px rgba(32, 224, 192, 0.2), 0 2px 8px rgba(139, 92, 246, 0.15)"
-              : "0 4px 16px rgba(32, 224, 192, 0.15), 0 2px 8px rgba(139, 92, 246, 0.1)",
-          }}
-        >
-          <span
-            className="text-xs font-semibold"
-            style={{
-              background: "linear-gradient(135deg, #20E0C0 0%, #8B5CF6 100%)",
-              WebkitBackgroundClip: "text",
-              WebkitTextFillColor: "transparent",
-              backgroundClip: "text",
-            }}
-          >
-            {siteUrl}
-          </span>
-        </div>
-      </div>
 
-      {/* 内容区域水印 - 重复图案，低透明度 */}
-      <div 
-        className="absolute inset-0 pointer-events-none"
+      {/* 灰色水印背景 - 30%透明度，不遮盖内容区 */}
+      <div
+        className="absolute top-0 left-0 w-full h-full pointer-events-none"
         style={{
-          zIndex: 5,
-          opacity: 0.08, // 非常低的透明度，不影响阅读
+          zIndex: 1, // 在背景之上，但在内容区（zIndex: 10）之下
+          opacity: 0.3, // 30%透明度
         }}
       >
-        {/* 重复水印网格 */}
-        <div 
+        {/* 重复的灰色水印图案 */}
+        <div
           className="absolute inset-0"
           style={{
             backgroundImage: `repeating-linear-gradient(
               45deg,
               transparent,
-              transparent 200px,
-              ${isDark ? 'rgba(32, 224, 192, 0.1)' : 'rgba(32, 224, 192, 0.08)'} 200px,
-              ${isDark ? 'rgba(32, 224, 192, 0.1)' : 'rgba(32, 224, 192, 0.08)'} 201px
+              transparent 150px,
+              ${isDark ? 'rgba(128, 128, 128, 0.3)' : 'rgba(128, 128, 128, 0.3)'} 150px,
+              ${isDark ? 'rgba(128, 128, 128, 0.3)' : 'rgba(128, 128, 128, 0.3)'} 151px
             ),
             repeating-linear-gradient(
               -45deg,
               transparent,
-              transparent 200px,
-              ${isDark ? 'rgba(139, 92, 246, 0.1)' : 'rgba(139, 92, 246, 0.08)'} 200px,
-              ${isDark ? 'rgba(139, 92, 246, 0.1)' : 'rgba(139, 92, 246, 0.08)'} 201px
+              transparent 150px,
+              ${isDark ? 'rgba(128, 128, 128, 0.3)' : 'rgba(128, 128, 128, 0.3)'} 150px,
+              ${isDark ? 'rgba(128, 128, 128, 0.3)' : 'rgba(128, 128, 128, 0.3)'} 151px
             )`,
           }}
         />
         
-        {/* 文字水印 - 重复显示网站URL */}
-        {Array.from({ length: 12 }).map((_, i) => {
-          const row = Math.floor(i / 4);
-          const col = i % 4;
-          const top = 15 + row * 25; // 从上到下分布
-          const left = 10 + col * 25; // 从左到右分布
-          const rotation = (i % 3 - 1) * 15; // 交替旋转角度
+        {/* 文字水印 - 重复显示产品名称和URL */}
+        {Array.from({ length: 20 }).map((_, i) => {
+          const row = Math.floor(i / 5);
+          const col = i % 5;
+          const top = 10 + row * 20; // 从上到下分布
+          const left = 8 + col * 20; // 从左到右分布
+          const rotation = (i % 3 - 1) * 12; // 交替旋转角度
           
           return (
             <div
-              key={i}
+              key={`gray-watermark-${i}`}
               className="absolute"
               style={{
                 top: `${top}%`,
                 left: `${left}%`,
                 transform: `rotate(${rotation}deg)`,
-                opacity: 0.06, // 非常低的透明度
               }}
             >
               <span
-                className="text-xs font-medium"
+                className="text-sm font-medium whitespace-nowrap"
                 style={{
-                  color: isDark ? 'rgba(32, 224, 192, 0.3)' : 'rgba(32, 224, 192, 0.2)',
-                  whiteSpace: 'nowrap',
+                  color: isDark ? 'rgba(128, 128, 128, 0.4)' : 'rgba(128, 128, 128, 0.4)',
                 }}
               >
-                {siteUrl}
-              </span>
-            </div>
-          );
-        })}
-        
-        {/* 网站名称水印 - 重复显示 */}
-        {Array.from({ length: 8 }).map((_, i) => {
-          const row = Math.floor(i / 4);
-          const col = i % 4;
-          const top = 20 + row * 30;
-          const left = 15 + col * 30;
-          const rotation = (i % 2) * 20 - 10;
-          
-          return (
-            <div
-              key={`name-${i}`}
-              className="absolute"
-              style={{
-                top: `${top}%`,
-                left: `${left}%`,
-                transform: `rotate(${rotation}deg)`,
-                opacity: 0.05,
-              }}
-            >
-              <span
-                className="text-sm font-semibold"
-                style={{
-                  color: isDark ? 'rgba(139, 92, 246, 0.25)' : 'rgba(139, 92, 246, 0.15)',
-                  whiteSpace: 'nowrap',
-                }}
-              >
-                {siteName}
+                {i % 2 === 0 ? siteName : siteUrl}
               </span>
             </div>
           );
         })}
       </div>
+      {/* 右下角蓝色水印已移除 */}
+
+      {/* 内容区域水印已移除 - 不再在内容区域显示水印 */}
 
       {/* 主要内容容器 */}
       <div className="max-w-4xl mx-auto space-y-8 relative" style={{ marginTop: '0', paddingTop: '0', zIndex: 10, position: 'relative' }}>
@@ -568,6 +503,95 @@ export default function ExportImageLayout({
                 background: "linear-gradient(90deg, transparent 0%, #8B5CF6 50%, transparent 100%)",
               }}
             />
+          </div>
+        </div>
+
+        {/* 软件产品水印 - 底部区域，降低明显度 */}
+        <div 
+          className="absolute bottom-0 left-0 right-0 pointer-events-none"
+          style={{
+            zIndex: 100,
+            padding: '1.5rem',
+            background: isDark
+              ? 'linear-gradient(to top, rgba(15, 23, 42, 0.95) 0%, rgba(15, 23, 42, 0.85) 50%, transparent 100%)'
+              : 'linear-gradient(to top, rgba(255, 255, 255, 0.95) 0%, rgba(255, 255, 255, 0.85) 50%, transparent 100%)',
+          }}
+        >
+          {/* 重复的产品名称水印 - 降低明显度 */}
+          <div className="relative w-full h-16 overflow-hidden">
+            {Array.from({ length: 3 }).map((_, i) => {
+              const left = 20 + i * 30; // 从左到右分布，间距更大
+              const rotation = (i % 2) * 8 - 4; // 减少旋转角度
+              
+              return (
+                <div
+                  key={`product-watermark-${i}`}
+                  className="absolute"
+                  style={{
+                    left: `${left}%`,
+                    top: '50%',
+                    transform: `translateY(-50%) rotate(${rotation}deg)`,
+                    opacity: isDark ? 0.08 : 0.06, // 降低透明度
+                  }}
+                >
+                  <span
+                    className="text-lg font-extrabold whitespace-nowrap"
+                    style={{
+                      background: isDark
+                        ? "linear-gradient(135deg, rgba(32, 224, 192, 0.4) 0%, rgba(139, 92, 246, 0.4) 100%)"
+                        : "linear-gradient(135deg, rgba(32, 224, 192, 0.3) 0%, rgba(139, 92, 246, 0.3) 100%)",
+                      WebkitBackgroundClip: "text",
+                      WebkitTextFillColor: "transparent",
+                      backgroundClip: "text",
+                      textShadow: isDark
+                        ? "0 0 10px rgba(32, 224, 192, 0.15)"
+                        : "0 0 8px rgba(32, 224, 192, 0.1)",
+                    }}
+                  >
+                    {siteName}
+                  </span>
+                </div>
+              );
+            })}
+          </div>
+          
+          {/* 居中的产品名称和URL水印 - 降低明显度 */}
+          <div className="absolute bottom-2 left-1/2 -translate-x-1/2 text-center">
+            <div
+              className="inline-flex flex-col items-center gap-1.5 px-5 py-2.5 rounded-xl backdrop-blur-sm"
+              style={{
+                background: isDark
+                  ? "linear-gradient(135deg, rgba(32, 224, 192, 0.12) 0%, rgba(139, 92, 246, 0.12) 100%)"
+                  : "linear-gradient(135deg, rgba(32, 224, 192, 0.1) 0%, rgba(139, 92, 246, 0.1) 100%)",
+                border: `1.5px solid ${isDark ? "rgba(32, 224, 192, 0.25)" : "rgba(32, 224, 192, 0.2)"}`,
+                boxShadow: isDark
+                  ? "0 2px 8px rgba(32, 224, 192, 0.15), 0 1px 4px rgba(139, 92, 246, 0.12)"
+                  : "0 2px 8px rgba(32, 224, 192, 0.12), 0 1px 4px rgba(139, 92, 246, 0.1)",
+                opacity: 0.7, // 降低整体透明度
+              }}
+            >
+              <span
+                className="text-sm font-extrabold"
+                style={{
+                  background: isDark
+                    ? "linear-gradient(135deg, rgba(32, 224, 192, 0.7) 0%, rgba(139, 92, 246, 0.7) 100%)"
+                    : "linear-gradient(135deg, rgba(32, 224, 192, 0.6) 0%, rgba(139, 92, 246, 0.6) 100%)",
+                  WebkitBackgroundClip: "text",
+                  WebkitTextFillColor: "transparent",
+                  backgroundClip: "text",
+                }}
+              >
+                {siteName}
+              </span>
+              <span
+                className="text-xs font-medium"
+                style={{
+                  color: isDark ? "rgba(255, 255, 255, 0.5)" : "rgba(0, 0, 0, 0.45)",
+                }}
+              >
+                {siteUrl}
+              </span>
+            </div>
           </div>
         </div>
       </div>

@@ -12,6 +12,7 @@ import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, D
 import { Button } from "@/components/ui/button";
 import { Checkbox } from "@/components/ui/checkbox";
 import { Shield, Lock, AlertCircle, UserCheck, Calendar } from "lucide-react";
+import { Link } from "@/i18n/navigation";
 
 interface AgePrivacyModalProps {
   open: boolean;
@@ -264,7 +265,24 @@ export function AgePrivacyModal({ open, onClose, onConfirm }: AgePrivacyModalPro
                         : "none"
                     }}
                   >
-                    {t("privacy_check")}
+                    {t("privacy_check_prefix")}
+                    <Link
+                      href="/privacy"
+                      target="_blank"
+                      onClick={(e) => e.stopPropagation()}
+                      className="inline-block mx-1 underline decoration-2 underline-offset-2 transition-all duration-300 hover:scale-105"
+                      style={{
+                        color: resolvedTheme === "dark"
+                          ? "rgba(139, 92, 246, 0.95)"
+                          : "rgba(139, 92, 246, 0.9)",
+                        textShadow: resolvedTheme === "dark"
+                          ? "0 0 8px rgba(139, 92, 246, 0.4)"
+                          : "none",
+                      }}
+                    >
+                      {t("privacy_policy")}
+                    </Link>
+                    {t("privacy_check_suffix")}
                   </label>
                 </div>
               </div>

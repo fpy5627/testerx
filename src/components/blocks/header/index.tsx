@@ -152,21 +152,16 @@ export default function Header({ header }: { header: HeaderType }) {
                       <NavigationMenuItem key={i}>
                         <Link
                           className={cn(
-                            "text-muted-foreground hover:bg-white/10 hover:text-white transition-colors",
+                            "text-muted-foreground hover:text-foreground hover:bg-transparent focus:bg-transparent transition-colors font-medium",
                             navigationMenuTriggerStyle,
                             buttonVariants({
                               variant: "ghost",
-                            })
+                            }),
+                            "[&:hover]:bg-transparent [&:focus]:bg-transparent"
                           )}
                           href={item.url.trim() as any}
                           target={item.target || "_self"}
                         >
-                          {item.icon && (
-                            <Icon
-                              name={item.icon}
-                              className="size-4 shrink-0 mr-0"
-                            />
-                          )}
                           {item.title}
                         </Link>
                       </NavigationMenuItem>

@@ -3,79 +3,225 @@
  * 作用：展示隐私政策内容，说明数据存储和处理方式。
  */
 
-import { useTranslations } from "next-intl";
+"use client";
+
+import { useTranslations, useLocale } from "next-intl";
+import { useTheme } from "next-themes";
+import { Shield, Lock, Database, FileCheck, Users, Mail, Calendar } from "lucide-react";
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 
 export default function PrivacyPage() {
   const t = useTranslations("privacy");
+  const locale = useLocale();
+  const { resolvedTheme } = useTheme();
+
+  // 根据语言环境格式化日期
+  const formatDate = (date: Date) => {
+    return date.toLocaleDateString(locale === "zh" ? "zh-CN" : "en-US", {
+      year: "numeric",
+      month: "2-digit",
+      day: "2-digit",
+    });
+  };
+
+  const sections = [
+    {
+      icon: Database,
+      title: t("sections.data_storage.title"),
+      content: t("sections.data_storage.content"),
+      color: "rgba(34, 197, 94, 0.9)",
+    },
+    {
+      icon: Users,
+      title: t("sections.anonymous_testing.title"),
+      content: t("sections.anonymous_testing.content"),
+      color: "rgba(59, 130, 246, 0.9)",
+    },
+    {
+      icon: Lock,
+      title: t("sections.data_security.title"),
+      content: t("sections.data_security.content"),
+      color: "rgba(168, 85, 247, 0.9)",
+    },
+    {
+      icon: FileCheck,
+      title: t("sections.gdpr_compliance.title"),
+      content: t("sections.gdpr_compliance.content"),
+      color: "rgba(236, 72, 153, 0.9)",
+      list: [
+        {
+          label: t("sections.gdpr_compliance.list.data_minimization.label"),
+          text: t("sections.gdpr_compliance.list.data_minimization.text"),
+        },
+        {
+          label: t("sections.gdpr_compliance.list.data_subject_rights.label"),
+          text: t("sections.gdpr_compliance.list.data_subject_rights.text"),
+        },
+        {
+          label: t("sections.gdpr_compliance.list.data_portability.label"),
+          text: t("sections.gdpr_compliance.list.data_portability.text"),
+        },
+        {
+          label: t("sections.gdpr_compliance.list.right_to_erasure.label"),
+          text: t("sections.gdpr_compliance.list.right_to_erasure.text"),
+        },
+        {
+          label: t("sections.gdpr_compliance.list.data_protection.label"),
+          text: t("sections.gdpr_compliance.list.data_protection.text"),
+        },
+        {
+          label: t("sections.gdpr_compliance.list.anonymity.label"),
+          text: t("sections.gdpr_compliance.list.anonymity.text"),
+        },
+      ],
+      extra: [
+        {
+          label: t("sections.gdpr_compliance.extra.how_to_clear.label"),
+          text: t("sections.gdpr_compliance.extra.how_to_clear.text"),
+        },
+        {
+          label: t("sections.gdpr_compliance.extra.how_to_export.label"),
+          text: t("sections.gdpr_compliance.extra.how_to_export.text"),
+        },
+      ],
+    },
+    {
+      icon: Shield,
+      title: t("sections.third_party_services.title"),
+      content: t("sections.third_party_services.content"),
+      color: "rgba(251, 146, 60, 0.9)",
+    },
+    {
+      icon: Mail,
+      title: t("sections.contact_us.title"),
+      content: t("sections.contact_us.content"),
+      color: "rgba(34, 197, 94, 0.9)",
+    },
+  ];
 
   return (
-    <div className="container mx-auto max-w-4xl py-10 space-y-8">
-      <div>
-        <h1 className="text-3xl font-bold mb-4">隐私政策</h1>
-        <p className="text-muted-foreground text-sm">
-          最后更新日期：{new Date().toLocaleDateString("zh-CN")}
-        </p>
-      </div>
+    <div className="min-h-screen bg-gradient-to-br from-background via-background to-background/95 dark:from-[#2b333e] dark:via-[#2b333e] dark:to-[#1a1f2e]">
+      {/* 背景装饰 */}
+      <div
+        className="fixed inset-0 pointer-events-none overflow-hidden"
+        style={{
+          background: resolvedTheme === "dark"
+            ? "radial-gradient(circle at 20% 30%, rgba(34, 197, 94, 0.08) 0%, transparent 50%), radial-gradient(circle at 80% 70%, rgba(59, 130, 246, 0.08) 0%, transparent 50%)"
+            : "radial-gradient(circle at 20% 30%, rgba(34, 197, 94, 0.05) 0%, transparent 50%), radial-gradient(circle at 80% 70%, rgba(59, 130, 246, 0.05) 0%, transparent 50%)",
+        }}
+      />
 
-      <div className="prose dark:prose-invert max-w-none space-y-6">
-        <section>
-          <h2 className="text-2xl font-semibold mb-3">数据存储</h2>
-          <p className="text-base leading-relaxed">
-            本应用的所有数据仅存储在您的本地设备（浏览器 localStorage）中，采用加密存储方式。
-            我们不会收集、上传或存储任何个人信息到服务器。
-          </p>
-        </section>
+      <div className="container mx-auto px-4 py-8 sm:py-12 relative z-10">
+        {/* 标题区域 */}
+        <div className="text-center mb-8 sm:mb-12">
+          <div className="flex items-center justify-center gap-3 mb-4">
+            <Shield className="h-8 w-8 sm:h-10 sm:w-10 text-primary" />
+            <h1 className="text-3xl sm:text-4xl md:text-5xl font-bold bg-gradient-to-r from-primary via-primary to-primary/80 bg-clip-text text-transparent">
+              {t("title")}
+            </h1>
+          </div>
+          <div className="flex items-center justify-center gap-2 text-muted-foreground">
+            <Calendar className="h-4 w-4" />
+            <p className="text-sm sm:text-base">
+              {t("last_updated")}：{formatDate(new Date())}
+            </p>
+          </div>
+        </div>
 
-        <section>
-          <h2 className="text-2xl font-semibold mb-3">匿名测试</h2>
-          <p className="text-base leading-relaxed">
-            所有测试结果均为匿名处理，不会关联任何个人身份信息。您可以自由选择分享测试结果，
-            分享链接仅包含测试结果数据，不包含任何个人信息。
-          </p>
-        </section>
-
-        <section>
-          <h2 className="text-2xl font-semibold mb-3">数据安全</h2>
-          <p className="text-base leading-relaxed">
-            我们使用 AES 加密算法对本地存储的数据进行加密，确保数据安全性。
-            加密密钥仅存储在本地，不会上传到服务器。
-          </p>
-        </section>
-
-        <section>
-          <h2 className="text-2xl font-semibold mb-3">GDPR 合规</h2>
-          <p className="text-base leading-relaxed">
-            本应用完全符合 GDPR（通用数据保护条例）要求：
-          </p>
-          <ul className="list-disc list-inside space-y-2 mt-3 ml-4">
-            <li><strong>数据最小化</strong>：仅存储测试所需的基本数据，不收集任何不必要的个人信息</li>
-            <li><strong>数据主体权利</strong>：您可以随时访问、修改或删除本地数据</li>
-            <li><strong>数据可移植性</strong>：支持导出测试结果（PDF、PNG、JSON格式）</li>
-            <li><strong>数据删除权</strong>：支持一键清空所有本地数据，包括测试结果、历史记录和分享链接</li>
-            <li><strong>数据保护</strong>：所有本地数据均采用加密存储，确保数据安全</li>
-            <li><strong>匿名性</strong>：所有测试结果均为匿名处理，不关联任何个人身份信息</li>
-          </ul>
-          <p className="text-base leading-relaxed mt-4">
-            <strong>如何清除数据：</strong>在测试结果页面，您可以点击"清除所有数据（GDPR合规）"按钮，这将删除所有本地存储的测试数据。
-          </p>
-          <p className="text-base leading-relaxed mt-2">
-            <strong>如何导出数据：</strong>在测试结果页面，您可以点击"导出JSON"按钮，下载包含完整测试结果的JSON文件。
-          </p>
-        </section>
-
-        <section>
-          <h2 className="text-2xl font-semibold mb-3">第三方服务</h2>
-          <p className="text-base leading-relaxed">
-            本应用不使用任何第三方分析或追踪服务，不会向第三方分享任何数据。
-          </p>
-        </section>
-
-        <section>
-          <h2 className="text-2xl font-semibold mb-3">联系我们</h2>
-          <p className="text-base leading-relaxed">
-            如果您对本隐私政策有任何疑问，请通过应用内的反馈功能联系我们。
-          </p>
-        </section>
+        {/* 主要内容卡片 */}
+        <div className="max-w-4xl mx-auto space-y-6">
+          {sections.map((section, index) => {
+            const Icon = section.icon;
+            return (
+              <Card
+                key={index}
+                className="backdrop-blur-xl border-2 shadow-lg transition-all duration-300 hover:shadow-xl hover:scale-[1.01]"
+                style={{
+                  background: resolvedTheme === "dark"
+                    ? "rgba(43, 51, 62, 0.8)"
+                    : "rgba(255, 255, 255, 0.9)",
+                  borderColor: resolvedTheme === "dark"
+                    ? "rgba(255, 255, 255, 0.1)"
+                    : "rgba(0, 0, 0, 0.1)",
+                }}
+              >
+                <CardHeader>
+                  <CardTitle className="flex items-center gap-3">
+                    <div
+                      className="flex items-center justify-center w-10 h-10 rounded-lg"
+                      style={{
+                        background: `linear-gradient(135deg, ${section.color}20 0%, ${section.color}10 100%)`,
+                        border: `1.5px solid ${section.color}40`,
+                      }}
+                    >
+                      <Icon
+                        className="h-5 w-5"
+                        style={{
+                          color: section.color,
+                        }}
+                      />
+                    </div>
+                    <span className="text-xl sm:text-2xl font-semibold">{section.title}</span>
+                  </CardTitle>
+                </CardHeader>
+                <CardContent className="space-y-4">
+                  <p className="text-base sm:text-lg leading-relaxed text-muted-foreground">
+                    {section.content}
+                  </p>
+                  
+                  {section.list && (
+                    <ul className="space-y-3 mt-4">
+                      {section.list.map((item, i) => (
+                        <li
+                          key={i}
+                          className="flex items-start gap-3 p-3 rounded-lg"
+                          style={{
+                            background: resolvedTheme === "dark"
+                              ? "rgba(255, 255, 255, 0.03)"
+                              : "rgba(0, 0, 0, 0.02)",
+                          }}
+                        >
+                          <div
+                            className="w-1.5 h-1.5 rounded-full mt-2 flex-shrink-0"
+                            style={{
+                              background: section.color,
+                            }}
+                          />
+                          <div>
+                            <strong className="text-foreground">{item.label}</strong>
+                            <span className="text-muted-foreground">：{item.text}</span>
+                          </div>
+                        </li>
+                      ))}
+                    </ul>
+                  )}
+                  
+                  {section.extra && (
+                    <div className="space-y-3 mt-4">
+                      {section.extra.map((item, i) => (
+                        <div
+                          key={i}
+                          className="p-4 rounded-lg border"
+                          style={{
+                            background: resolvedTheme === "dark"
+                              ? "rgba(255, 255, 255, 0.05)"
+                              : "rgba(0, 0, 0, 0.03)",
+                            borderColor: resolvedTheme === "dark"
+                              ? "rgba(255, 255, 255, 0.1)"
+                              : "rgba(0, 0, 0, 0.1)",
+                          }}
+                        >
+                          <strong className="text-foreground">{item.label}：</strong>
+                          <span className="text-muted-foreground">{item.text}</span>
+                        </div>
+                      ))}
+                    </div>
+                  )}
+                </CardContent>
+              </Card>
+            );
+          })}
+        </div>
       </div>
     </div>
   );

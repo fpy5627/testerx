@@ -530,14 +530,16 @@ export default function Feature({ section }: { section: SectionType }) {
         <div className="relative z-10 container mx-auto flex max-w-4xl flex-col items-center justify-center px-4 py-8 sm:py-10 md:py-12 min-h-screen">
           {/* 主内容卡片 - 增强玻璃态效果 */}
           <div className="w-full max-w-3xl relative min-h-[520px] sm:min-h-[580px] md:min-h-[640px]">
-            {/* 卡片背景 - 精致的玻璃态效果 */}
+            {/* 卡片背景 - 增强的毛玻璃效果 */}
             <div 
-              className="absolute inset-0 rounded-3xl md:rounded-[2rem] -z-10 backdrop-blur-xl transition-all duration-300"
+              className="absolute inset-0 rounded-3xl md:rounded-[2rem] -z-10 transition-all duration-300"
               style={{
                 background: resolvedTheme === "dark"
-                  ? "linear-gradient(135deg, rgba(43, 51, 62, 0.95) 0%, rgba(35, 42, 52, 0.95) 100%)"
-                  : "linear-gradient(135deg, rgba(255, 255, 255, 0.99) 0%, rgba(250, 252, 255, 0.99) 100%)",
-                border: `1.5px solid ${resolvedTheme === "dark" ? "rgba(255, 255, 255, 0.15)" : "rgba(32, 224, 192, 0.3)"}`,
+                  ? "linear-gradient(135deg, rgba(43, 51, 62, 0.85) 0%, rgba(35, 42, 52, 0.85) 100%)"
+                  : "linear-gradient(135deg, rgba(255, 255, 255, 0.85) 0%, rgba(250, 252, 255, 0.85) 100%)",
+                backdropFilter: 'blur(20px) saturate(180%)',
+                WebkitBackdropFilter: 'blur(20px) saturate(180%)',
+                border: `1.5px solid ${resolvedTheme === "dark" ? "rgba(255, 255, 255, 0.18)" : "rgba(32, 224, 192, 0.25)"}`,
                 boxShadow: resolvedTheme === "dark"
                   ? "0 30px 80px rgba(0, 0, 0, 0.6), 0 0 0 1px rgba(255, 255, 255, 0.12), inset 0 1px 0 rgba(255, 255, 255, 0.1), 0 0 60px rgba(32, 224, 192, 0.08)"
                   : "0 30px 80px rgba(32, 224, 192, 0.2), 0 15px 50px rgba(32, 224, 192, 0.15), 0 0 0 1px rgba(32, 224, 192, 0.3), inset 0 1px 0 rgba(255, 255, 255, 0.9), 0 0 60px rgba(139, 92, 246, 0.1)"
@@ -601,12 +603,14 @@ export default function Feature({ section }: { section: SectionType }) {
                     className="flex items-center gap-0.5 sm:gap-1 px-1.5 sm:px-2 py-0.5 sm:py-1 rounded-md transition-all duration-300 hover:scale-110 hover:-translate-y-1 cursor-pointer relative overflow-hidden group"
                     style={{
                       background: resolvedTheme === "dark" 
-                        ? `linear-gradient(135deg, rgba(255, 255, 255, 0.12) 0%, ${color.replace('0.9', '0.15')} 100%)`
-                        : `linear-gradient(135deg, rgba(255, 255, 255, 0.9) 0%, ${color.replace('0.9', '0.2')} 100%)`,
-                      border: `1.5px solid ${resolvedTheme === "dark" ? color.replace('0.9', '0.35') : color.replace('0.9', '0.35')}`,
+                        ? `linear-gradient(135deg, rgba(255, 255, 255, 0.1) 0%, ${color.replace('0.9', '0.12')} 100%)`
+                        : `linear-gradient(135deg, rgba(255, 255, 255, 0.75) 0%, ${color.replace('0.9', '0.15')} 100%)`,
+                      backdropFilter: 'blur(12px) saturate(180%)',
+                      WebkitBackdropFilter: 'blur(12px) saturate(180%)',
+                      border: `1.5px solid ${resolvedTheme === "dark" ? color.replace('0.9', '0.3') : color.replace('0.9', '0.3')}`,
                       boxShadow: resolvedTheme === "dark"
                         ? `0 6px 16px rgba(0, 0, 0, 0.3), 0 0 20px ${color.replace('0.9', '0.18')}, inset 0 1px 0 rgba(255, 255, 255, 0.12)`
-                        : `0 6px 16px ${color.replace('0.9', '0.2')}, 0 0 24px ${color.replace('0.9', '0.15')}, inset 0 1px 0 rgba(255, 255, 255, 0.95)`
+                        : `0 6px 16px ${color.replace('0.9', '0.15')}, 0 0 24px ${color.replace('0.9', '0.12')}, inset 0 1px 0 rgba(255, 255, 255, 0.9)`
                     }}
                   >
                     {/* 悬停光效 */}
@@ -696,12 +700,14 @@ export default function Feature({ section }: { section: SectionType }) {
                   className="p-6 sm:p-7 md:p-8 rounded-2xl transition-all duration-300 relative overflow-hidden group"
                   style={{
                     background: resolvedTheme === "dark" 
-                      ? "linear-gradient(135deg, rgba(255, 255, 255, 0.1) 0%, rgba(255, 255, 255, 0.06) 100%)" 
-                      : "linear-gradient(135deg, rgba(255, 255, 255, 0.95) 0%, rgba(248, 250, 252, 0.95) 100%)",
-                    border: `1.5px solid ${resolvedTheme === "dark" ? "rgba(255, 255, 255, 0.18)" : "rgba(32, 224, 192, 0.35)"}`,
+                      ? "linear-gradient(135deg, rgba(255, 255, 255, 0.08) 0%, rgba(255, 255, 255, 0.04) 100%)" 
+                      : "linear-gradient(135deg, rgba(255, 255, 255, 0.7) 0%, rgba(248, 250, 252, 0.7) 100%)",
+                    backdropFilter: 'blur(16px) saturate(180%)',
+                    WebkitBackdropFilter: 'blur(16px) saturate(180%)',
+                    border: `1.5px solid ${resolvedTheme === "dark" ? "rgba(255, 255, 255, 0.2)" : "rgba(32, 224, 192, 0.3)"}`,
                     boxShadow: resolvedTheme === "dark"
                       ? "0 8px 24px rgba(0, 0, 0, 0.35), 0 0 30px rgba(32, 224, 192, 0.12), inset 0 1px 0 rgba(255, 255, 255, 0.1)"
-                      : "0 8px 24px rgba(32, 224, 192, 0.2), 0 0 32px rgba(32, 224, 192, 0.15), inset 0 1px 0 rgba(255, 255, 255, 0.98)"
+                      : "0 8px 24px rgba(32, 224, 192, 0.15), 0 0 32px rgba(32, 224, 192, 0.12), inset 0 1px 0 rgba(255, 255, 255, 0.9)"
                   }}
                 >
                   {/* 背景光效 */}
@@ -851,10 +857,12 @@ export default function Feature({ section }: { section: SectionType }) {
                   className="px-14 sm:px-18 md:px-24 lg:px-28 py-6 sm:py-7 md:py-8 lg:py-9 rounded-2xl text-lg sm:text-xl md:text-2xl lg:text-2xl font-bold transition-all duration-300 hover:scale-105 active:scale-100 border-0 relative overflow-hidden group"
                   style={{
                     backgroundImage: resolvedTheme === "dark"
-                      ? "linear-gradient(135deg, rgba(32, 224, 192, 0.98) 0%, rgba(20, 184, 166, 0.95) 50%, rgba(139, 92, 246, 0.98) 100%)"
-                      : "linear-gradient(135deg, rgba(32, 224, 192, 1) 0%, rgba(20, 184, 166, 0.98) 50%, rgba(139, 92, 246, 1) 100%)",
+                      ? "linear-gradient(135deg, rgba(32, 224, 192, 0.95) 0%, rgba(20, 184, 166, 0.92) 50%, rgba(139, 92, 246, 0.95) 100%)"
+                      : "linear-gradient(135deg, rgba(32, 224, 192, 0.98) 0%, rgba(20, 184, 166, 0.95) 50%, rgba(139, 92, 246, 0.98) 100%)",
                     backgroundSize: "200% 200%",
                     backgroundPosition: "0% 50%",
+                    backdropFilter: 'blur(10px) saturate(180%)',
+                    WebkitBackdropFilter: 'blur(10px) saturate(180%)',
                     color: 'white',
                     boxShadow: resolvedTheme === "dark"
                       ? '0 10px 40px rgba(32, 224, 192, 0.5), 0 5px 20px rgba(139, 92, 246, 0.4), inset 0 1px 0 rgba(255, 255, 255, 0.25), 0 0 30px rgba(32, 224, 192, 0.3)'

@@ -8,6 +8,7 @@ import { Metadata } from "next";
 import { NextAuthSessionProvider } from "@/auth/session";
 import { NextIntlClientProvider } from "next-intl";
 import { ThemeProvider } from "@/providers/theme";
+import ScrollToTop from "@/components/ScrollToTop";
 
 export async function generateMetadata({
   params,
@@ -45,7 +46,10 @@ export default async function LocaleLayout({
     <NextIntlClientProvider messages={messages}>
       <NextAuthSessionProvider>
         <AppContextProvider>
-          <ThemeProvider>{children}</ThemeProvider>
+          <ThemeProvider>
+            {children}
+            <ScrollToTop />
+          </ThemeProvider>
         </AppContextProvider>
       </NextAuthSessionProvider>
     </NextIntlClientProvider>

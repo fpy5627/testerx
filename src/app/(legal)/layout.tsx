@@ -4,6 +4,7 @@ import { MdOutlineHome } from "react-icons/md";
 import { Metadata } from "next";
 import React from "react";
 import { getTranslations } from "next-intl/server";
+import ScrollToTop from "@/components/ScrollToTop";
 
 export async function generateMetadata(): Promise<Metadata> {
   const t = await getTranslations();
@@ -35,6 +36,7 @@ export default function LegalLayout({
       <div className="text-md max-w-3xl mx-auto leading-loose pt-4 pb-8 px-8 prose prose-slate dark:prose-invert prose-headings:font-semibold prose-a:text-primary hover:prose-a:text-primary/80 prose-strong:text-base-content prose-code:text-base-content prose-code:bg-muted prose-code:px-1.5 prose-code:py-0.5 prose-code:rounded-md">
         {children}
       </div>
+      <ScrollToTop />
     </div>
   );
 }

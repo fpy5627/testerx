@@ -149,7 +149,9 @@
       "title": "年龄与隐私确认",
       "description": "本测试旨在自我探索，仅供娱乐/参考，不构成任何诊断或治疗建议。",
       "age_check": "我已年满 18 岁。",
-      "privacy_check": "我已阅读并同意隐私政策，测试数据仅在本地加密存储。",
+      "privacy_check_prefix": "我已阅读并同意",
+      "privacy_policy": "隐私政策",
+      "privacy_check_suffix": "，测试数据仅在本地加密存储。",
       "cancel": "取消",
       "confirm": "同意并继续"
     },
@@ -233,12 +235,20 @@
       "disclaimer": "本测试结果仅供参考，不构成任何医疗或心理建议。",
       "history_title": "历史记录",
       "no_history": "暂无历史记录",
+      "no_history_description": "完成测试后，您的结果将保存在这里。",
       "show_more": "显示更多",
       "show_less": "收起",
       "time": "时间",
       "record_id": "记录ID",
       "delete": "删除",
+      "delete_success": "删除成功",
+      "delete_failed": "删除失败",
       "clear_all": "清空全部",
+      "clear_all_confirm": "确定要清空所有历史记录吗？此操作不可恢复。",
+      "clear_all_success": "已清空所有历史记录",
+      "clear_all_failed": "清空失败",
+      "view": "查看",
+      "start_test": "开始测试",
       "retest": "重新测试",
       "back": "返回",
       "principle": "隐私原则：所有数据仅存储在本地，不会上传到服务器。",
@@ -298,6 +308,72 @@
       "loading": "加载中…",
       "export_simplified_message": "访问 {siteUrl} 查看完整的分析和详细结果。",
       "export_generated_by": "由 {siteName} 生成"
+    }
+  },
+  "privacy": {
+    "title": "隐私政策",
+    "last_updated": "最后更新日期",
+    "sections": {
+      "data_storage": {
+        "title": "数据存储",
+        "content": "本应用的所有数据仅存储在您的本地设备（浏览器 localStorage）中，采用加密存储方式。我们不会收集、上传或存储任何个人信息到服务器。"
+      },
+      "anonymous_testing": {
+        "title": "匿名测试",
+        "content": "所有测试结果均为匿名处理，不会关联任何个人身份信息。您可以自由选择分享测试结果，分享链接仅包含测试结果数据，不包含任何个人信息。"
+      },
+      "data_security": {
+        "title": "数据安全",
+        "content": "我们使用 AES 加密算法对本地存储的数据进行加密，确保数据安全性。加密密钥仅存储在本地，不会上传到服务器。"
+      },
+      "gdpr_compliance": {
+        "title": "GDPR 合规",
+        "content": "本应用完全符合 GDPR（通用数据保护条例）要求：",
+        "list": {
+          "data_minimization": {
+            "label": "数据最小化",
+            "text": "仅存储测试所需的基本数据，不收集任何不必要的个人信息"
+          },
+          "data_subject_rights": {
+            "label": "数据主体权利",
+            "text": "您可以随时访问、修改或删除本地数据"
+          },
+          "data_portability": {
+            "label": "数据可移植性",
+            "text": "支持导出测试结果（PDF、PNG、JSON格式）"
+          },
+          "right_to_erasure": {
+            "label": "数据删除权",
+            "text": "支持一键清空所有本地数据，包括测试结果、历史记录和分享链接"
+          },
+          "data_protection": {
+            "label": "数据保护",
+            "text": "所有本地数据均采用加密存储，确保数据安全"
+          },
+          "anonymity": {
+            "label": "匿名性",
+            "text": "所有测试结果均为匿名处理，不关联任何个人身份信息"
+          }
+        },
+        "extra": {
+          "how_to_clear": {
+            "label": "如何清除数据",
+            "text": "在测试结果页面，您可以点击「清除所有数据（GDPR合规）」按钮，这将删除所有本地存储的测试数据。"
+          },
+          "how_to_export": {
+            "label": "如何导出数据",
+            "text": "在测试结果页面，您可以点击「导出JSON」按钮，下载包含完整测试结果的JSON文件。"
+          }
+        }
+      },
+      "third_party_services": {
+        "title": "第三方服务",
+        "content": "本应用不使用任何第三方分析或追踪服务，不会向第三方分享任何数据。"
+      },
+      "contact_us": {
+        "title": "联系我们",
+        "content": "如果您对本隐私政策有任何疑问，请通过应用内的反馈功能联系我们。"
+      }
     }
   }
 }

@@ -31,6 +31,11 @@
           "title": "文档",
           "url": "/docs",
           "icon": "RiBookOpenLine"
+        },
+        {
+          "title": "查看历史记录",
+          "url": "/test/history",
+          "icon": "RiHistoryLine"
         }
       ]
     },

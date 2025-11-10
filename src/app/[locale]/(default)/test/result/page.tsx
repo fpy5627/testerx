@@ -431,9 +431,8 @@ function ResultInner() {
         await new Promise(resolve => setTimeout(resolve, 500));
       }
       
-      // 隐藏加载弹窗，确保只捕获导出内容
-      setIsGeneratingImage(false);
-      await new Promise(resolve => setTimeout(resolve, 300));
+      // 注意：保持 isGeneratingImage 为 true，确保 ExportImageLayout 在 html2canvas 执行期间保持隐藏
+      // 不要在这里设置 setIsGeneratingImage(false)，否则 ExportImageLayout 会显示出来
       
       const canvas = await html2canvas(element, {
         backgroundColor: resolvedTheme === "dark" ? "#0f172a" : "#ffffff",
@@ -506,19 +505,58 @@ function ResultInner() {
         throw new Error("Canvas创建失败：尺寸为0");
       }
 
-      // Canvas创建成功后立即隐藏布局，避免显示中间页面
-      // 直接操作DOM确保立即隐藏，不等待React状态更新
-      const exportContainer = document.getElementById('export-layout-overlay');
-      if (exportContainer) {
-        exportContainer.style.display = 'none';
+      // Canvas创建成功后立即隐藏整个布局，避免显示中间页面
+      // 先直接操作DOM确保立即隐藏，不等待React状态更新
+      const exportOverlay = document.getElementById('export-layout-overlay');
+      if (exportOverlay) {
+        // 使用多种CSS属性强制隐藏，确保立即生效
+        exportOverlay.style.display = 'none';
+        exportOverlay.style.visibility = 'hidden';
+        exportOverlay.style.opacity = '0';
+        exportOverlay.style.pointerEvents = 'none';
+        exportOverlay.style.zIndex = '-9999';
+        exportOverlay.style.position = 'fixed';
+        exportOverlay.style.left = '-9999px';
+        exportOverlay.style.top = '-9999px';
+        // 强制浏览器立即应用样式
+        exportOverlay.offsetHeight; // 触发重排
       }
       
-      // 同时更新React状态
-      setIsGeneratingImage(false);
+      // 同时更新React状态（同步执行，不等待）
+      // 注意：先隐藏布局，再更新状态，避免状态更新导致布局显示
       setExportLayoutVisible(false);
+      setIsGeneratingImage(false);
+      
+      // 使用双重 requestAnimationFrame 确保DOM更新立即生效
+      requestAnimationFrame(() => {
+        requestAnimationFrame(() => {
+          const overlay = document.getElementById('export-layout-overlay');
+          if (overlay) {
+            overlay.style.display = 'none';
+            overlay.style.visibility = 'hidden';
+            overlay.style.opacity = '0';
+            overlay.style.zIndex = '-9999';
+            overlay.style.position = 'fixed';
+            overlay.style.left = '-9999px';
+            overlay.style.top = '-9999px';
+          }
+        });
+      });
 
       // 转换为图片并下载
       canvas.toBlob((blob) => {
+        // 再次确保布局已隐藏（额外保护）
+        const overlay = document.getElementById('export-layout-overlay');
+        if (overlay) {
+          overlay.style.display = 'none';
+          overlay.style.visibility = 'hidden';
+          overlay.style.opacity = '0';
+          overlay.style.zIndex = '-9999';
+          overlay.style.position = 'fixed';
+          overlay.style.left = '-9999px';
+          overlay.style.top = '-9999px';
+        }
+        
         try {
           if (!blob) {
             throw new Error("无法创建图片blob");

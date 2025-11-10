@@ -55,6 +55,16 @@ export default function TestIntroPage() {
         className="absolute inset-0 bg-white dark:bg-[#2b333e] transition-colors duration-200"
       />
 
+      {/* 背景装饰 - 渐变光晕 */}
+      <div 
+        className="absolute inset-0 pointer-events-none"
+        style={{
+          background: resolvedTheme === "dark"
+            ? "radial-gradient(ellipse 80% 50% at 50% 0%, rgba(32, 224, 192, 0.08) 0%, transparent 50%), radial-gradient(ellipse 60% 40% at 50% 100%, rgba(139, 92, 246, 0.08) 0%, transparent 50%)"
+            : "radial-gradient(ellipse 80% 50% at 50% 0%, rgba(32, 224, 192, 0.05) 0%, transparent 50%), radial-gradient(ellipse 60% 40% at 50% 100%, rgba(139, 92, 246, 0.05) 0%, transparent 50%)",
+        }}
+      />
+
       <div className="relative z-10 container mx-auto flex min-h-screen max-w-4xl flex-col items-center justify-center px-4">
         {/* 主标题 - 居中，深色/白色，大字体，适当字间距，向上移动 */}
         <h1 
@@ -73,14 +83,21 @@ export default function TestIntroPage() {
           ))}
         </div>
 
-        {/* 继续按钮 - 简洁优雅的动态效果 */}
+        {/* 继续按钮 - 毛玻璃效果优化 */}
         <div className="mt-4 md:mt-6">
           <Button
-            className="px-16 md:px-20 lg:px-24 rounded-lg text-lg md:text-xl lg:text-2xl font-semibold transition-all duration-300 hover:scale-105 active:scale-95 border-0 text-gray-900 animate-button-glow-subtle"
+            className="px-16 md:px-20 lg:px-24 rounded-lg text-lg md:text-xl lg:text-2xl font-semibold transition-all duration-300 hover:scale-105 active:scale-95 border-0 text-gray-900 animate-button-glow-subtle relative overflow-hidden"
             style={{
-              background: '#20E0C0',
+              background: resolvedTheme === "dark"
+                ? "linear-gradient(135deg, rgba(32, 224, 192, 0.95) 0%, rgba(20, 184, 166, 0.95) 100%)"
+                : "linear-gradient(135deg, rgba(32, 224, 192, 0.98) 0%, rgba(20, 184, 166, 0.98) 100%)",
+              backdropFilter: 'blur(10px) saturate(180%)',
+              WebkitBackdropFilter: 'blur(10px) saturate(180%)',
               height: '64px',
               minHeight: '64px',
+              boxShadow: resolvedTheme === "dark"
+                ? '0 8px 32px rgba(32, 224, 192, 0.4), 0 4px 16px rgba(32, 224, 192, 0.3), inset 0 1px 0 rgba(255, 255, 255, 0.2)'
+                : '0 8px 32px rgba(32, 224, 192, 0.5), 0 4px 16px rgba(32, 224, 192, 0.4), inset 0 1px 0 rgba(255, 255, 255, 0.3)',
             }}
             size="lg"
             onClick={handleStart}

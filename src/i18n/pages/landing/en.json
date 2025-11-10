@@ -31,6 +31,11 @@
           "title": "Docs",
           "url": "/docs",
           "icon": "RiBookOpenLine"
+        },
+        {
+          "title": "View History",
+          "url": "/test/history",
+          "icon": "RiHistoryLine"
         }
       ]
     },
