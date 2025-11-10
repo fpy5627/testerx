@@ -2,7 +2,7 @@
   {
     "id": 1,
     "category": "Dominance",
-    "question": "我喜欢在亲密或情感情境中担任主导角色。",
+    "question": "在亲密关系中，我倾向于主动引导和掌控互动的节奏。",
     "type": "scale",
     "scale": 5,
     "weight": 1.2,
@@ -11,7 +11,7 @@
   {
     "id": 2,
     "category": "Submission",
-    "question": "我对于让他人为我做决定感到舒适。",
+    "question": "我对于让信任的伴侣为我做决定感到舒适和安心。",
     "type": "scale",
     "scale": 5,
     "weight": 1,
@@ -29,7 +29,7 @@
   {
     "id": 4,
     "category": "Dominance",
-    "question": "我更倾向于在关系中掌控节奏和方向。",
+    "question": "我享受在关系中做出重要决定并承担相应责任。",
     "type": "scale",
     "scale": 5,
     "weight": 1.2,
@@ -38,7 +38,7 @@
   {
     "id": 5,
     "category": "Submission",
-    "question": "遵循明确的引导和指令能让我更放松、更投入。",
+    "question": "当我能够遵循明确的引导和指令时，我会感到更放松和专注。",
     "type": "scale",
     "scale": 5,
     "weight": 1,
@@ -56,7 +56,7 @@
   {
     "id": 7,
     "category": "Dominance",
-    "question": "我喜欢设定规则和边界，并让它们被尊重。",
+    "question": "我擅长在关系中建立清晰的规则和边界，并确保它们得到遵守。",
     "type": "scale",
     "scale": 5,
     "weight": 1.2,
@@ -65,7 +65,7 @@
   {
     "id": 8,
     "category": "Submission",
-    "question": "遵循他人的安排能让我更有安全感。",
+    "question": "将决策权交给信任的伴侣能让我感到更有安全感和被保护。",
     "type": "scale",
     "scale": 5,
     "weight": 1,
@@ -74,7 +74,7 @@
   {
     "id": 9,
     "category": "Sadistic",
-    "question": "在受控情境中对他人拥有权力让我感到满足。",
+    "question": "在双方同意的受控情境中，对他人行使权力和控制让我感到满足。",
     "type": "scale",
     "scale": 5,
     "weight": 1.1,
@@ -83,7 +83,7 @@
   {
     "id": 10,
     "category": "Masochistic",
-    "question": "将控制权交给可信赖的伴侣让我感到愉悦或满足。",
+    "question": "将控制权完全交给可信赖的伴侣让我感到深度的愉悦和满足。",
     "type": "scale",
     "scale": 5,
     "weight": 1.1,
@@ -110,7 +110,7 @@
   {
     "id": 13,
     "category": "Dominance",
-    "question": "承担伴侣的福祉责任对我来说很自然。",
+    "question": "我自然地承担起照顾和保护伴侣的责任。",
     "type": "scale",
     "scale": 5,
     "weight": 1.2,
@@ -119,7 +119,7 @@
   {
     "id": 14,
     "category": "Submission",
-    "question": "信任伴侣引导我，能让我完全释放并专注当下。",
+    "question": "当我信任伴侣引导我时，我能够完全释放自己并专注于当下的体验。",
     "type": "scale",
     "scale": 5,
     "weight": 1,
@@ -164,7 +164,7 @@
   {
     "id": 19,
     "category": "Sadistic",
-    "question": "在双方同意的情境中行使权威或控制对我有吸引力。",
+    "question": "在双方同意的情境中，通过行使权威或控制来影响他人让我感到兴奋。",
     "type": "scale",
     "scale": 5,
     "weight": 1.1,
@@ -173,7 +173,7 @@
   {
     "id": 20,
     "category": "Masochistic",
-    "question": "体验受控的强度或挑战让我感到满足。",
+    "question": "在受控的情境中体验强度、挑战或不适让我感到满足和释放。",
     "type": "scale",
     "scale": 5,
     "weight": 1.1,
@@ -200,7 +200,7 @@
   {
     "id": 23,
     "category": "Dominance",
-    "question": "在引导互动流程时我感到自信。",
+    "question": "在引导和指挥互动时，我感到自信且游刃有余。",
     "type": "scale",
     "scale": 5,
     "weight": 1.2,
@@ -209,7 +209,7 @@
   {
     "id": 24,
     "category": "Submission",
-    "question": "将决策权交给信任的人让我感到平静。",
+    "question": "将决策权交给信任的伴侣能让我从日常压力中解脱，感到内心平静。",
     "type": "scale",
     "scale": 5,
     "weight": 1,
@@ -236,7 +236,7 @@
   {
     "id": 27,
     "category": "Sadistic",
-    "question": "我喜欢设定边界和规则的情境。",
+    "question": "我享受在双方同意的情境中设定边界和规则，并看到它们被遵守。",
     "type": "scale",
     "scale": 5,
     "weight": 1.1,
@@ -245,7 +245,7 @@
   {
     "id": 28,
     "category": "Masochistic",
-    "question": "完全信任并服从伴侣的指导让我感到满足。",
+    "question": "完全信任并服从伴侣的指导，即使涉及不适或挑战，也让我感到满足。",
     "type": "scale",
     "scale": 5,
     "weight": 1.1,

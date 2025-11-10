@@ -8,7 +8,7 @@
 import React, { useEffect, useState } from "react";
 import { useTheme } from "next-themes";
 import { Button } from "@/components/ui/button";
-import { ArrowUp } from "lucide-react";
+import { ChevronUp } from "lucide-react";
 
 export default function ScrollToTop() {
   const { resolvedTheme } = useTheme();
@@ -66,7 +66,7 @@ export default function ScrollToTop() {
       }}
       aria-label="回到顶部"
     >
-      <ArrowUp className="h-5 w-5 text-white" />
+      <ChevronUp className="h-5 w-5 text-white" />
     </Button>
   );
 }

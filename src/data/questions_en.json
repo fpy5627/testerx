@@ -2,7 +2,7 @@
   {
     "id": 1,
     "category": "Dominance",
-    "question": "I enjoy taking the lead in intimate or emotional situations.",
+    "question": "In intimate relationships, I tend to actively guide and control the pace of interactions.",
     "type": "scale",
     "scale": 5,
     "weight": 1.2,
@@ -11,7 +11,7 @@
   {
     "id": 2,
     "category": "Submission",
-    "question": "I feel comfortable letting others make decisions for me.",
+    "question": "I feel comfortable and at ease letting a trusted partner make decisions for me.",
     "type": "scale",
     "scale": 5,
     "weight": 1,
@@ -29,7 +29,7 @@
   {
     "id": 4,
     "category": "Dominance",
-    "question": "I prefer being in control of the pace and direction in relationships.",
+    "question": "I enjoy making important decisions in relationships and taking responsibility for them.",
     "type": "scale",
     "scale": 5,
     "weight": 1.2,
@@ -38,7 +38,7 @@
   {
     "id": 5,
     "category": "Submission",
-    "question": "Following clear guidance and instructions helps me feel more relaxed and engaged.",
+    "question": "When I can follow clear guidance and instructions, I feel more relaxed and focused.",
     "type": "scale",
     "scale": 5,
     "weight": 1,
@@ -56,7 +56,7 @@
   {
     "id": 7,
     "category": "Dominance",
-    "question": "I like setting rules and boundaries, and having them respected.",
+    "question": "I am skilled at establishing clear rules and boundaries in relationships and ensuring they are respected.",
     "type": "scale",
     "scale": 5,
     "weight": 1.2,
@@ -65,7 +65,7 @@
   {
     "id": 8,
     "category": "Submission",
-    "question": "Adhering to someone else's arrangements makes me feel more secure.",
+    "question": "Surrendering decision-making to a trusted partner makes me feel more secure and protected.",
     "type": "scale",
     "scale": 5,
     "weight": 1,
@@ -74,7 +74,7 @@
   {
     "id": 9,
     "category": "Sadistic",
-    "question": "I find satisfaction in having power over others in controlled contexts.",
+    "question": "In consensual controlled contexts, exercising power and control over others brings me satisfaction.",
     "type": "scale",
     "scale": 5,
     "weight": 1.1,
@@ -83,7 +83,7 @@
   {
     "id": 10,
     "category": "Masochistic",
-    "question": "I experience pleasure or fulfillment from giving up control to a trusted partner.",
+    "question": "Completely surrendering control to a trusted partner brings me deep pleasure and fulfillment.",
     "type": "scale",
     "scale": 5,
     "weight": 1.1,
@@ -110,7 +110,7 @@
   {
     "id": 13,
     "category": "Dominance",
-    "question": "Taking responsibility for my partner's well-being feels natural to me.",
+    "question": "I naturally take on the responsibility of caring for and protecting my partner.",
     "type": "scale",
     "scale": 5,
     "weight": 1.2,
@@ -119,7 +119,7 @@
   {
     "id": 14,
     "category": "Submission",
-    "question": "Trusting my partner to guide me allows me to fully let go and be present.",
+    "question": "When I trust my partner to guide me, I can fully release myself and focus on the present experience.",
     "type": "scale",
     "scale": 5,
     "weight": 1,
@@ -164,7 +164,7 @@
   {
     "id": 19,
     "category": "Sadistic",
-    "question": "Exercising authority or control in consensual scenarios is appealing to me.",
+    "question": "In consensual scenarios, influencing others through exercising authority or control excites me.",
     "type": "scale",
     "scale": 5,
     "weight": 1.1,
@@ -173,7 +173,7 @@
   {
     "id": 20,
     "category": "Masochistic",
-    "question": "I derive satisfaction from experiencing controlled intensity or challenge.",
+    "question": "Experiencing intensity, challenge, or discomfort in controlled contexts brings me satisfaction and release.",
     "type": "scale",
     "scale": 5,
     "weight": 1.1,
@@ -200,7 +200,7 @@
   {
     "id": 23,
     "category": "Dominance",
-    "question": "I feel confident when I am directing the flow of interaction.",
+    "question": "I feel confident and at ease when guiding and directing interactions.",
     "type": "scale",
     "scale": 5,
     "weight": 1.2,
@@ -209,7 +209,7 @@
   {
     "id": 24,
     "category": "Submission",
-    "question": "I find peace in surrendering decision-making to someone I trust.",
+    "question": "Surrendering decision-making to a trusted partner frees me from daily stress and brings inner peace.",
     "type": "scale",
     "scale": 5,
     "weight": 1,
@@ -236,7 +236,7 @@
   {
     "id": 27,
     "category": "Sadistic",
-    "question": "I enjoy scenarios where I have the power to set boundaries and rules.",
+    "question": "I enjoy consensual scenarios where I can set boundaries and rules and see them being followed.",
     "type": "scale",
     "scale": 5,
     "weight": 1.1,
@@ -245,7 +245,7 @@
   {
     "id": 28,
     "category": "Masochistic",
-    "question": "I feel fulfilled when I can fully trust and submit to a partner's direction.",
+    "question": "Fully trusting and submitting to a partner's direction, even when it involves discomfort or challenge, brings me fulfillment.",
     "type": "scale",
     "scale": 5,
     "weight": 1.1,
