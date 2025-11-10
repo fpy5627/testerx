@@ -32,7 +32,7 @@ export default function TestIntro() {
    */
   function handleConfirm() {
     setOpen(false);
-    router.push(`/${locale}/test/run`);
+    router.push(`/${locale}/bdsm-test/run`);
   }
 
   /**

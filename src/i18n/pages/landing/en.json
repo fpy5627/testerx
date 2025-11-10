@@ -19,7 +19,7 @@
         },
         {
           "title": "View History",
-          "url": "/test/history",
+          "url": "/bdsm-test/history",
           "icon": "RiHistoryLine"
         }
       ]
@@ -36,14 +36,14 @@
     "announcement": {
       "label": "2025",
       "title": "🎉 Happy New Year",
-      "url": "/test"
+      "url": "/bdsm-test"
     },
     "tip": "🎁 50% off before 2025",
     "buttons": [
       {
         "title": "Get Started",
         "icon": "RiFlashlightFill",
-        "url": "/test",
+        "url": "/bdsm-test",
         "target": "_self",
         "variant": "default"
       },

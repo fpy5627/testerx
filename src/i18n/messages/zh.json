@@ -1,8 +1,48 @@
 {
   "metadata": {
-    "title": "Kynex BDSM Test",
-    "description": "Kynex BDSM Test - BDSM人格与取向光谱测试，科学量化你的心理维度与性取向光谱。",
-    "keywords": "Kynex BDSM Test, BDSM测试, 性取向光谱, 人格测试"
+    "title": "BDSM Test - 免费在线心理倾向测试工具 | 匿名安全隐私保护",
+    "description": "免费、匿名、安全的 BDSM 心理倾向测试工具。了解自己的心理维度与性取向光谱，所有数据仅存储在本地，完全保护您的隐私。",
+    "keywords": "bdsm test, bdsm 测试, 心理倾向测试, 性取向测试, 匿名测试, 隐私保护",
+    "pages": {
+      "home": {
+        "title": "BDSM Test - 免费在线心理倾向测试工具 | 匿名安全隐私保护",
+        "description": "免费、匿名、安全的 BDSM 心理倾向测试工具。了解自己的心理维度与性取向光谱，所有数据仅存储在本地，完全保护您的隐私。",
+        "keywords": "bdsm test, bdsm 测试, 心理倾向测试, 性取向测试, 匿名测试, 隐私保护"
+      },
+      "about": {
+        "title": "关于 BDSM Test - 应用信息、功能说明和技术栈详细介绍 | 免费测试工具",
+        "description": "了解 BDSM Test 应用信息、版本、功能说明和技术栈。安全、匿名、科学的心理倾向测试工具。",
+        "keywords": "bdsm test, 关于, 应用信息, 隐私保护, 技术栈"
+      },
+      "privacy": {
+        "title": "隐私政策 - BDSM Test | 数据保护与 GDPR 合规详细说明 | 隐私安全",
+        "description": "了解 BDSM Test 的隐私政策。所有数据仅存储在本地，采用 AES 加密，完全符合 GDPR 要求，尊重用户隐私权。",
+        "keywords": "bdsm test, 隐私政策, 数据保护, GDPR, 隐私安全"
+      },
+      "bdsm_test": {
+        "title": "BDSM Test - 免费在线心理倾向测试工具 | 匿名安全隐私保护",
+        "description": "免费、匿名、安全的 BDSM 心理倾向测试工具。了解自己的心理维度与性取向光谱，所有数据仅存储在本地，完全保护您的隐私。",
+        "keywords": "bdsm test, bdsm 测试, 心理倾向测试, 性取向测试, 匿名测试, 隐私保护"
+      },
+      "bdsm_test_run": {
+        "title": "开始 BDSM Test 心理倾向测试 | 免费在线匿名安全测试工具 | 立即开始",
+        "description": "开始您的 BDSM 心理倾向测试。回答一系列科学设计的问题，了解自己的心理维度。",
+        "keywords": "bdsm test, 开始测试, 心理倾向测试, 在线测试"
+      },
+      "bdsm_test_result": {
+        "title": "BDSM Test 测试结果 | 查看您的详细心理倾向分析报告 | 免费查看",
+        "description": "查看您的 BDSM 心理倾向测试结果。了解自己的心理维度得分、分析和建议。",
+        "keywords": "bdsm test, 测试结果, 心理倾向分析, 测试报告"
+      },
+      "bdsm_test_history": {
+        "title": "BDSM Test 测试历史记录 | 查看和管理您的所有测试结果 | 历史管理",
+        "description": "查看您的 BDSM 心理倾向测试历史记录。管理您的测试结果和历史数据。",
+        "keywords": "bdsm test, 测试历史, 历史记录, 测试管理"
+      },
+      "posts": {
+        "title_suffix": " | BDSM Test 文章与资讯"
+      }
+    }
   },
   "user": {
     "sign_in": "登录",
@@ -373,6 +413,48 @@
       "contact_us": {
         "title": "联系我们",
         "content": "如果您对本隐私政策有任何疑问，请通过应用内的反馈功能联系我们。"
+      }
+    }
+  },
+  "headings": {
+    "test_description": "测试说明",
+    "core_features": "核心特性",
+    "test_progress": "测试进度",
+    "test_questions": "测试题目",
+    "test_results_chart": "测试结果图表",
+    "about": {
+      "title": "关于",
+      "app_intro": "应用简介",
+      "core_features": "核心特性",
+      "test_instructions": "测试说明",
+      "tech_stack": "技术栈",
+      "version_info": "版本信息",
+      "disclaimer": "免责声明",
+      "features": {
+        "security": "安全",
+        "anonymous": "匿名",
+        "scientific": "科学",
+        "privacy_protection": "隐私保护"
+      },
+      "test_dimensions": {
+        "dominance": "主导倾向（Dominance）",
+        "submission": "服从倾向（Submission）",
+        "switch": "切换倾向（Switch）",
+        "orientation_spectrum": "性取向光谱（Orientation Spectrum）"
+      },
+      "technologies": {
+        "nextjs": "Next.js 15",
+        "typescript": "TypeScript",
+        "tailwind": "Tailwind CSS",
+        "recharts": "Recharts",
+        "next_intl": "next-intl"
+      },
+      "tech_descriptions": {
+        "nextjs": "React 框架",
+        "typescript": "类型安全",
+        "tailwind": "样式框架",
+        "recharts": "数据可视化",
+        "next_intl": "国际化支持"
       }
     }
   }

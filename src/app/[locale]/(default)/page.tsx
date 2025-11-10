@@ -1,5 +1,38 @@
 import Feature from "@/components/blocks/feature";
 import { getLandingPage } from "@/services/page";
+import { Metadata } from "next";
+import { getCanonicalUrl } from "@/lib/canonical";
+import { getTranslations } from "next-intl/server";
+import { generateSocialMeta } from "@/lib/social-meta";
+import StructuredData from "@/components/StructuredData";
+
+export async function generateMetadata({
+  params,
+}: {
+  params: Promise<{ locale: string }>;
+}): Promise<Metadata> {
+  const { locale } = await params;
+  const canonicalUrl = getCanonicalUrl(locale, "");
+  const t = await getTranslations("metadata.pages.home");
+
+  const title = t("title");
+  const description = t("description");
+
+  return {
+    title,
+    description,
+    keywords: t("keywords"),
+    alternates: {
+      canonical: canonicalUrl,
+    },
+    ...generateSocialMeta({
+      title,
+      description,
+      url: canonicalUrl,
+      locale,
+    }),
+  };
+}
 
 export default async function LandingPage({
   params,
@@ -38,7 +71,33 @@ export default async function LandingPage({
       );
     }
 
-    return <Feature section={page.feature} />;
+    const canonicalUrl = getCanonicalUrl(locale, "");
+    const t = await getTranslations("metadata.pages.home");
+    const title = t("title");
+    const description = t("description");
+    const baseUrl = process.env.NEXT_PUBLIC_WEB_URL || "https://bdsm-test.toolina.com";
+
+    return (
+      <>
+        <StructuredData
+          locale={locale}
+          website={null} // 已在根 layout 中添加
+          organization={null} // 已在根 layout 中添加
+          webpage={{
+            "@type": "WebPage",
+            "@id": `${canonicalUrl}#webpage`,
+            url: canonicalUrl,
+            name: title,
+            description,
+            inLanguage: locale === "zh" ? "zh-CN" : locale,
+            isPartOf: {
+              "@id": `${baseUrl}/#website`,
+            },
+          }}
+        />
+        <Feature section={page.feature} />
+      </>
+    );
   } catch (error) {
     console.error("Error loading landing page:", error);
     return (

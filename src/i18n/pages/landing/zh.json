@@ -19,7 +19,7 @@
         },
         {
           "title": "查看历史记录",
-          "url": "/test/history",
+          "url": "/bdsm-test/history",
           "icon": "RiHistoryLine"
         }
       ]
@@ -36,14 +36,14 @@
     "announcement": {
       "label": "2025",
       "title": "🎉 新年快乐",
-      "url": "/test"
+      "url": "/bdsm-test"
     },
     "tip": "🎁 2025年前五折优惠",
     "buttons": [
       {
         "title": "立即开始",
         "icon": "RiFlashlightFill",
-        "url": "/test",
+        "url": "/bdsm-test",
         "target": "_self",
         "variant": "default"
       },

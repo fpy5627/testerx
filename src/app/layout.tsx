@@ -3,6 +3,7 @@ import "@/app/globals.css";
 import { getLocale, setRequestLocale } from "next-intl/server";
 import { locales } from "@/i18n/locale";
 import { cn } from "@/lib/utils";
+import StructuredData from "@/components/StructuredData";
 
 export default async function RootLayout({
   children,
@@ -12,7 +13,7 @@ export default async function RootLayout({
   const locale = await getLocale();
   setRequestLocale(locale);
 
-  const webUrl = process.env.NEXT_PUBLIC_WEB_URL || "";
+  const webUrl = process.env.NEXT_PUBLIC_WEB_URL || "https://bdsm-test.toolina.com";
   const googleAdsenseCode = process.env.NEXT_PUBLIC_GOOGLE_ADCODE || "";
 
   return (
@@ -27,20 +28,20 @@ export default async function RootLayout({
 
         {locales &&
           locales.map((loc) => {
-            const href = `${webUrl || ""}${loc === "en" ? "" : `/${loc}`}/`;
-            if (!href || !href.trim()) return null;
+            const href = `${webUrl}${loc === "en" ? "" : `/${loc}`}/`;
             return (
               <link
                 key={loc}
                 rel="alternate"
                 hrefLang={loc}
-                href={href.trim()}
+                href={href}
               />
             );
           })}
-        {webUrl && webUrl.trim() && (
-          <link rel="alternate" hrefLang="x-default" href={webUrl.trim()} />
-        )}
+        <link rel="alternate" hrefLang="x-default" href={webUrl} />
+        
+        {/* 全局结构化数据：Organization 和 WebSite */}
+        <StructuredData locale={locale} />
       </head>
       <body className="bg-white dark:bg-[#2b333e] transition-colors duration-200">{children}</body>
     </html>

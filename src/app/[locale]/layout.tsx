@@ -19,14 +19,31 @@ export async function generateMetadata({
   setRequestLocale(locale);
 
   const t = await getTranslations();
+  const { getCanonicalUrl } = await import("@/lib/canonical");
+  const { generateSocialMeta } = await import("@/lib/social-meta");
+  
+  // 获取当前路径的 canonical URL（如果没有子页面设置，使用默认）
+  const canonicalUrl = getCanonicalUrl(locale, "");
+
+  const title = t("metadata.title");
+  const description = t("metadata.description");
 
   return {
     title: {
       template: `%s`,
-      default: t("metadata.title") || "",
+      default: title,
     },
-    description: t("metadata.description") || "",
-    keywords: t("metadata.keywords") || "",
+    description,
+    keywords: t("metadata.keywords"),
+    alternates: {
+      canonical: canonicalUrl,
+    },
+    ...generateSocialMeta({
+      title,
+      description,
+      url: canonicalUrl,
+      locale,
+    }),
   };
 }
 

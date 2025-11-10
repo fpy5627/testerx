@@ -11,9 +11,11 @@ import { useTranslations, useLocale } from "next-intl";
 import { useTheme } from "next-themes";
 import { Button } from "@/components/ui/button";
 import { AgePrivacyModal } from "@/components/ui/ConsentModals";
+import { Shield, EyeOff, Brain } from "lucide-react";
 
 export default function TestIntroPage() {
   const t = useTranslations("test.intro");
+  const tHeadings = useTranslations("headings");
   const router = useRouter();
   const locale = useLocale();
   const { resolvedTheme } = useTheme();
@@ -32,7 +34,7 @@ export default function TestIntroPage() {
    */
   function handleConfirm() {
     setOpen(false);
-    router.push(`/${locale}/test/run`);
+    router.push(`/${locale}/bdsm-test/run`);
   }
 
   /**
@@ -74,8 +76,60 @@ export default function TestIntroPage() {
           {t("title")}
         </h1>
         
+        {/* 特性标签部分 - 使用 H2 标签 */}
+        <h2 className="sr-only">{tHeadings("core_features")}</h2>
+        
+        {/* 标签部分（安全 / 匿名 / 心理倾向测试） */}
+        <div className="flex flex-wrap items-center justify-center gap-2.5 sm:gap-3 mb-6 md:mb-8" role="list">
+          {[
+            { icon: Shield, key: "feature_1", color: "rgba(32, 224, 192, 0.9)" },
+            { icon: EyeOff, key: "feature_2", color: "rgba(139, 92, 246, 0.9)" },
+            { icon: Brain, key: "feature_3", color: "rgba(236, 72, 153, 0.9)" }
+          ].map(({ icon: Icon, key, color }) => (
+            <div 
+              key={key}
+              className="flex items-center gap-1 sm:gap-1.5 px-2 sm:px-2.5 py-1 sm:py-1.5 rounded-md transition-all duration-300 hover:scale-110 hover:-translate-y-1 cursor-pointer relative overflow-hidden group"
+              style={{
+                background: resolvedTheme === "dark" 
+                  ? `linear-gradient(135deg, rgba(255, 255, 255, 0.1) 0%, ${color.replace('0.9', '0.12')} 100%)`
+                  : `linear-gradient(135deg, rgba(255, 255, 255, 0.75) 0%, ${color.replace('0.9', '0.15')} 100%)`,
+                backdropFilter: 'blur(12px) saturate(180%)',
+                WebkitBackdropFilter: 'blur(12px) saturate(180%)',
+                border: `1.5px solid ${color.replace('0.9', '0.3')}`,
+                boxShadow: resolvedTheme === "dark"
+                  ? `0 6px 16px rgba(0, 0, 0, 0.3), 0 0 20px ${color.replace('0.9', '0.18')}, inset 0 1px 0 rgba(255, 255, 255, 0.12)`
+                  : `0 6px 16px ${color.replace('0.9', '0.15')}, 0 0 24px ${color.replace('0.9', '0.12')}, inset 0 1px 0 rgba(255, 255, 255, 0.9)`
+              }}
+            >
+              {/* 悬停光效 */}
+              <div 
+                className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-300"
+                style={{
+                  background: `radial-gradient(circle at center, ${color.replace('0.9', '0.2')} 0%, transparent 70%)`
+                }}
+              />
+              <Icon 
+                className="w-3 h-3 sm:w-3.5 sm:h-3.5 relative z-10 transition-all duration-300 group-hover:scale-110 group-hover:rotate-3" 
+                style={{ 
+                  color: color,
+                  filter: `drop-shadow(0 0 3px ${color.replace('0.9', '0.5')})`
+                }} 
+              />
+              <span 
+                className="text-xs sm:text-sm font-semibold relative z-10 transition-all duration-300 group-hover:tracking-wide"
+                style={{
+                  color: resolvedTheme === "dark" ? "rgba(255, 255, 255, 0.95)" : "rgba(0, 0, 0, 0.8)"
+                }}
+              >
+                {t(key)}
+              </span>
+            </div>
+          ))}
+        </div>
+
         {/* 描述文字 - 居中，灰色，适当字间距，增加行间距，与标题区分 */}
         <div className="text-center text-base text-gray-600 dark:text-gray-400 sm:text-lg md:text-xl max-w-2xl mb-8 md:mb-12 tracking-wide sm:tracking-normal space-y-3">
+          <h2 className="sr-only">{tHeadings("test_description")}</h2>
           {t("description").split(/[。.]/).filter(line => line.trim()).map((line, index, array) => (
             <p key={index} className="leading-relaxed">
               {line.trim()}{index < array.length - 1 ? (t("description").includes('。') ? '。' : '.') : ''}

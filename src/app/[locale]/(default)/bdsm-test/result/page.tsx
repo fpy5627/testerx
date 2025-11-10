@@ -35,6 +35,7 @@ const ResultChart = dynamic(
 
 function ResultInner() {
   const t = useTranslations("test.result");
+  const tHeadings = useTranslations("headings");
   const { resolvedTheme } = useTheme();
   const { bank, result, progress, history, reset, init, restoreResult, deleteHistory, clearAllHistory } = useTestContext();
   const router = useRouter();
@@ -1086,7 +1087,7 @@ function ResultInner() {
                     {t("low_progress_message", { percentage: progressPercentage })}
                   </p>
                   <Button 
-                    onClick={() => router.push(`/${locale}/test/run`)}
+                    onClick={() => router.push(`/${locale}/bdsm-test/run`)}
                     className="rounded-xl transition-all duration-300 hover:scale-105 relative overflow-hidden group z-10"
                     style={{
                       background: "linear-gradient(135deg, rgba(32, 224, 192, 0.95) 0%, rgba(20, 184, 166, 0.95) 100%)",
@@ -1150,7 +1151,7 @@ function ResultInner() {
                     {t("incomplete_progress_message", { percentage: progressPercentage })}
                   </p>
                   <Button 
-                    onClick={() => router.push(`/${locale}/test/run`)}
+                    onClick={() => router.push(`/${locale}/bdsm-test/run`)}
                     className="rounded-xl transition-all duration-300 hover:scale-105 relative overflow-hidden group z-10"
                     style={{
                       background: "linear-gradient(135deg, rgba(59, 130, 246, 0.95) 0%, rgba(37, 99, 235, 0.95) 100%)",
@@ -1208,7 +1209,7 @@ function ResultInner() {
                 </p>
               ) : (
                 <Button 
-                  onClick={() => router.push(`/${locale}/test/run`)}
+                  onClick={() => router.push(`/${locale}/bdsm-test/run`)}
                   className="mt-2 rounded-xl transition-all duration-300 hover:scale-105 relative overflow-hidden group z-10"
                   style={{
                     background: "linear-gradient(135deg, rgba(32, 224, 192, 0.95) 0%, rgba(20, 184, 166, 0.95) 100%)",
@@ -1240,6 +1241,7 @@ function ResultInner() {
                     : "0 8px 32px rgba(139, 92, 246, 0.15), 0 4px 16px rgba(139, 92, 246, 0.1)"
                 }}
               >
+                <h2 className="sr-only">{tHeadings("test_results_chart")}</h2>
                 <div className="relative z-10">
           <ResultChart bank={bank} result={result} variant="radar" />
                 </div>
@@ -1298,9 +1300,9 @@ function ResultInner() {
                             {index + 1}
                     </span>
                           <div className="flex flex-col gap-0.5">
-                            <span className="text-sm font-bold" style={{ color: theme.primary }}>
+                            <h3 className="text-sm font-bold" style={{ color: theme.primary }}>
                               {trait.name}
-                            </span>
+                            </h3>
                             <span 
                               className="text-xs font-medium" 
                               style={{ 
@@ -1366,14 +1368,14 @@ function ResultInner() {
                       : "0 8px 32px rgba(168, 85, 247, 0.15), 0 4px 16px rgba(168, 85, 247, 0.1)"
                   }}
                 >
-                  <h3 
+                  <h2 
                     className="text-base font-semibold mb-4 relative z-10"
                     style={{
                       color: resolvedTheme === "dark" ? "rgba(168, 85, 247, 0.95)" : "rgba(168, 85, 247, 0.9)"
                     }}
                   >
                     {t("orientation_spectrum_title")}
-                  </h3>
+                  </h2>
                   <div className="flex items-center gap-3 relative z-10">
                     <div className="flex-1 h-8 rounded-full relative overflow-hidden" style={{ background: resolvedTheme === "dark" ? "rgba(255, 255, 255, 0.1)" : "rgba(0, 0, 0, 0.05)" }}>
                   <div
@@ -1488,7 +1490,7 @@ function ResultInner() {
       ) : null}
 
           {/* 历史记录 */}
-          <div 
+          <section 
             className="rounded-2xl p-5 relative overflow-hidden"
             style={{
               background: resolvedTheme === "dark"

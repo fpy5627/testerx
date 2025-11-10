@@ -146,7 +146,7 @@ export default function PrivacyPage() {
                 }}
               >
                 <CardHeader>
-                  <CardTitle className="flex items-center gap-3">
+                  <h2 className="flex items-center gap-3 text-xl sm:text-2xl font-semibold leading-none">
                     <div
                       className="flex items-center justify-center w-10 h-10 rounded-lg"
                       style={{
@@ -161,8 +161,8 @@ export default function PrivacyPage() {
                         }}
                       />
                     </div>
-                    <span className="text-xl sm:text-2xl font-semibold">{section.title}</span>
-                  </CardTitle>
+                    <span>{section.title}</span>
+                  </h2>
                 </CardHeader>
                 <CardContent className="space-y-4">
                   <p className="text-base sm:text-lg leading-relaxed text-muted-foreground">
@@ -188,7 +188,7 @@ export default function PrivacyPage() {
                             }}
                           />
                           <div>
-                            <strong className="text-foreground">{item.label}</strong>
+                            <h3 className="inline font-semibold text-foreground">{item.label}</h3>
                             <span className="text-muted-foreground">：{item.text}</span>
                           </div>
                         </li>
@@ -211,7 +211,7 @@ export default function PrivacyPage() {
                               : "rgba(0, 0, 0, 0.1)",
                           }}
                         >
-                          <strong className="text-foreground">{item.label}：</strong>
+                          <h3 className="inline font-semibold text-foreground">{item.label}：</h3>
                           <span className="text-muted-foreground">{item.text}</span>
                         </div>
                       ))}

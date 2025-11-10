@@ -1,8 +1,48 @@
 {
   "metadata": {
-    "title": "Kynex BDSM Test",
-    "description": "Kynex BDSM Test - BDSM Personality and Orientation Spectrum Test, scientifically quantify your psychological dimensions and sexual orientation spectrum.",
-    "keywords": "Kynex BDSM Test, BDSM Test, Sexual Orientation Spectrum, Personality Test"
+    "title": "BDSM Test - Free Online Psychological Test Tool | Anonymous Safe Privacy Protected",
+    "description": "Free, anonymous, and secure BDSM psychological test tool. Understand your psychological dimensions and sexual orientation spectrum. All data is stored locally only, fully protecting your privacy.",
+    "keywords": "bdsm test, bdsm test online, psychological test, sexual orientation test, anonymous test, privacy protection",
+    "pages": {
+      "home": {
+        "title": "BDSM Test - Free Online Psychological Test Tool | Anonymous Safe Privacy Protected",
+        "description": "Free, anonymous, and secure BDSM psychological test tool. Understand your psychological dimensions and sexual orientation spectrum. All data is stored locally only, fully protecting your privacy.",
+        "keywords": "bdsm test, bdsm test online, psychological test, sexual orientation test, anonymous test, privacy protection"
+      },
+      "about": {
+        "title": "About BDSM Test - App Information, Features and Tech Stack Details | Free Test Tool",
+        "description": "Learn about BDSM Test app information, version, features and tech stack. Safe, anonymous, scientific psychological test tool.",
+        "keywords": "bdsm test, about, app information, privacy protection, tech stack"
+      },
+      "privacy": {
+        "title": "Privacy Policy - BDSM Test | Data Protection and GDPR Compliance Details | Privacy Security",
+        "description": "Learn about BDSM Test privacy policy. All data is stored locally only, using AES encryption, fully GDPR compliant, respecting user privacy rights.",
+        "keywords": "bdsm test, privacy policy, data protection, GDPR, privacy security"
+      },
+      "bdsm_test": {
+        "title": "BDSM Test - Free Online Psychological Test Tool | Anonymous Safe Privacy Protected",
+        "description": "Free, anonymous, and secure BDSM psychological test tool. Understand your psychological dimensions and sexual orientation spectrum. All data is stored locally only, fully protecting your privacy.",
+        "keywords": "bdsm test, bdsm test online, psychological test, sexual orientation test, anonymous test, privacy protection"
+      },
+      "bdsm_test_run": {
+        "title": "Start BDSM Test Psychological Test | Free Online Anonymous Safe Test Tool | Start Now",
+        "description": "Start your BDSM psychological test. Answer a series of scientifically designed questions to understand your psychological dimensions.",
+        "keywords": "bdsm test, start test, psychological test, online test"
+      },
+      "bdsm_test_result": {
+        "title": "BDSM Test Results | View Your Detailed Psychological Analysis Report | Free View",
+        "description": "View your BDSM psychological test results. Understand your psychological dimension scores, analysis and recommendations.",
+        "keywords": "bdsm test, test results, psychological analysis, test report"
+      },
+      "bdsm_test_history": {
+        "title": "BDSM Test History | View and Manage All Your Test Results | History Management",
+        "description": "View your BDSM psychological test history. Manage your test results and historical data.",
+        "keywords": "bdsm test, test history, history records, test management"
+      },
+      "posts": {
+        "title_suffix": " | BDSM Test Articles & News"
+      }
+    }
   },
   "user": {
     "sign_in": "Sign In",
@@ -373,6 +413,48 @@
       "contact_us": {
         "title": "Contact Us",
         "content": "If you have any questions about this privacy policy, please contact us through the feedback function in the application."
+      }
+    }
+  },
+  "headings": {
+    "test_description": "Test Description",
+    "core_features": "Core Features",
+    "test_progress": "Test Progress",
+    "test_questions": "Test Questions",
+    "test_results_chart": "Test Results Chart",
+    "about": {
+      "title": "About",
+      "app_intro": "App Introduction",
+      "core_features": "Core Features",
+      "test_instructions": "Test Instructions",
+      "tech_stack": "Tech Stack",
+      "version_info": "Version Information",
+      "disclaimer": "Disclaimer",
+      "features": {
+        "security": "Security",
+        "anonymous": "Anonymous",
+        "scientific": "Scientific",
+        "privacy_protection": "Privacy Protection"
+      },
+      "test_dimensions": {
+        "dominance": "Dominance",
+        "submission": "Submission",
+        "switch": "Switch",
+        "orientation_spectrum": "Orientation Spectrum"
+      },
+      "technologies": {
+        "nextjs": "Next.js 15",
+        "typescript": "TypeScript",
+        "tailwind": "Tailwind CSS",
+        "recharts": "Recharts",
+        "next_intl": "next-intl"
+      },
+      "tech_descriptions": {
+        "nextjs": "React Framework",
+        "typescript": "Type Safety",
+        "tailwind": "Styling Framework",
+        "recharts": "Data Visualization",
+        "next_intl": "Internationalization Support"
       }
     }
   }

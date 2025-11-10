@@ -27,6 +27,7 @@ import TestSlogan from "@/components/ui/TestSlogan";
 function RunInner() {
   const t = useTranslations("test.run");
   const t_labels = useTranslations("test.likert");
+  const tHeadings = useTranslations("headings");
   const { resolvedTheme } = useTheme();
   const { bank, progress, init, answer, nextPage, prevPage, jumpToFirstUnanswered, jumpToNextUnanswered, submit, loading } = useTestContext();
   const router = useRouter();
@@ -221,17 +222,17 @@ function RunInner() {
       await submit();
       console.log("测试提交成功，准备跳转...");
       // 使用国际化路由，会自动添加 locale
-      await router.push("/test/result");
+      await router.push("/bdsm-test/result");
       console.log("跳转命令已执行");
     } catch (error) {
       console.error("提交测试失败:", error);
       // 即使提交失败，也尝试跳转到结果页（可能已经有结果）
       try {
-        await router.push("/test/result");
+        await router.push("/bdsm-test/result");
       } catch (navError) {
         console.error("跳转失败，尝试使用 window.location:", navError);
         // 使用 window.location 作为后备方案
-        window.location.href = `/${locale}/test/result`;
+        window.location.href = `/${locale}/bdsm-test/result`;
       }
     } finally {
       setIsSubmitting(false);
@@ -344,6 +345,9 @@ function RunInner() {
           
           {/* 顶部：进度条和页面导航 */}
           <div className="pt-5 sm:pt-7 md:pt-9 pb-4 sm:pb-5 md:pb-6 flex-shrink-0 relative">
+            {/* 页面标题 - 使用 H2 */}
+            <h2 className="sr-only">{tHeadings("test_progress")}</h2>
+            
             {/* 页面导航按钮 - 美化版 */}
             <div className="absolute top-2 right-4 sm:top-4 sm:right-5 md:top-6 md:right-6 flex items-center gap-2 sm:gap-2.5">
               <Button
@@ -491,8 +495,9 @@ function RunInner() {
             <TestSlogan pageIndex={currentPage} updateInterval={600000} />
           </div>
 
-          {/* 题目列表 */}
+            {/* 题目列表 */}
           <div className="flex-1 min-h-0 flex flex-col px-4 sm:px-5 md:px-6 pb-4 sm:pb-5 md:pb-6 space-y-4 sm:space-y-6 -mt-2 sm:-mt-3 md:-mt-4">
+            <h2 className="sr-only">{tHeadings("test_questions")}</h2>
             {currentPageQuestions.map((q, questionIndex) => {
               const a = progress.answers.find((x) => x.questionId === q.id);
               const globalIndex = startIdx + questionIndex;

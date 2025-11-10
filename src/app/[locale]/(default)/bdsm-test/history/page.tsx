@@ -78,7 +78,7 @@ function HistoryInner() {
   // 处理查看历史记录
   const handleViewHistory = (historyItem: typeof history[0]) => {
     restoreResult(historyItem);
-    router.push("/test/result");
+    router.push("/bdsm-test/result");
   };
 
   // 处理删除历史记录
@@ -124,7 +124,7 @@ function HistoryInner() {
       <div className="container mx-auto px-4 py-8 sm:py-12 relative z-10">
         {/* 返回按钮和标题 */}
         <div className="mb-8 flex items-center gap-4">
-          <Link href="/test/result">
+          <Link href="/bdsm-test/result">
             <Button
               variant="ghost"
               size="icon"
@@ -179,7 +179,7 @@ function HistoryInner() {
                 <p className="text-sm text-muted-foreground">
                   {t("no_history_description") || "完成测试后，您的结果将保存在这里。"}
                 </p>
-                <Link href="/test">
+                <Link href="/bdsm-test">
                   <Button className="mt-6" variant="default">
                     {t("start_test") || "开始测试"}
                   </Button>
