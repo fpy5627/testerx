@@ -20,6 +20,7 @@ export default function TestIntroPage() {
   const locale = useLocale();
   const { resolvedTheme } = useTheme();
   const [open, setOpen] = React.useState(false);
+  const [mounted, setMounted] = React.useState(false);
   const titleRef = React.useRef<HTMLHeadingElement>(null);
 
   /**
@@ -36,6 +37,47 @@ export default function TestIntroPage() {
     setOpen(false);
     router.push(`/${locale}/bdsm-test/run`);
   }
+
+  /**
+   * 设置 mounted 状态，避免初始渲染闪烁
+   */
+  React.useEffect(() => {
+    setMounted(true);
+  }, []);
+
+  /**
+   * 添加CSS变量来避免主题切换闪烁，并更新文字颜色
+   */
+  React.useEffect(() => {
+    if (typeof document !== 'undefined') {
+      const root = document.documentElement;
+      const updateTheme = () => {
+        const isDark = root.classList.contains('dark');
+        
+        // 设置文字阴影CSS变量
+        root.style.setProperty(
+          '--text-shadow',
+          isDark
+            ? '0 3px 12px rgba(0, 0, 0, 0.8), 0 2px 6px rgba(0, 0, 0, 0.6), 0 1px 3px rgba(0, 0, 0, 0.4), 0 0 2px rgba(255, 255, 255, 0.2)'
+            : '0 1px 4px rgba(255, 255, 255, 0.9), 0 0 2px rgba(0, 0, 0, 0.15)'
+        );
+        
+        // CSS 变量会自动更新，不需要手动更新文字颜色
+      };
+      
+      // 初始设置
+      updateTheme();
+      
+      // 监听主题变化
+      const observer = new MutationObserver(updateTheme);
+      observer.observe(root, {
+        attributes: true,
+        attributeFilter: ['class']
+      });
+      
+      return () => observer.disconnect();
+    }
+  }, []);
 
   /**
    * 根据主题动态设置标题颜色
@@ -127,11 +169,40 @@ export default function TestIntroPage() {
           ))}
         </div>
 
-        {/* 描述文字 - 居中，灰色，适当字间距，增加行间距，与标题区分 */}
-        <div className="text-center text-base text-gray-600 dark:text-gray-400 sm:text-lg md:text-xl max-w-2xl mb-8 md:mb-12 tracking-wide sm:tracking-normal space-y-3">
+        {/* 描述文字 - 优化可读性和美化 */}
+        <div 
+          className="text-center text-lg sm:text-xl md:text-2xl max-w-3xl mb-10 md:mb-14 space-y-4 relative px-4"
+        >
+          {/* 描述文字背景装饰卡片 - 降低透明度以增强文字对比度 */}
+          <div 
+            className="absolute inset-0 -mx-4 -my-2 rounded-3xl -z-10"
+            style={{
+              background: resolvedTheme === "dark"
+                ? "linear-gradient(135deg, rgba(255, 255, 255, 0.02) 0%, rgba(32, 224, 192, 0.04) 50%, rgba(139, 92, 246, 0.02) 100%)"
+                : "linear-gradient(135deg, rgba(255, 255, 255, 0.7) 0%, rgba(240, 253, 250, 0.9) 50%, rgba(255, 255, 255, 0.7) 100%)",
+              backdropFilter: 'blur(20px) saturate(180%)',
+              WebkitBackdropFilter: 'blur(20px) saturate(180%)',
+              border: resolvedTheme === "dark"
+                ? "1px solid rgba(255, 255, 255, 0.08)"
+                : "1.5px solid rgba(32, 224, 192, 0.2)",
+              boxShadow: resolvedTheme === "dark"
+                ? "0 8px 32px rgba(0, 0, 0, 0.2), inset 0 1px 0 rgba(255, 255, 255, 0.05)"
+                : "0 10px 40px rgba(32, 224, 192, 0.15), 0 0 0 1px rgba(32, 224, 192, 0.2), inset 0 1px 0 rgba(255, 255, 255, 0.9)",
+            }}
+          />
           <h2 className="sr-only">{tHeadings("test_description")}</h2>
           {t("description").split(/[。.]/).filter(line => line.trim()).map((line, index, array) => (
-            <p key={index} className="leading-relaxed">
+            <p 
+              key={index} 
+              className="leading-relaxed transition-all duration-300 relative z-10 py-2 font-semibold"
+              style={{
+                color: "var(--description-text-color)",
+                fontWeight: "600",
+                letterSpacing: "0.03em",
+                textShadow: "var(--text-shadow)",
+              }}
+              suppressHydrationWarning
+            >
               {line.trim()}{index < array.length - 1 ? (t("description").includes('。') ? '。' : '.') : ''}
             </p>
           ))}

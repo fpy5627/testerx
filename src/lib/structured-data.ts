@@ -9,12 +9,14 @@ export interface OrganizationData {
   logo?: string;
   description?: string;
   sameAs?: string[]; // 社交媒体链接
+  inLanguage?: string; // 语言代码，如 "zh-CN" 或 "en"
 }
 
 export interface WebSiteData {
   name: string;
   url: string;
   description?: string;
+  inLanguage?: string; // 语言代码，如 "zh-CN" 或 "en"
   potentialAction?: {
     "@type": "SearchAction";
     target: {
@@ -47,6 +49,7 @@ export interface ArticleData {
   image?: string | string[];
   datePublished?: string;
   dateModified?: string;
+  inLanguage?: string; // 语言代码，如 "zh-CN" 或 "en"
   author?: {
     "@type": "Person" | "Organization";
     name: string;
@@ -103,6 +106,7 @@ export function generateOrganizationSchema(data: OrganizationData) {
     logo,
     description: data.description,
     ...(data.sameAs && data.sameAs.length > 0 && { sameAs: data.sameAs }),
+    ...(data.inLanguage && { inLanguage: data.inLanguage }),
   };
 }
 
@@ -141,6 +145,7 @@ export function generateWebSiteSchema(data: WebSiteData) {
     name: data.name,
     url,
     description: data.description,
+    ...(data.inLanguage && { inLanguage: data.inLanguage }),
     ...(potentialAction && { potentialAction }),
   };
 }
@@ -209,32 +214,40 @@ export function generateBreadcrumbListSchema(data: BreadcrumbListData) {
 
 /**
  * 生成默认的 Organization 数据
+ * @param name - 组织名称（已翻译）
+ * @param description - 组织描述（已翻译）
+ * @returns OrganizationData 对象
  */
-export function getDefaultOrganization(locale: string = "en"): OrganizationData {
+export function getDefaultOrganization(
+  name: string,
+  description: string
+): OrganizationData {
   const baseUrl = process.env.NEXT_PUBLIC_WEB_URL || "https://bdsm-test.toolina.com";
   
   return {
-    name: "BDSM Test",
+    name,
     url: baseUrl,
     logo: `${baseUrl}/logo.png`,
-    description: locale === "zh" 
-      ? "免费、匿名、安全的 BDSM 心理倾向测试工具"
-      : "Free, anonymous, and secure BDSM psychological test tool",
+    description,
   };
 }
 
 /**
  * 生成默认的 WebSite 数据
+ * @param name - 网站名称（已翻译）
+ * @param description - 网站描述（已翻译）
+ * @returns WebSiteData 对象
  */
-export function getDefaultWebSite(locale: string = "en"): WebSiteData {
+export function getDefaultWebSite(
+  name: string,
+  description: string
+): WebSiteData {
   const baseUrl = process.env.NEXT_PUBLIC_WEB_URL || "https://bdsm-test.toolina.com";
   
   return {
-    name: "BDSM Test",
+    name,
     url: baseUrl,
-    description: locale === "zh"
-      ? "免费、匿名、安全的 BDSM 心理倾向测试工具。了解自己的心理维度与性取向光谱。"
-      : "Free, anonymous, and secure BDSM psychological test tool. Understand your psychological dimensions and sexual orientation spectrum.",
+    description,
     potentialAction: {
       "@type": "SearchAction",
       target: {

@@ -1,53 +1,63 @@
 {
   "metadata": {
-    "title": "BDSM Test - 免费在线心理倾向测试工具 | 匿名安全隐私保护",
-    "description": "免费、匿名、安全的 BDSM 心理倾向测试工具。了解自己的心理维度与性取向光谱，所有数据仅存储在本地，完全保护您的隐私。",
-    "keywords": "bdsm test, bdsm 测试, 心理倾向测试, 性取向测试, 匿名测试, 隐私保护",
+    "title": "BDSM 测试 – 免费在线心理评估｜匿名、安全、隐私保护",
+    "description": "进行免费的匿名 BDSM 心理测试。探索你的心理画像与性倾向光谱，所有数据均保存在本地，提供强力隐私保护。",
+    "keywords": "bdsm test, bdsm 测试, 在线 bdsm test, 心理评估, 性倾向测试, 匿名测试, 隐私保护",
     "pages": {
       "home": {
-        "title": "BDSM Test - 免费在线心理倾向测试工具 | 匿名安全隐私保护",
-        "description": "免费、匿名、安全的 BDSM 心理倾向测试工具。了解自己的心理维度与性取向光谱，所有数据仅存储在本地，完全保护您的隐私。",
-        "keywords": "bdsm test, bdsm 测试, 心理倾向测试, 性取向测试, 匿名测试, 隐私保护"
+        "title": "BDSM 测试 – 免费在线心理评估｜匿名、安全、隐私保护",
+        "description": "进行一项匿名、免费的 BDSM 测试，用于自我探索。了解你的心理倾向与性取向光谱。所有数据仅存储在你的设备上。",
+        "keywords": "bdsm test, bdsm 在线测试, 心理评估, 性倾向测试, 隐私保护"
       },
       "about": {
-        "title": "关于 BDSM Test - 应用信息、功能说明和技术栈详细介绍 | 免费测试工具",
-        "description": "了解 BDSM Test 应用信息、版本、功能说明和技术栈。安全、匿名、科学的心理倾向测试工具。",
-        "keywords": "bdsm test, 关于, 应用信息, 隐私保护, 技术栈"
+        "title": "关于 BDSM 测试 – 应用简介、功能与技术栈｜免费视频在线工具",
+        "description": "进一步了解 BDSM 测试应用，包括功能、版本信息与技术栈。安全匿名的心理评估工具，数据完全本地存储。",
+        "keywords": "bdsm test, 应用信息, 功能介绍, 隐私保护, 技术栈"
       },
       "privacy": {
-        "title": "隐私政策 - BDSM Test | 数据保护与 GDPR 合规详细说明 | 隐私安全",
-        "description": "了解 BDSM Test 的隐私政策。所有数据仅存储在本地，采用 AES 加密，完全符合 GDPR 要求，尊重用户隐私权。",
+        "title": "隐私政策 – BDSM 测试｜数据保护与 GDPR 合规",
+        "description": "阅读 BDSM 测试的隐私政策。所有数据均通过 AES 加密并存储于本地。完全符合 GDPR，充分尊重用户隐私权。",
         "keywords": "bdsm test, 隐私政策, 数据保护, GDPR, 隐私安全"
       },
       "bdsm_test": {
-        "title": "BDSM Test - 免费在线心理倾向测试工具 | 匿名安全隐私保护",
-        "description": "免费、匿名、安全的 BDSM 心理倾向测试工具。了解自己的心理维度与性取向光谱，所有数据仅存储在本地，完全保护您的隐私。",
-        "keywords": "bdsm test, bdsm 测试, 心理倾向测试, 性取向测试, 匿名测试, 隐私保护"
+        "title": "BDSM 测试 – 免费在线心理评估｜匿名、安全、私密",
+        "description": "免费匿名的 BDSM 心理测试。了解你的心理倾向与性取向光谱。所有数据仅存储在本地。",
+        "keywords": "bdsm test, bdsm 在线测试, 心理评估, 性倾向, 匿名测试"
       },
       "bdsm_test_run": {
-        "title": "开始 BDSM Test 心理倾向测试 | 免费在线匿名安全测试工具 | 立即开始",
-        "description": "开始您的 BDSM 心理倾向测试。回答一系列科学设计的问题，了解自己的心理维度。",
-        "keywords": "bdsm test, 开始测试, 心理倾向测试, 在线测试"
+        "title": "开始 BDSM 测试｜免费匿名心理评估｜立即开始",
+        "description": "开始进行你的 BDSM 心理测试。回答科学设计的问题，更好地理解你的心理画像与性倾向光谱。",
+        "keywords": "bdsm test, 开始测试, 心理评估, 在线测试"
       },
       "bdsm_test_result": {
-        "title": "BDSM Test 测试结果 | 查看您的详细心理倾向分析报告 | 免费查看",
-        "description": "查看您的 BDSM 心理倾向测试结果。了解自己的心理维度得分、分析和建议。",
-        "keywords": "bdsm test, 测试结果, 心理倾向分析, 测试报告"
+        "title": "BDSM 测试结果｜详细心理画像与分析",
+        "description": "查看你的 BDSM 测试结果。探索心理维度、深入洞察与个性化分析——所有数据仅保存在本地。",
+        "keywords": "bdsm test, 测试结果, 心理分析, 评估报告"
       },
       "bdsm_test_history": {
-        "title": "BDSM Test 测试历史记录 | 查看和管理您的所有测试结果 | 历史管理",
-        "description": "查看您的 BDSM 心理倾向测试历史记录。管理您的测试结果和历史数据。",
-        "keywords": "bdsm test, 测试历史, 历史记录, 测试管理"
+        "title": "BDSM 测试历史｜查看与管理历史测试记录",
+        "description": "浏览与管理你的测试历史。对比过往结果，追踪你的心理维度随时间的变化。",
+        "keywords": "bdsm test, 测试历史, 历史记录, 结果管理"
       },
       "posts": {
-        "title_suffix": " | BDSM Test 文章与资讯"
+        "title_suffix": "｜BDSM 测试文章与更新"
+      }
+    },
+    "structured_data": {
+      "organization": {
+        "name": "BDSM Test",
+        "description": "免费、匿名、安全的 BDSM 心理倾向测试工具"
+      },
+      "website": {
+        "name": "BDSM Test",
+        "description": "免费、匿名、安全的 BDSM 心理倾向测试工具。了解自己的心理维度与性取向光谱。"
       }
     }
   },
   "user": {
     "sign_in": "登录",
     "sign_out": "退出登录",
-    "credits": "额度",
+    "credits": "积分",
     "api_keys": "API 密钥",
     "my_orders": "我的订单",
     "user_center": "用户中心",
@@ -55,17 +65,17 @@
   },
   "sign_modal": {
     "sign_in_title": "登录",
-    "sign_in_description": "登录您的账户",
+    "sign_in_description": "安全访问你的账户",
     "sign_up_title": "注册",
-    "sign_up_description": "创建新账户",
+    "sign_up_description": "创建一个新账户",
     "email_title": "邮箱",
-    "email_placeholder": "请输入您的邮箱",
+    "email_placeholder": "请输入邮箱",
     "password_title": "密码",
-    "password_placeholder": "请输入您的密码",
+    "password_placeholder": "请输入密码",
     "forgot_password": "忘记密码？",
     "or": "或",
     "continue": "继续",
-    "no_account": "还没有账户？",
+    "no_account": "还没有账号？",
     "email_sign_in": "使用邮箱登录",
     "google_sign_in": "使用 Google 登录",
     "github_sign_in": "使用 GitHub 登录",
@@ -74,13 +84,13 @@
   },
   "my_orders": {
     "title": "我的订单",
-    "description": "在 ShipAny 上购买的订单。",
-    "no_orders": "未找到订单",
+    "description": "查看你在 BDSM Test 的所有已购订单。",
+    "no_orders": "暂无订单记录",
     "tip": "",
     "activate_order": "激活订单",
     "actived": "已激活",
     "join_discord": "加入 Discord",
-    "read_docs": "阅读文档",
+    "read_docs": "查看文档",
     "table": {
       "order_no": "订单号",
       "email": "邮箱",
@@ -90,16 +100,16 @@
       "github_username": "GitHub 用户名",
       "status": "状态",
       "manage_billing": "管理账单",
-      "interval": "周期",
-      "interval_month": "月付",
-      "interval_year": "年付",
+      "interval": "订阅周期",
+      "interval_month": "按月",
+      "interval_year": "按年",
       "interval_one_time": "一次性"
     }
   },
   "my_credits": {
     "title": "我的积分",
-    "left_tip": "剩余积分: {left_credits}",
-    "no_credits": "没有积分记录",
+    "left_tip": "剩余积分：{left_credits}",
+    "no_credits": "暂无积分记录",
     "recharge": "充值",
     "table": {
       "trans_no": "交易号",
@@ -107,52 +117,52 @@
       "credits": "积分",
       "updated_at": "更新时间",
       "status": "状态",
-      "expired_at": "过期时间",
+      "expired_at": "到期时间",
       "created_at": "创建时间"
     }
   },
   "api_keys": {
     "title": "API 密钥",
-    "tip": "请妥善保管您的 API 密钥，避免泄露",
-    "no_api_keys": "没有 API 密钥",
-    "create_api_key": "创建 API 密钥",
+    "tip": "请妥善保管您的 API 密钥，以防止未经授权的访问。",
+    "no_api_keys": "暂无 API 密钥",
+    "create_api_key": "创建新 API 密钥",
     "table": {
-      "name": "名称",
-      "key": "密钥",
+      "name": "密钥名称",
+      "key": "API 密钥",
       "created_at": "创建时间"
     },
     "form": {
-      "name": "名称",
-      "name_placeholder": "API 密钥名称",
-      "submit": "提交"
+      "name": "密钥名称",
+      "name_placeholder": "请输入 API 密钥名称",
+      "submit": "保存"
     }
   },
   "blog": {
     "title": "博客",
-    "description": "关于 ShipAny 的新闻、资源和更新",
+    "description": "获取 BDSM Test 的最新动态、资源与深度内容。阅读关于心理测试、自我探索、bdsm test 测试方法与分析的实用文章、技巧与研究洞察。",
     "read_more_text": "阅读更多"
   },
   "my_invites": {
     "title": "我的邀请",
-    "description": "查看您的邀请记录",
-    "no_invites": "未找到邀请记录",
+    "description": "查看并管理您的邀请记录",
+    "no_invites": "暂无邀请记录",
     "my_invite_link": "我的邀请链接",
-    "edit_invite_link": "编辑邀请链接",
-    "copy_invite_link": "复制邀请链接",
+    "edit_invite_link": "编辑链接",
+    "copy_invite_link": "复制链接",
     "invite_code": "邀请码",
-    "invite_tip": "每邀请 1 位朋友购买 ShipAny，奖励 $50。",
-    "invite_balance": "邀请奖励余额",
-    "total_invite_count": "总邀请人数",
-    "total_paid_count": "已充值人数",
-    "total_award_amount": "总奖励金额",
-    "update_invite_code": "设置邀请码",
-    "update_invite_code_tip": "输入你的自定义邀请码",
+    "invite_tip": "邀请好友购买任意产品可获得 $50 奖励。",
+    "invite_balance": "奖励余额",
+    "total_invite_count": "累计邀请人数",
+    "total_paid_count": "成功付费人数",
+    "total_award_amount": "累计奖励金额",
+    "update_invite_code": "设置自定义邀请码",
+    "update_invite_code_tip": "请输入你的自定义邀请码",
     "update_invite_button": "保存",
-    "no_orders": "你需要先购买过 ShipAny 才能邀请朋友",
-    "no_affiliates": "你暂无邀请朋友的权限，请联系我们申请开通。",
+    "no_orders": "您需要至少购买过一次才能邀请其他用户。",
+    "no_affiliates": "您暂无邀请权限，如需开通请联系我们。",
     "table": {
       "invite_time": "邀请时间",
-      "invite_user": "邀请用户",
+      "invite_user": "受邀用户",
       "status": "状态",
       "reward_percent": "奖励比例",
       "reward_amount": "奖励金额",
@@ -162,41 +172,41 @@
   },
   "feedback": {
     "title": "反馈",
-    "description": "我们很乐意听取您对产品的看法或如何改进产品体验。",
-    "submit": "提交",
-    "loading": "提交中...",
+    "description": "我们非常希望听到您的想法，包括哪些功能让您满意，以及我们还能如何优化整体体验。",
+    "submit": "提交反馈",
+    "loading": "正在提交...",
     "contact_tip": "其他联系方式",
-    "rating_tip": "您对 ShipAny 的看法如何？",
-    "placeholder": "在这里留下您的反馈..."
+    "rating_tip": "您对本产品的体验评分是？",
+    "placeholder": "请在此填写您的反馈..."
   },
   "test": {
     "intro": {
-      "title": "BDSM人格与取向光谱测试",
-      "description": "科学量化你的心理维度与性取向光谱。全部数据仅存于本地，无需登录，18+可用。",
+      "title": "BDSM Test – 心理特质与性取向光谱量表",
+      "description": "以安全、科学的方式探索并量化您的心理维度与性取向光谱。所有数据仅存储在本地，无需登录，适用于 18+ 用户。",
       "feature_1": "安全",
       "feature_2": "匿名",
-      "feature_3": "心理倾向测试",
+      "feature_3": "科学设计题库",
       "mode_label": "选择测试模式",
-      "mode_quick": "快速",
-      "mode_quick_desc": "30题 - 移动端或快速浏览者",
-      "mode_standard": "标准",
-      "mode_standard_desc": "70题 - 主测试推荐模式",
-      "mode_deep": "深度",
-      "mode_deep_desc": "120题 - 高级用户，可选项",
-      "start_button": "立即开始"
+      "mode_quick": "快速模式",
+      "mode_quick_desc": "30 道题 – 适合移动设备或快速测试",
+      "mode_standard": "标准模式",
+      "mode_standard_desc": "70 道题 – 推荐给大多数用户",
+      "mode_deep": "深度模式",
+      "mode_deep_desc": "120 道题 – 适合深入探索",
+      "start_button": "开始测试"
     },
     "consent": {
       "title": "年龄与隐私确认",
-      "description": "本测试旨在自我探索，仅供娱乐/参考，不构成任何诊断或治疗建议。",
-      "age_check": "我已年满 18 岁。",
+      "description": "此测试面向自我探索与娱乐用途，不构成任何医学或心理诊断建议。",
+      "age_check": "我确认已年满 18 岁。",
       "privacy_check_prefix": "我已阅读并同意",
-      "privacy_policy": "隐私政策",
-      "privacy_check_suffix": "，测试数据仅在本地加密存储。",
+      "privacy_policy": "《隐私政策》",
+      "privacy_check_suffix": "，并理解所有数据仅会本地加密存储。",
       "cancel": "取消",
       "confirm": "同意并继续"
     },
     "run": {
-      "loading": "加载题库中…",
+      "loading": "正在加载题库...",
       "progress": "进度",
       "remaining": "剩余",
       "prev": "上一题",
@@ -205,228 +215,371 @@
       "next": "下一题",
       "next_page": "下一页",
       "submit": "提交并查看结果",
-      "page": "页",
-      "of": "/",
+      "page": "第",
+      "of": "页，共",
       "incomplete_dialog_title": "提示",
-      "incomplete_dialog_message": "你现在只完成了 {percentage}% 的题目，这将会影响测试结果的准确性。\n\n我们建议你完成所有题目，以获得更准确的测试结果。",
-      "continue_answer": "返回继续答题",
-      "go_to_unanswered": "返回到未答题继续答题",
-      "view_result_anyway": "继续查看结果",
+      "incomplete_dialog_message": "您只完成了 {percentage}% 的题目，这可能影响结果准确性。\n建议完整作答以获得更精准的分析。",
+      "continue_answer": "继续答题",
+      "go_to_unanswered": "跳转到未答题目",
+      "view_result_anyway": "仍然查看结果",
       "category": {
-        "interests": "兴趣",
+        "interests": "兴趣倾向",
         "role_preferences": "角色偏好",
-        "boundaries": "限制界限",
-        "exploration": "探索倾向",
+        "boundaries": "界限设定",
+        "exploration": "探索度",
         "orientation": "性取向光谱"
       }
     },
-    "result": {
-      "title": "测试结果",
-      "disclaimer": "说明：本结果仅供娱乐/参考，不构成任何专业诊断或建议。",
-      "no_history": "暂无历史记录。",
-      "history_title": "历史记录（本地加密存储）",
-      "time": "时间",
-      "record_id": "记录ID",
-      "retest": "重测",
-      "back": "返回",
-      "delete": "删除",
-      "clear_all": "清空全部历史",
-      "principle": "合意、安全、理性：请在任何探索中坚持充分沟通、明确边界与尊重他人。"
-    },
     "dimension": {
       "dominance": "主导倾向",
-      "dominance_desc": "对主导角色的偏好与舒适度",
+      "dominance_desc": "您在亲密互动中对主导角色的舒适感与偏好。",
       "submission": "服从倾向",
-      "submission_desc": "对服从角色的偏好与舒适度",
+      "submission_desc": "您在亲密互动中对服从角色的舒适感与偏好。",
       "switch": "切换倾向",
-      "switch_desc": "在不同情境中切换角色的意愿"
+      "switch_desc": "根据情境或对象切换角色的意愿程度。"
     },
     "question": {
-      "q1": "在亲密互动中，我更乐于掌控节奏与决定。",
-      "q2": "被明确的引导和指令会让我更放松、更投入。",
-      "q3": "根据情境与对象，我可能会在主导与服从之间切换。",
-      "q4": "我喜欢设定规则与边界，并让对方遵守。",
+      "q1": "在亲密互动中，我更喜欢制定节奏并做出决定。",
+      "q2": "清晰的指引和指令能让我更投入并感到更舒服。",
+      "q3": "根据情境和对象，我有时会在主导与服从之间切换。",
+      "q4": "我喜欢制定规则和界限，并希望对方遵守。",
       "q5": "遵循对方的安排能让我更有安全感。"
     },
     "likert": {
       "very_strongly_disagree": "非常不同意",
-      "strongly_disagree": "完全不同意",
-      "disagree": "不同意",
+      "strongly_disagree": "不同意",
+      "disagree": "有点不同意",
       "neutral": "中立",
-      "agree": "同意",
-      "strongly_agree": "完全同意"
+      "agree": "有点同意",
+      "strongly_agree": "同意"
     },
     "admin": {
       "title": "题库管理",
-      "export": "导出JSON",
-      "import": "导入JSON",
-      "loading": "加载题库中…",
-      "info": "基本信息",
-      "version": "版本",
+      "export": "导出 JSON",
+      "import": "导入 JSON",
+      "loading": "正在加载题库...",
+      "info": "基础信息",
+      "version": "版本号",
       "locale": "语言",
-      "dimension_count": "维度数",
-      "question_count": "题目数",
-      "dimensions_title": "维度",
-      "questions_title": "题目",
+      "dimension_count": "维度数量",
+      "question_count": "题目数量",
+      "dimensions_title": "维度列表",
+      "questions_title": "题目列表",
       "hint": "提示"
     },
     "result": {
-      "title": "测试结果",
-      "disclaimer": "本测试结果仅供参考，不构成任何医疗或心理建议。",
+      "title": "BDSM Test 测试结果",
+      "disclaimer": "本结果仅供参考，不构成任何医学或心理建议。",
       "history_title": "历史记录",
       "no_history": "暂无历史记录",
-      "no_history_description": "完成测试后，您的结果将保存在这里。",
-      "show_more": "显示更多",
+      "no_history_description": "完成测试后，结果将显示在此处。",
+      "show_more": "展开更多",
       "show_less": "收起",
       "time": "时间",
-      "record_id": "记录ID",
+      "record_id": "记录 ID",
       "delete": "删除",
       "delete_success": "删除成功",
       "delete_failed": "删除失败",
-      "clear_all": "清空全部",
-      "clear_all_confirm": "确定要清空所有历史记录吗？此操作不可恢复。",
+      "clear_all": "清空所有记录",
+      "clear_all_confirm": "确定清空所有历史记录？此操作不可撤销。",
       "clear_all_success": "已清空所有历史记录",
       "clear_all_failed": "清空失败",
       "view": "查看",
       "start_test": "开始测试",
       "retest": "重新测试",
       "back": "返回",
-      "principle": "隐私原则：所有数据仅存储在本地，不会上传到服务器。",
+      "principle": "隐私原则：所有数据均仅存储在本地，不会上传至任何服务器。",
       "share_title": "生成匿名分享链接",
-      "share_button": "生成分享链接",
-      "share_link_copied": "分享链接已复制到剪贴板",
+      "share_button": "生成链接",
+      "share_link_copied": "已复制到剪贴板",
       "share_link_failed": "复制失败，请手动复制",
-      "share_to_email": "分享到邮箱",
-      "email_share_subject": "我的测试结果",
-      "email_share_body_intro": "你好，\n\n我想与你分享我的测试结果：\n\n",
-      "email_share_categories": "各维度分数",
+      "share_to_email": "通过邮件分享",
+      "email_share_subject": "我的 BDSM Test 测试结果",
+      "email_share_body_intro": "您好，\n\n我想与您分享我的 BDSM Test 测试结果：\n\n",
+      "email_share_categories": "类别得分",
       "email_share_link": "查看完整结果",
-      "email_share_note": "注：完整结果请访问测试页面查看。",
-      "email_share_footer": "本测试结果仅供参考，不构成任何医疗或心理建议。",
+      "email_share_note": "说明：访问测试页面可查看完整分析内容。",
+      "email_share_footer": "本结果仅供参考，不构成医学或心理建议。",
       "email_share_success": "正在打开邮件客户端...",
-      "email_share_failed": "分享到邮箱失败",
+      "email_share_failed": "邮件分享失败",
       "download_pdf": "下载报告（PDF）",
-      "download_pdf_processing": "正在生成PDF...",
-      "top_traits": "Top 3 特征",
+      "download_pdf_processing": "正在生成 PDF...",
+      "top_traits": "前三主要特质",
       "chart_radar": "雷达图",
-      "low_progress_title": "答题进度不足",
-      "low_progress_message": "您当前答题进度为 {percentage}%，为了获得准确的测试结果，建议完成至少10%的题目。",
-      "continue_test": "继续答题",
-      "incomplete_progress_title": "建议完成全部答题",
-      "incomplete_progress_message": "您当前答题进度为 {percentage}%，为了获得更准确的测试结果，建议完成全部题目。",
-      "complete_test": "完成全部答题",
+      "low_progress_title": "进度不足",
+      "low_progress_message": "当前完成度为 {percentage}%。至少完成 10% 才能获得有效结果。",
+      "continue_test": "继续测试",
+      "incomplete_progress_title": "请完成所有题目",
+      "incomplete_progress_message": "当前完成度为 {percentage}%，完成全部题目可获得最准确的分析。",
+      "complete_test": "完成全部题目",
       "no_result_title": "暂无测试结果",
-      "no_result_message": "您还没有完成测试，请先完成测试后再查看结果。",
-      "start_test": "开始测试",
+      "no_result_message": "您尚未完成测试，完成后可查看结果。",
       "analysis_result": "分析结果",
       "chart_bar": "柱状图",
       "chart_score": "得分",
-      "export_json": "导出JSON",
-      "export_json_success": "JSON导出成功",
-      "export_json_failed": "JSON导出失败",
-      "clear_all_data": "清除所有数据（GDPR合规）",
-      "clear_all_data_confirm": "确定要清除所有数据吗？此操作不可恢复。",
-      "clear_all_data_success": "所有数据已清除",
-      "download_pdf_hint": "请使用浏览器的打印功能保存为PDF",
-      "download_profile": "下载你的Kink Profile",
+      "export_json": "导出 JSON",
+      "export_json_success": "JSON 导出成功",
+      "export_json_failed": "JSON 导出失败",
+      "clear_all_data": "清空所有数据（符合 GDPR）",
+      "clear_all_data_confirm": "确定清空所有数据？此操作不可撤销。",
+      "clear_all_data_success": "所有数据已清空",
+      "download_pdf_hint": "请使用浏览器的打印功能保存 PDF",
+      "download_profile": "下载 Kink 个人资料",
       "download_profile_processing": "正在生成报告...",
-      "download_profile_success": "请使用浏览器的打印功能保存为PDF",
-      "download_image": "导出图片（PNG）",
+      "download_profile_success": "请使用浏览器打印功能保存为 PDF",
+      "download_image": "导出为图片（PNG）",
       "download_image_processing": "正在生成图片...",
       "export_image_success": "图片导出成功",
       "export_image_failed": "图片导出失败",
-      "view": "查看",
-      "orientation_spectrum_title": "性取向光谱 (Kinsey-like)",
-      "history_count_message": "您有 {count} 条历史记录，可以点击下面的历史记录来查看结果：",
-      "no_result_title": "暂无测试结果",
-      "no_result_message": "您还没有完成测试，或者测试结果尚未加载。",
-      "analysis_result": "分析结果",
-      "loading_chart": "加载图表中...",
-      "start_test": "开始测试",
+      "orientation_spectrum_title": "性取向光谱（类似 Kinsey）",
+      "history_count_message": "您共有 {count} 条历史记录，点击任意记录可查看详情：",
+      "loading_chart": "正在加载图表...",
       "error": "错误",
       "refresh_page": "刷新页面",
-      "loading": "加载中…",
-      "export_simplified_message": "访问 {siteUrl} 查看完整的分析和详细结果。",
+      "loading": "加载中...",
+      "export_simplified_message": "访问 {siteUrl} 查看完整分析与详细结果。",
       "export_generated_by": "由 {siteName} 生成"
     }
   },
   "privacy": {
-    "title": "隐私政策",
+    "title": "隐私政策 - BDSM Test",
     "last_updated": "最后更新日期",
     "sections": {
       "data_storage": {
         "title": "数据存储",
-        "content": "本应用的所有数据仅存储在您的本地设备（浏览器 localStorage）中，采用加密存储方式。我们不会收集、上传或存储任何个人信息到服务器。"
+        "content": "BDSM Test 应用中的所有数据均仅存储在您的本地设备上（通过浏览器 localStorage），并经过加密处理。我们不会收集、上传或保存任何个人信息到服务器。"
       },
       "anonymous_testing": {
         "title": "匿名测试",
-        "content": "所有测试结果均为匿名处理，不会关联任何个人身份信息。您可以自由选择分享测试结果，分享链接仅包含测试结果数据，不包含任何个人信息。"
+        "content": "所有测试结果均以匿名方式处理，不会与任何个人身份信息关联。您可以自行选择是否分享结果；分享链接仅包含测试数据，不含任何个人信息。"
       },
       "data_security": {
         "title": "数据安全",
-        "content": "我们使用 AES 加密算法对本地存储的数据进行加密，确保数据安全性。加密密钥仅存储在本地，不会上传到服务器。"
+        "content": "我们使用 AES 加密技术保护所有本地存储的数据。加密密钥仅保留在您的设备中，绝不会上传到任何服务器。"
       },
       "gdpr_compliance": {
-        "title": "GDPR 合规",
-        "content": "本应用完全符合 GDPR（通用数据保护条例）要求：",
+        "title": "GDPR 合规性",
+        "content": "BDSM Test 完全遵守 GDPR（欧盟《通用数据保护条例》）相关要求：",
         "list": {
           "data_minimization": {
             "label": "数据最小化",
-            "text": "仅存储测试所需的基本数据，不收集任何不必要的个人信息"
+            "text": "我们仅存储完成测试所需的必要数据，不收集任何不必要的个人信息。"
           },
           "data_subject_rights": {
             "label": "数据主体权利",
-            "text": "您可以随时访问、修改或删除本地数据"
+            "text": "您可以随时访问、修改或删除所有本地测试数据。"
           },
           "data_portability": {
-            "label": "数据可移植性",
-            "text": "支持导出测试结果（PDF、PNG、JSON格式）"
+            "label": "数据可携性",
+            "text": "您可以将测试结果导出为 PDF、PNG 或 JSON 文件。"
           },
           "right_to_erasure": {
-            "label": "数据删除权",
-            "text": "支持一键清空所有本地数据，包括测试结果、历史记录和分享链接"
+            "label": "删除权",
+            "text": "您可以一键清除所有本地数据，包括测试结果、历史记录和分享链接。"
           },
           "data_protection": {
             "label": "数据保护",
-            "text": "所有本地数据均采用加密存储，确保数据安全"
+            "text": "所有本地数据均经过加密，以确保安全性和隐私性。"
           },
           "anonymity": {
             "label": "匿名性",
-            "text": "所有测试结果均为匿名处理，不关联任何个人身份信息"
+            "text": "测试结果完全匿名，不会与任何可识别的身份信息绑定。"
           }
         },
         "extra": {
           "how_to_clear": {
             "label": "如何清除数据",
-            "text": "在测试结果页面，您可以点击「清除所有数据（GDPR合规）」按钮，这将删除所有本地存储的测试数据。"
+            "text": "在测试结果页面点击“清除所有数据（符合 GDPR）”按钮，即可删除本地存储的所有测试数据。"
           },
           "how_to_export": {
             "label": "如何导出数据",
-            "text": "在测试结果页面，您可以点击「导出JSON」按钮，下载包含完整测试结果的JSON文件。"
+            "text": "在测试结果页面点击“导出 JSON”按钮，即可下载包含完整测试结果的文件。"
           }
         }
       },
       "third_party_services": {
         "title": "第三方服务",
-        "content": "本应用不使用任何第三方分析或追踪服务，不会向第三方分享任何数据。"
+        "content": "BDSM Test 不使用任何第三方分析工具、追踪服务，也不会与任何外部机构共享数据。"
       },
       "contact_us": {
         "title": "联系我们",
-        "content": "如果您对本隐私政策有任何疑问，请通过应用内的反馈功能联系我们。"
+        "content": "如果您对本隐私政策有任何疑问，请通过应用内的反馈功能联系我们。",
+        "copyright_owner": "版权所有者",
+        "copyright_owner_link": "BDSM Test Toolina",
+        "email": "电子邮件",
+        "email_address": "service@toolina.com"
       }
     }
   },
+  "privacy_policy": {
+    "title": "BDSM Test 隐私政策",
+    "introduction": {
+      "title": "引言",
+      "content": "欢迎使用 BDSM Test，这是一个 **NextJS 样板应用**，旨在帮助您快速高效地构建 AI SaaS 初创公司。在 BDSM Test，您的隐私对我们至关重要，本隐私政策说明了我们在您使用我们的服务时如何收集、使用和保护您的个人信息。"
+    },
+    "information_collection": {
+      "title": "信息收集和使用",
+      "content": "我们收集以下类型的数据，以便在您使用 BDSM Test 时为您提供更好的体验：",
+      "account_info": {
+        "title": "账户信息",
+        "what_we_collect": "**我们收集的内容**：包括您的姓名、电子邮件地址以及您在创建账户时提供的任何其他信息。",
+        "purpose": "**目的**：管理您的账户并提供客户支持。"
+      },
+      "usage_details": {
+        "title": "使用详情",
+        "what_we_collect": "**我们收集的内容**：关于您如何使用 BDSM Test 的信息，包括您的交互、访问的功能和使用频率。",
+        "purpose": "**目的**：分析用户参与度并改进我们的服务。"
+      },
+      "device_info": {
+        "title": "设备信息",
+        "what_we_collect": "**我们收集的内容**：关于您用于访问 BDSM Test 的设备的数据，例如设备类型、操作系统和浏览器类型。",
+        "purpose": "**目的**：针对不同设备优化我们的服务并确保兼容性。"
+      },
+      "cookies": {
+        "title": "Cookie",
+        "what_we_collect": "**我们收集的内容**：放置在您设备上的小型数据文件，帮助我们跟踪用户偏好并改善用户体验。",
+        "purpose": "**目的**：增强我们服务的功能并个性化您的体验。"
+      },
+      "payment_info": {
+        "title": "支付和账单信息",
+        "what_we_collect": "**我们收集的内容**：关于您的支付方式的信息，例如信用卡号、账单地址以及交易处理所需的任何详细信息。",
+        "purpose": "**目的**：促进我们服务的计费和支付处理。"
+      }
+    },
+    "data_storage_security": {
+      "title": "数据存储和安全",
+      "content": "我们非常重视您个人信息的安全。我们收集的数据安全地存储在我们的服务器上，我们实施了各种安全措施，包括加密和访问控制，以保护您的个人信息免受未经授权的访问、更改、披露或破坏。但是，请注意，通过互联网传输或电子存储的方法都不是 100% 安全的，我们无法保证其绝对安全。"
+    },
+    "information_sharing": {
+      "title": "信息共享和披露",
+      "content": "我们不会向外部各方出售、交易或以其他方式转让您的个人信息，除非在以下情况下：",
+      "items": [
+        "遵守法律义务或响应公共当局的合法请求。",
+        "保护我们的权利、财产或安全，或我们的用户或其他人的权利、财产或安全。",
+        "通过协助我们运营网站或开展业务的受信任第三方合作伙伴提供服务，但需遵守保密协议。"
+      ]
+    },
+    "changes_to_policy": {
+      "title": "政策变更",
+      "content": "我们可能会不时更新此隐私政策。我们将通过在此页面上发布新政策并更新本政策顶部的\"生效日期\"来通知您任何变更。建议您定期查看此隐私政策的任何变更。此隐私政策的变更在发布到此页面时生效。"
+    },
+    "contact_us": {
+      "title": "联系我们",
+      "content": "如果您对此隐私政策或我们的数据实践有任何疑问或疑虑，请通过以下方式联系我们：",
+      "copyright_owner": "版权所有者",
+      "copyright_owner_link": "BDSM Test Toolina",
+      "email": "电子邮件",
+      "email_address": "service@toolina.com",
+      "consent": "使用 BDSM Test，即表示您同意我们的隐私政策并同意其条款。感谢您对我们的信任！"
+    }
+  },
+  "terms_of_service": {
+    "title": "服务条款",
+    "introduction": {
+      "title": "引言和接受条款",
+      "content": "欢迎使用 **BDSM Test**，这是一个专为快速高效构建 AI SaaS 初创公司而设计的 NextJS 样板应用。通过访问或使用我们的服务，您同意受这些服务条款的约束。如果您不同意这些条款中的任何内容，请不要使用我们的服务。"
+    },
+    "use_of_service": {
+      "title": "服务使用",
+      "content": "BDSM Test 为用户提供了一个综合平台，使用我们预构建的模板和基础设施来构建和启动 AI SaaS 初创公司。您同意根据所有适用的地方、州、国家和国际法律法规使用服务。"
+    },
+    "user_accounts": {
+      "title": "用户账户和注册",
+      "account_creation": {
+        "label": "账户创建",
+        "text": "要访问服务的某些功能，您需要创建一个账户。您必须在注册过程中提供准确和完整的信息。"
+      },
+      "account_security": {
+        "label": "账户安全",
+        "text": "您有责任维护账户凭据的机密性，并对您账户下发生的所有活动负责。"
+      },
+      "user_responsibilities": {
+        "label": "用户责任",
+        "text": "您同意立即通知我们任何未经授权使用您账户的行为或任何其他安全漏洞。"
+      }
+    },
+    "intellectual_property": {
+      "title": "内容和知识产权",
+      "content": "通过 BDSM Test 提供的所有内容，包括但不限于模板、代码、基础设施设置和文档，均受版权法保护。BDSM Test 的版权所有者是 **BDSM Test.ai**。",
+      "items": [
+        "您承认您不拥有构成 BDSM Test 服务的基础技术或知识产权，您同意尊重 BDSM Test.ai 和任何第三方的知识产权。",
+        "虽然您保留对自定义实现和修改的所有权，但 BDSM Test 核心平台和模板仍然是 BDSM Test.ai 的财产。"
+      ]
+    },
+    "prohibited_activities": {
+      "title": "禁止活动",
+      "content": "您同意在使用 BDSM Test 时不从事以下任何禁止的活动：",
+      "items": [
+        "未经授权访问或分发我们的专有代码和模板",
+        "未经授权转售或重新分发 BDSM Test 模板",
+        "干扰或破坏服务的安全性或性能",
+        "将服务用于任何非法或未经授权的目的",
+        "试图绕过服务的任何安全功能"
+      ]
+    },
+    "privacy_data": {
+      "title": "隐私和数据收集",
+      "content": "BDSM Test 收集以下类型的数据：",
+      "items": [
+        "**账户信息**：您在创建账户时提供的信息",
+        "**使用详情**：与您在我们服务上的活动相关的数据",
+        "**设备信息**：关于您用于访问我们服务的设备的信息",
+        "**Cookie**：帮助我们增强您服务体验的数据",
+        "**支付和账单信息**：处理支付所需的数据"
+      ],
+      "privacy_policy_link": "有关数据收集实践的更多详细信息，请参阅我们的[隐私政策](/privacy-policy)。"
+    },
+    "pricing_payments": {
+      "title": "定价和支付",
+      "items": [
+        "除非法律另有要求，否则所有购买均为最终且不可退款",
+        "价格可能会在通知用户后发生变化",
+        "您同意支付与您选择的计划相关的所有费用",
+        "支付条款基于您选择的支付方式和计划"
+      ]
+    },
+    "termination": {
+      "title": "终止",
+      "content": "我们保留自行决定终止或暂停您访问服务的权利，无需通知，对于我们认为违反这些条款或对服务的其他用户、我们或第三方有害的行为。"
+    },
+    "disclaimer": {
+      "title": "免责声明",
+      "content": "服务按\"现状\"和\"可用\"基础提供。我们对服务的准确性、可靠性或可用性不作任何保证或陈述，并在法律允许的最大范围内免除所有保证。"
+    },
+    "limitation_liability": {
+      "title": "责任限制",
+      "content": "在法律允许的最大范围内，BDSM Test.ai 不对因使用或无法使用服务而产生的任何直接、间接、偶然、特殊、后果性或惩罚性损害承担责任。"
+    },
+    "indemnification": {
+      "title": "赔偿",
+      "content": "您同意赔偿并使 BDSM Test.ai、其关联公司及其各自的官员、董事、员工和代理免受因您使用服务或违反这些条款而产生的任何索赔、损害、损失、责任和费用（包括律师费）。"
+    },
+    "governing_law": {
+      "title": "适用法律和争议解决",
+      "content": "这些条款应受 BDSM Test.ai 运营所在司法管辖区的法律管辖和解释，不考虑其法律冲突条款。因这些条款或服务产生的任何争议将根据适用法律通过具有约束力的仲裁解决。"
+    },
+    "changes_to_terms": {
+      "title": "条款变更",
+      "content": "我们保留随时更新或修改这些条款的权利。变更将在我们网站上发布后立即生效。您在变更后继续使用服务即表示您接受新条款。"
+    },
+    "contact": {
+      "title": "联系信息",
+      "content": "如果您对这些条款有任何疑问，请通过以下方式联系我们：",
+      "email": "service@toolina.com",
+      "consent": "使用 BDSM Test，即表示您承认您已阅读、理解并同意受这些服务条款的约束。感谢您选择 BDSM Test！"
+    }
+  },
   "headings": {
-    "test_description": "测试说明",
-    "core_features": "核心特性",
+    "test_description": "BDSM Test 测试说明",
+    "core_features": "核心功能",
     "test_progress": "测试进度",
-    "test_questions": "测试题目",
+    "test_questions": "测试问题",
     "test_results_chart": "测试结果图表",
     "about": {
-      "title": "关于",
+      "title": "关于 BDSM Test",
       "app_intro": "应用简介",
-      "core_features": "核心特性",
-      "test_instructions": "测试说明",
+      "core_features": "核心功能",
+      "test_instructions": "测试指南",
       "tech_stack": "技术栈",
       "version_info": "版本信息",
       "disclaimer": "免责声明",
@@ -437,10 +590,10 @@
         "privacy_protection": "隐私保护"
       },
       "test_dimensions": {
-        "dominance": "主导倾向（Dominance）",
-        "submission": "服从倾向（Submission）",
-        "switch": "切换倾向（Switch）",
-        "orientation_spectrum": "性取向光谱（Orientation Spectrum）"
+        "dominance": "支配",
+        "submission": "服从",
+        "switch": "切换者",
+        "orientation_spectrum": "取向光谱"
       },
       "technologies": {
         "nextjs": "Next.js 15",
@@ -450,11 +603,11 @@
         "next_intl": "next-intl"
       },
       "tech_descriptions": {
-        "nextjs": "React 框架",
-        "typescript": "类型安全",
-        "tailwind": "样式框架",
-        "recharts": "数据可视化",
-        "next_intl": "国际化支持"
+        "nextjs": "高性能的 React 渲染框架",
+        "typescript": "强类型系统，提高开发安全性",
+        "tailwind": "现代化的实用类 CSS 框架",
+        "recharts": "交互式数据可视化工具",
+        "next_intl": "多语言国际化支持"
       }
     }
   }

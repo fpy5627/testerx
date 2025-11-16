@@ -22,10 +22,10 @@ export default async function AdminLayout({
 
   const sidebar: Sidebar = {
     brand: {
-      title: "ShipAny",
+      title: "BDSM Test",
       logo: {
         src: "/logo.png",
-        alt: "ShipAny",
+        alt: "BDSM Test",
       },
       url: "/admin",
     },
@@ -67,13 +67,13 @@ export default async function AdminLayout({
       items: [
         {
           title: "Documents",
-          url: "https://docs.shipany.ai",
+          url: "https://docs.BDSM Test.ai",
           target: "_blank",
           icon: "RiFileTextLine",
         },
         {
           title: "Blocks",
-          url: "https://shipany.ai/blocks",
+          url: "https://BDSM Test.ai/blocks",
           target: "_blank",
           icon: "RiDashboardLine",
         },
@@ -89,7 +89,7 @@ export default async function AdminLayout({
         },
         {
           title: "Github",
-          url: "https://github.com/shipanyai/shipany-template-one",
+          url: "https://github.com/BDSM Testai/BDSM Test-template-one",
           target: "_blank",
           icon: "RiGithubLine",
         },
@@ -101,7 +101,7 @@ export default async function AdminLayout({
         },
         {
           title: "X",
-          url: "https://x.com/shipanyai",
+          url: "https://x.com/BDSM Testai",
           target: "_blank",
           icon: "RiTwitterLine",
         },

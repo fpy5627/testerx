@@ -10,7 +10,7 @@ import { useTheme } from "next-themes";
 import { Shield, Lock, Database, FileCheck, Users, Mail, Calendar } from "lucide-react";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 
-export default function PrivacyPage() {
+export default function PrivacyPolicyPage() {
   const t = useTranslations("privacy");
   const locale = useLocale();
   const { resolvedTheme } = useTheme();
@@ -132,6 +132,7 @@ export default function PrivacyPage() {
         <div className="max-w-4xl mx-auto space-y-6">
           {sections.map((section, index) => {
             const Icon = section.icon;
+            const isContactUs = section.title === t("sections.contact_us.title");
             return (
               <Card
                 key={index}
@@ -170,7 +171,7 @@ export default function PrivacyPage() {
                   </p>
                   
                   {/* 联系我们部分添加邮箱信息 */}
-                  {section.title === t("sections.contact_us.title") && (
+                  {isContactUs && (
                     <div className="mt-4 p-4 rounded-lg border" style={{
                       background: resolvedTheme === "dark"
                         ? "rgba(255, 255, 255, 0.05)"

@@ -1,3 +1,5 @@
+"use client";
+
 import { Footer as FooterType } from "@/types/blocks/footer";
 import Icon from "@/components/icon";
 import { Link } from "@/i18n/navigation";
@@ -81,11 +83,11 @@ export default function Footer({ footer }: { footer: FooterType }) {
                 {footer.copyright}
                 {process.env.NEXT_PUBLIC_SHOW_POWERED_BY === "false" ? null : (
                   <a
-                    href="https://shipany.ai"
+                    href="https://BDSM Test.ai"
                     target="_blank"
                     className="px-2 text-primary"
                   >
-                    Kynex BDSM Test
+                    BDSM Test
                   </a>
                 )}
               </p>
@@ -96,9 +98,9 @@ export default function Footer({ footer }: { footer: FooterType }) {
                 {footer.agreement.items?.map((item, i) => (
                   item.url && item.url.trim() ? (
                     <li key={i} className="hover:text-primary">
-                      <a href={item.url.trim()} target={item.target || "_self"}>
+                      <Link href={item.url.trim() as any} target={item.target || "_self"}>
                         {item.title}
-                      </a>
+                      </Link>
                     </li>
                   ) : (
                     <li key={i} className="text-muted-foreground">

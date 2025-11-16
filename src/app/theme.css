@@ -1,6 +1,8 @@
 :root {
   --background: oklch(1 0 0);
   --foreground: oklch(0.19 0.01 248.51);
+  --text-shadow: 0 1px 4px rgba(255, 255, 255, 0.9), 0 0 2px rgba(0, 0, 0, 0.15);
+  --description-text-color: rgba(17, 24, 39, 0.9);
   --card: oklch(0.98 0 197.14);
   --card-foreground: oklch(0.19 0.01 248.51);
   --popover: oklch(1 0 0);
@@ -54,6 +56,8 @@
 .dark {
   --background: #2b333e;
   --foreground: oklch(0.93 0 228.79);
+  --text-shadow: 0 3px 12px rgba(0, 0, 0, 0.8), 0 2px 6px rgba(0, 0, 0, 0.6), 0 1px 3px rgba(0, 0, 0, 0.4), 0 0 2px rgba(255, 255, 255, 0.2);
+  --description-text-color: #ffffff;
   --card: oklch(0.21 0.01 274.53);
   --card-foreground: oklch(0.89 0 0);
   --popover: oklch(0 0 0);

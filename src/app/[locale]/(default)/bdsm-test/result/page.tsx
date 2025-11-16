@@ -447,13 +447,10 @@ function ResultInner() {
         scrollX: 0, // 确保从左侧开始
         scrollY: 0, // 确保从顶部开始
         onclone: (clonedDoc) => {
-          // 在克隆的文档中，确保所有样式都正确应用
           const clonedElement = clonedDoc.getElementById("export-image-layout");
           if (clonedElement) {
             const clonedEl = clonedElement as HTMLElement;
-            // 确保背景色正确
             clonedEl.style.backgroundColor = resolvedTheme === "dark" ? "#0f172a" : "#ffffff";
-            // 确保元素可见
             clonedEl.style.position = 'relative';
             clonedEl.style.visibility = 'visible';
             clonedEl.style.opacity = '1';
@@ -463,27 +460,23 @@ function ResultInner() {
             clonedEl.style.left = '0';
             clonedEl.style.top = '0';
             
-            // 确保所有子元素也可见
             const allChildren = clonedEl.querySelectorAll('*');
             allChildren.forEach((child) => {
               const el = child as HTMLElement;
               el.style.visibility = 'visible';
               el.style.opacity = '1';
               el.style.display = el.style.display || 'block';
-              // 确保SVG元素可见
               if (el.tagName === 'svg') {
                 el.style.display = 'block';
                 el.style.visibility = 'visible';
                 el.style.opacity = '1';
               }
-              // 确保所有内容元素都在背景之上
               if (el.classList.contains('relative') || el.classList.contains('z-10')) {
                 el.style.zIndex = '10';
                 el.style.position = 'relative';
               }
             });
             
-            // 特别处理SVG元素
             const clonedSvgs = clonedEl.querySelectorAll('svg');
             clonedSvgs.forEach((svg) => {
               const svgEl = svg as unknown as HTMLElement;
@@ -564,20 +557,20 @@ function ResultInner() {
           }
           
           const imageUrl = URL.createObjectURL(blob);
-      const link = document.createElement("a");
-      link.href = imageUrl;
+          const link = document.createElement("a");
+          link.href = imageUrl;
           const version = isSimplified ? "simplified" : "full";
           link.download = `kink-profile-${version}-${new Date().toISOString().split("T")[0]}.png`;
-      document.body.appendChild(link);
-      link.click();
-      document.body.removeChild(link);
+          document.body.appendChild(link);
+          link.click();
+          document.body.removeChild(link);
           
           // 延迟释放URL，确保下载完成
           setTimeout(() => {
-      URL.revokeObjectURL(imageUrl);
+            URL.revokeObjectURL(imageUrl);
           }, 100);
 
-      toast.success(t("export_image_success") || "图片导出成功");
+          toast.success(t("export_image_success") || "图片导出成功");
         } catch (blobError: any) {
           console.error("Failed to create blob:", blobError);
           toast.error(`${t("export_image_failed") || "图片导出失败"}：${blobError?.message || "无法创建图片文件"}`);

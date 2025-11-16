@@ -38,6 +38,10 @@
   html.dark [class*="dark:bg-"] {
     background-color: #2b333e !important;
   }
+  /* 强制描述文字在 dark 模式下为白色，避免闪烁 */
+  html.dark section p.text-gray-900 {
+    color: #ffffff !important;
+  }
 }
 
 .container {

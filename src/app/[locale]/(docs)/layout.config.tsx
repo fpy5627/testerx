@@ -15,7 +15,7 @@ export function baseOptions(locale: string): BaseLayoutProps {
             height={28}
             className=""
           />
-          <span className="text-lg text-primary font-bold">Kynex BDSM Test</span>
+          <span className="text-lg text-primary font-bold">BDSM Test</span>
         </>
       ),
       transparentMode: "top",

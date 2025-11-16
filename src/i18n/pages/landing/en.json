@@ -1,12 +1,12 @@
 {
-  "template": "shipany-template-one",
+  "template": "BDSM Test-template-one",
   "theme": "light",
   "header": {
     "brand": {
-      "title": "ShipAny",
+      "title": "BDSM Test",
       "logo": {
         "src": "/logo.png",
-        "alt": "ShipAny"
+        "alt": "BDSM Test"
       },
       "url": "/"
     },
@@ -32,7 +32,7 @@
   "hero": {
     "title": "Ship Any AI Startups in hours, not days",
     "highlight_text": "Ship Any",
-    "description": "ShipAny is a NextJS boilerplate for building AI SaaS startups.<br/>Ship Fast with a variety of templates and components.",
+    "description": "BDSM Test is a NextJS boilerplate for building AI SaaS startups.<br/>Ship Fast with a variety of templates and components.",
     "announcement": {
       "label": "2025",
       "title": "🎉 Happy New Year",
@@ -50,7 +50,7 @@
       {
         "title": "Read Document",
         "icon": "RiBookOpenLine",
-        "url": "https://docs.shipany.ai",
+        "url": "https://docs.BDSM Test.ai",
         "target": "_blank",
         "variant": "outline"
       }
@@ -59,7 +59,7 @@
     "show_badge": false
   },
   "branding": {
-    "title": "ShipAny is built on the shoulders of giants",
+    "title": "BDSM Test is built on the shoulders of giants",
     "items": [
       {
         "title": "Next.js",
@@ -100,9 +100,9 @@
   },
   "introduce": {
     "name": "introduce",
-    "title": "What is ShipAny",
+    "title": "What is BDSM Test",
     "label": "Introduce",
-    "description": "ShipAny is a NextJS boilerplate for building AI SaaS startups. Built in a variety of templates and components.",
+    "description": "BDSM Test is a NextJS boilerplate for building AI SaaS startups. Built in a variety of templates and components.",
     "image": {
       "src": "/imgs/features/1.png"
     },
@@ -126,7 +126,7 @@
   },
   "benefit": {
     "name": "benefit",
-    "title": "Why Choose ShipAny",
+    "title": "Why Choose BDSM Test",
     "label": "Benefits",
     "description": "Get everything you need to launch your AI startup - from ready-to-use templates to technical support.",
     "items": [
@@ -158,7 +158,7 @@
   },
   "usage": {
     "name": "usage",
-    "title": "How to Launch with ShipAny",
+    "title": "How to Launch with BDSM Test",
     "description": "Get your AI SaaS startup running in three simple steps:",
     "image": {
       "src": "/imgs/features/1.png"
@@ -167,15 +167,15 @@
     "text_align": "center",
     "items": [
       {
-        "title": "Get ShipAny",
-        "description": "Buy ShipAny with a one-time payment. Check your email for the code and documentation.",
+        "title": "Get BDSM Test",
+        "description": "Buy BDSM Test with a one-time payment. Check your email for the code and documentation.",
         "image": {
           "src": "/imgs/features/5.png"
         }
       },
       {
         "title": "Start Your Project",
-        "description": "Read the documentation and clone the code of ShipAny. Start building your AI SaaS startup.",
+        "description": "Read the documentation and clone the code of BDSM Test. Start building your AI SaaS startup.",
         "image": {
           "src": "/imgs/features/6.png"
         }
@@ -198,7 +198,7 @@
   },
   "feature": {
     "name": "feature",
-    "title": "Key Features of ShipAny",
+    "title": "Key Features of BDSM Test",
     "description": "Everything you need to launch your AI SaaS startup quickly and efficiently.",
     "items": [
       {
@@ -236,7 +236,7 @@
   "stats": {
     "name": "stats",
     "label": "Stats",
-    "title": "People Love ShipAny",
+    "title": "People Love BDSM Test",
     "description": "for it's easy to use and fast to ship.",
     "icon": "FaRegHeart",
     "items": [
@@ -260,14 +260,14 @@
   "testimonial": {
     "name": "testimonial",
     "label": "Testimonial",
-    "title": "What Users Say About ShipAny",
-    "description": "Hear from developers and founders who launched their AI startups with ShipAny.",
+    "title": "What Users Say About BDSM Test",
+    "description": "Hear from developers and founders who launched their AI startups with BDSM Test.",
     "icon": "GoThumbsup",
     "items": [
       {
         "title": "David Chen",
         "label": "Founder of AIWallpaper.shop",
-        "description": "ShipAny saved us months of development time. We launched our AI wallpaper business in just 2 days and got our first paying customer within a week!",
+        "description": "BDSM Test saved us months of development time. We launched our AI wallpaper business in just 2 days and got our first paying customer within a week!",
         "image": {
           "src": "/imgs/users/1.png"
         }
@@ -283,7 +283,7 @@
       {
         "title": "Marcus Thompson",
         "label": "Solo Developer",
-        "description": "As a solo developer, ShipAny gave me everything I needed - auth, payments, AI integration, and beautiful UI. Launched my SaaS in a weekend!",
+        "description": "As a solo developer, BDSM Test gave me everything I needed - auth, payments, AI integration, and beautiful UI. Launched my SaaS in a weekend!",
         "image": {
           "src": "/imgs/users/3.png"
         }
@@ -299,7 +299,7 @@
       {
         "title": "James Wilson",
         "label": "Tech Lead at GPTs.works",
-        "description": "ShipAny's infrastructure is rock-solid. We scaled from 0 to 10k users without touching the backend. Best investment for our AI startup.",
+        "description": "BDSM Test's infrastructure is rock-solid. We scaled from 0 to 10k users without touching the backend. Best investment for our AI startup.",
         "image": {
           "src": "/imgs/users/5.png"
         }
@@ -307,7 +307,7 @@
       {
         "title": "Anna Zhang",
         "label": "Startup Founder",
-        "description": "From idea to launch in 3 days! ShipAny's templates and deployment tools made it possible to test our AI business concept incredibly fast.",
+        "description": "From idea to launch in 3 days! BDSM Test's templates and deployment tools made it possible to test our AI business concept incredibly fast.",
         "image": {
           "src": "/imgs/users/6.png"
         }
@@ -317,49 +317,49 @@
   "faq": {
     "name": "faq",
     "label": "FAQ",
-    "title": "Frequently Asked Questions About ShipAny",
+    "title": "Frequently Asked Questions About BDSM Test",
     "description": "Have another question? Contact us on Discord or by email.",
     "items": [
       {
-        "title": "What exactly is ShipAny and how does it work?",
-        "description": "ShipAny is a comprehensive NextJS boilerplate designed specifically for building AI SaaS startups. It provides ready-to-use templates, infrastructure setup, and deployment tools that help you launch your AI business in hours instead of days."
+        "title": "What exactly is BDSM Test and how does it work?",
+        "description": "BDSM Test is a comprehensive NextJS boilerplate designed specifically for building AI SaaS startups. It provides ready-to-use templates, infrastructure setup, and deployment tools that help you launch your AI business in hours instead of days."
       },
       {
-        "title": "Do I need advanced technical skills to use ShipAny?",
-        "description": "While basic programming knowledge is helpful, ShipAny is designed to be developer-friendly. Our templates and documentation make it easy to get started, even if you're not an expert in AI or cloud infrastructure."
+        "title": "Do I need advanced technical skills to use BDSM Test?",
+        "description": "While basic programming knowledge is helpful, BDSM Test is designed to be developer-friendly. Our templates and documentation make it easy to get started, even if you're not an expert in AI or cloud infrastructure."
       },
       {
-        "title": "What types of AI SaaS can I build with ShipAny?",
-        "description": "ShipAny supports a wide range of AI applications, from content generation to data analysis tools. Our templates cover popular use cases like AI chatbots, content generators, image processing apps, and more."
+        "title": "What types of AI SaaS can I build with BDSM Test?",
+        "description": "BDSM Test supports a wide range of AI applications, from content generation to data analysis tools. Our templates cover popular use cases like AI chatbots, content generators, image processing apps, and more."
       },
       {
-        "title": "How long does it typically take to launch with ShipAny?",
-        "description": "With ShipAny, you can have a working prototype in hours and a production-ready application in hours. Our one-click deployment and pre-configured infrastructure significantly reduce the traditional months-long development cycle."
+        "title": "How long does it typically take to launch with BDSM Test?",
+        "description": "With BDSM Test, you can have a working prototype in hours and a production-ready application in hours. Our one-click deployment and pre-configured infrastructure significantly reduce the traditional months-long development cycle."
       },
       {
-        "title": "What's included in the ShipAny infrastructure?",
-        "description": "ShipAny provides a complete infrastructure stack including authentication, database setup, API integration, payment processing, and scalable cloud deployment. Everything is pre-configured following industry best practices."
+        "title": "What's included in the BDSM Test infrastructure?",
+        "description": "BDSM Test provides a complete infrastructure stack including authentication, database setup, API integration, payment processing, and scalable cloud deployment. Everything is pre-configured following industry best practices."
       },
       {
         "title": "Can I customize the templates to match my brand?",
-        "description": "Absolutely! All ShipAny templates are fully customizable. You can modify the design, features, and functionality to match your brand identity and specific business requirements while maintaining the robust underlying infrastructure."
+        "description": "Absolutely! All BDSM Test templates are fully customizable. You can modify the design, features, and functionality to match your brand identity and specific business requirements while maintaining the robust underlying infrastructure."
       }
     ]
   },
   "cta": {
     "name": "cta",
     "title": "Ship your first AI SaaS Startup",
-    "description": "Start from here, ship with ShipAny.",
+    "description": "Start from here, ship with BDSM Test.",
     "buttons": [
       {
-        "title": "Get ShipAny",
-        "url": "https://shipany.ai",
+        "title": "Get BDSM Test",
+        "url": "https://BDSM Test.ai",
         "target": "_blank",
         "icon": "GoArrowUpRight"
       },
       {
         "title": "Read Document",
-        "url": "https://docs.shipany.ai",
+        "url": "https://docs.BDSM Test.ai",
         "target": "_blank",
         "variant": "outline"
       }
@@ -368,15 +368,15 @@
   "footer": {
     "name": "footer",
     "brand": {
-      "title": "Kynex BDSM Test",
-      "description": "Kynex BDSM Test - BDSM Personality and Orientation Spectrum Test, scientifically quantify your psychological dimensions and sexual orientation spectrum.",
+      "title": "BDSM Test",
+      "description": "BDSM Test - BDSM Personality and Orientation Spectrum Test, scientifically quantify your psychological dimensions and sexual orientation spectrum.",
       "logo": {
         "src": "/logo.png",
-        "alt": "Kynex BDSM Test"
+        "alt": "BDSM Test"
       },
       "url": "/"
     },
-    "copyright": "© 2025 • Kynex BDSM Test All rights reserved.",
+    "copyright": "© 2025 • BDSM Test All rights reserved.",
     "nav": {
       "items": [
         {
@@ -430,13 +430,13 @@
           "target": "_self"
         },
         {
-          "title": "About",
-          "url": "/about",
+          "title": "Terms of Service",
+          "url": "/terms-of-service",
           "target": "_self"
         },
         {
-          "title": "GDPR Notice",
-          "url": "/gdpr",
+          "title": "About",
+          "url": "/about",
           "target": "_self"
         }
       ]

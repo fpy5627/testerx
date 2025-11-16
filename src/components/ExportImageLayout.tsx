@@ -36,12 +36,12 @@ export default function ExportImageLayout({
   // 网站URL（可以从环境变量获取）
   const siteUrl = typeof window !== 'undefined' 
     ? window.location.origin 
-    : 'https://kynex-test.com';
+    : 'https://bdsm-test.toolina.com';
 
   // 网站名称（可以从环境变量获取）
   const siteName = typeof window !== 'undefined' 
     ? (process.env.NEXT_PUBLIC_PROJECT_NAME || window.location.hostname.replace(/^www\./, ''))
-    : 'Kynex BDSM Test';
+    : 'BDSM Test';
 
   // 获取类别元数据
   const categoryMetadata = getCategoryMetadata(locale);

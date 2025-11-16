@@ -35,6 +35,7 @@ export default function Feature({ section }: { section: SectionType }) {
   const locale = useLocale();
   const { resolvedTheme } = useTheme();
   const [open, setOpen] = React.useState(false);
+  const [mounted, setMounted] = React.useState(false);
   const titleRef = React.useRef<HTMLHeadingElement>(null);
   const descriptionRef = React.useRef<HTMLDivElement>(null);
   const buttonRef = React.useRef<HTMLButtonElement>(null);
@@ -53,6 +54,13 @@ export default function Feature({ section }: { section: SectionType }) {
     setOpen(false);
     router.push(`/${locale}/bdsm-test/run`);
   }
+
+  /**
+   * 标记组件已在客户端挂载，用于避免 hydration 错误
+   */
+  React.useEffect(() => {
+    setMounted(true);
+  }, []);
 
   /**
    * 添加动画样式
@@ -180,7 +188,7 @@ export default function Feature({ section }: { section: SectionType }) {
         <div 
           className="absolute inset-0 pointer-events-none"
           style={{
-            background: resolvedTheme === "dark"
+            background: mounted && resolvedTheme === "dark"
               ? "radial-gradient(ellipse 80% 50% at 50% 0%, rgba(32, 224, 192, 0.08) 0%, transparent 50%), radial-gradient(ellipse 60% 40% at 50% 100%, rgba(139, 92, 246, 0.08) 0%, transparent 50%)"
               : "radial-gradient(ellipse 80% 50% at 50% 0%, rgba(32, 224, 192, 0.05) 0%, transparent 50%), radial-gradient(ellipse 60% 40% at 50% 100%, rgba(139, 92, 246, 0.05) 0%, transparent 50%)",
           }}
@@ -206,13 +214,13 @@ export default function Feature({ section }: { section: SectionType }) {
                 key={key}
                 className="flex items-center gap-1 sm:gap-1.5 px-2 sm:px-2.5 py-1 sm:py-1.5 rounded-md transition-all duration-300 hover:scale-110 hover:-translate-y-1 cursor-pointer relative overflow-hidden group"
                 style={{
-                  background: resolvedTheme === "dark" 
+                  background: mounted && resolvedTheme === "dark" 
                     ? `linear-gradient(135deg, rgba(255, 255, 255, 0.1) 0%, ${color.replace('0.9', '0.12')} 100%)`
                     : `linear-gradient(135deg, rgba(255, 255, 255, 0.75) 0%, ${color.replace('0.9', '0.15')} 100%)`,
                   backdropFilter: 'blur(12px) saturate(180%)',
                   WebkitBackdropFilter: 'blur(12px) saturate(180%)',
                   border: `1.5px solid ${color.replace('0.9', '0.3')}`,
-                  boxShadow: resolvedTheme === "dark"
+                  boxShadow: mounted && resolvedTheme === "dark"
                     ? `0 6px 16px rgba(0, 0, 0, 0.3), 0 0 20px ${color.replace('0.9', '0.18')}, inset 0 1px 0 rgba(255, 255, 255, 0.12)`
                     : `0 6px 16px ${color.replace('0.9', '0.15')}, 0 0 24px ${color.replace('0.9', '0.12')}, inset 0 1px 0 rgba(255, 255, 255, 0.9)`
                 }}
@@ -234,7 +242,7 @@ export default function Feature({ section }: { section: SectionType }) {
                 <span 
                   className="text-xs sm:text-sm font-semibold relative z-10 transition-all duration-300 group-hover:tracking-wide"
                   style={{
-                    color: resolvedTheme === "dark" ? "rgba(255, 255, 255, 0.95)" : "rgba(0, 0, 0, 0.8)"
+                    color: mounted && resolvedTheme === "dark" ? "rgba(255, 255, 255, 0.95)" : "rgba(0, 0, 0, 0.8)"
                   }}
                 >
                   {t(key)}
@@ -261,14 +269,14 @@ export default function Feature({ section }: { section: SectionType }) {
             <Button
               className="px-16 md:px-20 lg:px-24 rounded-lg text-lg md:text-xl lg:text-2xl font-semibold transition-all duration-300 hover:scale-105 active:scale-95 border-0 text-gray-900 animate-button-glow-subtle relative overflow-hidden"
               style={{
-                background: resolvedTheme === "dark"
+                background: mounted && resolvedTheme === "dark"
                   ? "linear-gradient(135deg, rgba(32, 224, 192, 0.95) 0%, rgba(20, 184, 166, 0.95) 100%)"
                   : "linear-gradient(135deg, rgba(32, 224, 192, 0.98) 0%, rgba(20, 184, 166, 0.98) 100%)",
                 backdropFilter: 'blur(10px) saturate(180%)',
                 WebkitBackdropFilter: 'blur(10px) saturate(180%)',
                 height: '64px',
                 minHeight: '64px',
-                boxShadow: resolvedTheme === "dark"
+                boxShadow: mounted && resolvedTheme === "dark"
                   ? '0 8px 32px rgba(32, 224, 192, 0.4), 0 4px 16px rgba(32, 224, 192, 0.3), inset 0 1px 0 rgba(255, 255, 255, 0.2)'
                   : '0 8px 32px rgba(32, 224, 192, 0.5), 0 4px 16px rgba(32, 224, 192, 0.4), inset 0 1px 0 rgba(255, 255, 255, 0.3)',
               }}

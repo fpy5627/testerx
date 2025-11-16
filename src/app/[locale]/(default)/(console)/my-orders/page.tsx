@@ -103,7 +103,7 @@ export default async function () {
         {
           title: t("my_orders.read_docs"),
           icon: "RiBookLine",
-          url: "https://docs.shipany.ai",
+          url: "https://docs.BDSM Test.ai",
           target: "_blank",
           variant: "default",
         },

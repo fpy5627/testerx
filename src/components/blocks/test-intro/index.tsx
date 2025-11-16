@@ -65,10 +65,42 @@ export default function TestIntro() {
             {t("title")}
           </h1>
           
-          {/* 描述文字 - 居中，灰色，适当字间距，增加行间距，与标题区分 */}
-          <div className="text-center text-base text-gray-600 dark:text-gray-400 sm:text-lg md:text-xl max-w-2xl mb-8 md:mb-12 tracking-wide sm:tracking-normal space-y-3">
+          {/* 描述文字 - 优化可读性和美化 */}
+          <div 
+            className="text-center text-xl sm:text-2xl md:text-3xl max-w-4xl mb-12 md:mb-16 space-y-6 relative px-4"
+          >
+            {/* 描述文字背景装饰卡片 */}
+            <div 
+              className="absolute inset-0 -mx-4 -my-2 rounded-3xl -z-10"
+              style={{
+                background: resolvedTheme === "dark"
+                  ? "linear-gradient(135deg, rgba(255, 255, 255, 0.03) 0%, rgba(32, 224, 192, 0.05) 50%, rgba(139, 92, 246, 0.03) 100%)"
+                  : "linear-gradient(135deg, rgba(255, 255, 255, 0.6) 0%, rgba(240, 253, 250, 0.8) 50%, rgba(255, 255, 255, 0.6) 100%)",
+                backdropFilter: 'blur(20px) saturate(180%)',
+                WebkitBackdropFilter: 'blur(20px) saturate(180%)',
+                border: resolvedTheme === "dark"
+                  ? "1px solid rgba(255, 255, 255, 0.08)"
+                  : "1px solid rgba(32, 224, 192, 0.15)",
+                boxShadow: resolvedTheme === "dark"
+                  ? "0 8px 32px rgba(0, 0, 0, 0.2), inset 0 1px 0 rgba(255, 255, 255, 0.05)"
+                  : "0 8px 32px rgba(32, 224, 192, 0.1), inset 0 1px 0 rgba(255, 255, 255, 0.8)",
+              }}
+            />
             {t("description").split(/[。.]/).filter(line => line.trim()).map((line, index, array) => (
-              <p key={index} className="leading-relaxed">
+              <p 
+                key={index} 
+                className="leading-relaxed transition-all duration-300 relative z-10 py-2"
+                style={{
+                  color: resolvedTheme === "dark" 
+                    ? "rgba(255, 255, 255, 0.95)" 
+                    : "rgba(17, 24, 39, 0.95)",
+                  fontWeight: 600,
+                  letterSpacing: "0.03em",
+                  textShadow: resolvedTheme === "dark"
+                    ? "0 2px 10px rgba(0, 0, 0, 0.6), 0 1px 4px rgba(0, 0, 0, 0.4), 0 0 2px rgba(255, 255, 255, 0.15)"
+                    : "0 1px 4px rgba(255, 255, 255, 0.9), 0 0 2px rgba(0, 0, 0, 0.15)",
+                }}
+              >
                 {line.trim()}{index < array.length - 1 ? (t("description").includes('。') ? '。' : '.') : ''}
               </p>
             ))}

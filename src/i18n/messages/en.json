@@ -1,46 +1,56 @@
 {
   "metadata": {
-    "title": "BDSM Test - Free Online Psychological Test Tool | Anonymous Safe Privacy Protected",
-    "description": "Free, anonymous, and secure BDSM psychological test tool. Understand your psychological dimensions and sexual orientation spectrum. All data is stored locally only, fully protecting your privacy.",
-    "keywords": "bdsm test, bdsm test online, psychological test, sexual orientation test, anonymous test, privacy protection",
+    "title": "BDSM Test – Free Online Psychological Assessment | Anonymous, Safe & Privacy-Protected",
+    "description": "Take a free and anonymous BDSM psychological test. Explore your psychological profile and orientation spectrum with complete local data storage and strong privacy protection.",
+    "keywords": "bdsm test, bdsm test online, psychological assessment, orientation spectrum test, anonymous test, privacy protection",
     "pages": {
       "home": {
-        "title": "BDSM Test - Free Online Psychological Test Tool | Anonymous Safe Privacy Protected",
-        "description": "Free, anonymous, and secure BDSM psychological test tool. Understand your psychological dimensions and sexual orientation spectrum. All data is stored locally only, fully protecting your privacy.",
-        "keywords": "bdsm test, bdsm test online, psychological test, sexual orientation test, anonymous test, privacy protection"
+        "title": "BDSM Test – Free Online Psychological Assessment | Anonymous, Safe & Privacy-Protected",
+        "description": "Take a free, anonymous BDSM test designed for self-exploration. Discover your psychological tendencies and orientation spectrum. All data stays on your device.",
+        "keywords": "bdsm test, bdsm test online, psychological assessment, orientation spectrum test, privacy protection"
       },
       "about": {
-        "title": "About BDSM Test - App Information, Features and Tech Stack Details | Free Test Tool",
-        "description": "Learn about BDSM Test app information, version, features and tech stack. Safe, anonymous, scientific psychological test tool.",
-        "keywords": "bdsm test, about, app information, privacy protection, tech stack"
+        "title": "About BDSM Test – App Overview, Features & Tech Stack | Free Online Tool",
+        "description": "Learn more about the BDSM Test app, including features, version details, and the tech stack. A safe, anonymous psychological assessment tool with full local data storage.",
+        "keywords": "bdsm test, app info, features, privacy protection, tech stack"
       },
       "privacy": {
-        "title": "Privacy Policy - BDSM Test | Data Protection and GDPR Compliance Details | Privacy Security",
-        "description": "Learn about BDSM Test privacy policy. All data is stored locally only, using AES encryption, fully GDPR compliant, respecting user privacy rights.",
+        "title": "Privacy Policy – BDSM Test | Data Protection & GDPR Compliance",
+        "description": "Read the BDSM Test privacy policy. All data remains stored locally with AES encryption. Fully GDPR-compliant and designed to respect user privacy rights.",
         "keywords": "bdsm test, privacy policy, data protection, GDPR, privacy security"
       },
       "bdsm_test": {
-        "title": "BDSM Test - Free Online Psychological Test Tool | Anonymous Safe Privacy Protected",
-        "description": "Free, anonymous, and secure BDSM psychological test tool. Understand your psychological dimensions and sexual orientation spectrum. All data is stored locally only, fully protecting your privacy.",
-        "keywords": "bdsm test, bdsm test online, psychological test, sexual orientation test, anonymous test, privacy protection"
+        "title": "BDSM Test – Free Online Psychological Assessment | Anonymous, Safe & Private",
+        "description": "Free and anonymous BDSM psychological test. Understand your psychological tendencies and orientation spectrum. Data is stored locally only.",
+        "keywords": "bdsm test, bdsm test online, psychological assessment, orientation spectrum, anonymous test"
       },
       "bdsm_test_run": {
-        "title": "Start BDSM Test Psychological Test | Free Online Anonymous Safe Test Tool | Start Now",
-        "description": "Start your BDSM psychological test. Answer a series of scientifically designed questions to understand your psychological dimensions.",
-        "keywords": "bdsm test, start test, psychological test, online test"
+        "title": "Start BDSM Test | Free Anonymous Psychological Assessment | Begin Now",
+        "description": "Start your BDSM psychological test. Answer scientifically designed questions to better understand your psychological profile and orientation spectrum.",
+        "keywords": "bdsm test, bdsm kink test, bdsm test result, start test, psychological assessment, online test"
       },
       "bdsm_test_result": {
-        "title": "BDSM Test Results | View Your Detailed Psychological Analysis Report | Free View",
-        "description": "View your BDSM psychological test results. Understand your psychological dimension scores, analysis and recommendations.",
-        "keywords": "bdsm test, test results, psychological analysis, test report"
+        "title": "BDSM Test Results | Detailed Psychological Profile & Analysis",
+        "description": "View your BDSM test results. Explore detailed psychological dimensions, insights, and personalized analysis—stored locally for full privacy.",
+        "keywords": "bdsm test, results, psychological analysis, assessment report"
       },
       "bdsm_test_history": {
-        "title": "BDSM Test History | View and Manage All Your Test Results | History Management",
-        "description": "View your BDSM psychological test history. Manage your test results and historical data.",
-        "keywords": "bdsm test, test history, history records, test management"
+        "title": "BDSM Test History | View & Manage Previous Test Results",
+        "description": "Browse and manage your test history. Compare past results and track changes in your psychological dimensions over time.",
+        "keywords": "bdsm test, test history, history records, results management"
       },
       "posts": {
-        "title_suffix": " | BDSM Test Articles & News"
+        "title_suffix": " | BDSM Test Articles & Updates"
+      }
+    },
+    "structured_data": {
+      "organization": {
+        "name": "BDSM Test",
+        "description": "Free, anonymous, and secure BDSM psychological test tool"
+      },
+      "website": {
+        "name": "BDSM Test",
+        "description": "Free, anonymous, and secure BDSM psychological test tool. Understand your psychological dimensions and sexual orientation spectrum."
       }
     }
   },
@@ -50,19 +60,19 @@
     "credits": "Credits",
     "api_keys": "API Keys",
     "my_orders": "My Orders",
-    "user_center": "User Center",
-    "admin_system": "Admin System"
+    "user_center": "User Dashboard",
+    "admin_system": "Admin Panel"
   },
   "sign_modal": {
     "sign_in_title": "Sign In",
-    "sign_in_description": "Sign in to your account",
+    "sign_in_description": "Access your account securely",
     "sign_up_title": "Sign Up",
-    "sign_up_description": "Create an account",
+    "sign_up_description": "Create a new account",
     "email_title": "Email",
-    "email_placeholder": "Input your email here",
+    "email_placeholder": "Enter your email",
     "password_title": "Password",
-    "password_placeholder": "Input your password here",
-    "forgot_password": "Forgot password?",
+    "password_placeholder": "Enter your password",
+    "forgot_password": "Forgot your password?",
     "or": "Or",
     "continue": "Continue",
     "no_account": "Don't have an account?",
@@ -74,87 +84,87 @@
   },
   "my_orders": {
     "title": "My Orders",
-    "description": "orders paid with ShipAny.",
+    "description": "Manage your purchases made via BDSM Test.",
     "no_orders": "No orders found",
     "tip": "",
     "activate_order": "Activate Order",
     "actived": "Activated",
     "join_discord": "Join Discord",
-    "read_docs": "Read Docs",
+    "read_docs": "View Documentation",
     "table": {
-      "order_no": "Order No",
+      "order_no": "Order #",
       "email": "Email",
       "product_name": "Product Name",
       "amount": "Amount",
-      "paid_at": "Paid At",
+      "paid_at": "Payment Date",
       "github_username": "GitHub Username",
       "status": "Status",
-      "manage_billing": "Manage Billing",
-      "interval": "Interval",
+      "manage_billing": "Billing Options",
+      "interval": "Billing Cycle",
       "interval_month": "Monthly",
-      "interval_year": "Annually",
+      "interval_year": "Yearly",
       "interval_one_time": "One-Time"
     }
   },
   "my_credits": {
     "title": "My Credits",
-    "left_tip": "left credits: {left_credits}",
-    "no_credits": "No credits records",
-    "recharge": "Recharge",
+    "left_tip": "Remaining credits: {left_credits}",
+    "no_credits": "No credit records available",
+    "recharge": "Recharge Credits",
     "table": {
-      "trans_no": "Trans No",
-      "trans_type": "Trans Type",
+      "trans_no": "Transaction #",
+      "trans_type": "Transaction Type",
       "credits": "Credits",
-      "updated_at": "Updated At",
+      "updated_at": "Last Updated",
       "status": "Status",
-      "expired_at": "Expired At",
+      "expired_at": "Expiration Date",
       "created_at": "Created At"
     }
   },
   "api_keys": {
     "title": "API Keys",
-    "tip": "Please keep your apikey safe to avoid leaks",
-    "no_api_keys": "No API Keys",
-    "create_api_key": "Create API Key",
+    "tip": "Keep your API key secure to prevent unauthorized access",
+    "no_api_keys": "No API keys available",
+    "create_api_key": "Create New API Key",
     "table": {
-      "name": "Name",
-      "key": "Key",
+      "name": "Key Name",
+      "key": "API Key",
       "created_at": "Created At"
     },
     "form": {
-      "name": "Name",
-      "name_placeholder": "API Key Name",
-      "submit": "Submit"
+      "name": "Key Name",
+      "name_placeholder": "Enter a name for your API key",
+      "submit": "Save"
     }
   },
   "blog": {
     "title": "Blog",
-    "description": "News, resources, and updates about ShipAny",
+    "description": "Stay up to date with the latest news, resources, and insights from BDSM Test. Explore tips, articles, and research on psychological testing and self-discovery.",
     "read_more_text": "Read More"
   },
   "my_invites": {
     "title": "My Invites",
-    "description": "View your invite records",
-    "no_invites": "No invite records found",
-    "my_invite_link": "My Invite Link",
-    "edit_invite_link": "Edit Invite Link",
-    "copy_invite_link": "Copy Invite Link",
-    "invite_code": "Invite Code",
-    "invite_tip": "Invite 1 friend to buy ShipAny, reward $50.",
-    "invite_balance": "Invite Reward Balance",
-    "total_invite_count": "Total Invite Count",
-    "total_paid_count": "Total Paid Count",
-    "total_award_amount": "Total Award Amount",
-    "update_invite_code": "Set Invite Code",
-    "update_invite_code_tip": "Input your custom invite code",
+    "description": "Track and manage your invitation records",
+    "no_invites": "No invitations found",
+    "my_invite_link": "My Invitation Link",
+    "edit_invite_link": "Edit Link",
+    "copy_invite_link": "Copy Link",
+    "invite_code": "Invitation Code",
+    "invite_tip": "Invite a friend to purchase BDSM Test and earn a $50 reward",
+    "invite_balance": "Reward Balance",
+    "total_invite_count": "Total Invites",
+    "total_paid_count": "Total Successful Purchases",
+    "total_award_amount": "Total Rewards Earned",
+    "update_invite_code": "Set Custom Code",
+    "update_invite_code_tip": "Enter your preferred invite code",
     "update_invite_button": "Save",
-    "no_orders": "You can't invite others before you bought ShipAny",
-    "no_affiliates": "You're not allowed to invite others, please contact us to apply for permission.",
+    "no_orders": "You need to make a purchase before inviting others",
+    "no_affiliates": "You are not permitted to invite others. Please contact support for approval.",
     "table": {
-      "invite_time": "Invite Time",
-      "invite_user": "Invite User",
+      "invite_time": "Invitation Time",
+      "invite_user": "Invited User",
       "status": "Status",
-      "reward_percent": "Reward Percent",
+      "reward_percent": "Reward %",
       "reward_amount": "Reward Amount",
       "pending": "Pending",
       "completed": "Completed"
@@ -162,41 +172,41 @@
   },
   "feedback": {
     "title": "Feedback",
-    "description": "We'd love to hear what went well or how we can improve the product experience.",
-    "submit": "Submit",
+    "description": "We’d love to hear your thoughts on what’s working well and how we can make your experience even better.",
+    "submit": "Submit Feedback",
     "loading": "Submitting...",
-    "contact_tip": "Other ways to contact us",
-    "rating_tip": "How do you feel about ShipAny?",
-    "placeholder": "Leave your words here..."
+    "contact_tip": "Other ways to reach us",
+    "rating_tip": "How would you rate your experience with BDSM Test?",
+    "placeholder": "Share your feedback here..."
   },
   "test": {
     "intro": {
-      "title": "BDSM Psychological Test and Sexual Orientation Spectrum",
-      "description": "Scientifically quantify your psychological dimensions and sexual orientation spectrum. All data is stored locally, no login required, 18+ available.",
+      "title": "BDSM Test – Psychological Profile & Sexual Orientation Spectrum",
+      "description": "Explore and quantify your psychological dimensions and sexual orientation spectrum in a safe, scientific way. All data is stored locally; no login required. Available for 18+ users.",
       "feature_1": "Safe",
       "feature_2": "Anonymous",
-      "feature_3": "Psychological Test",
-      "mode_label": "Select Test Mode",
+      "feature_3": "Scientifically Designed Test",
+      "mode_label": "Choose Test Mode",
       "mode_quick": "Quick",
-      "mode_quick_desc": "30 questions - Mobile or quick browsers",
+      "mode_quick_desc": "30 questions – Ideal for mobile or a fast test",
       "mode_standard": "Standard",
-      "mode_standard_desc": "70 questions - Main recommended mode",
+      "mode_standard_desc": "70 questions – Recommended mode for most users",
       "mode_deep": "Deep",
-      "mode_deep_desc": "120 questions - Advanced users, optional",
-      "start_button": "Start Now"
+      "mode_deep_desc": "120 questions – Advanced mode for in-depth exploration",
+      "start_button": "Start Test"
     },
     "consent": {
-      "title": "Age and Privacy Confirmation",
-      "description": "This test is for self-exploration purposes only, for entertainment/reference, and does not constitute any diagnostic or therapeutic advice.",
-      "age_check": "I am 18 years or older.",
+      "title": "Age & Privacy Confirmation",
+      "description": "This test is intended for self-exploration and entertainment purposes only. It is not a diagnostic or therapeutic tool.",
+      "age_check": "I confirm that I am 18 years or older.",
       "privacy_check_prefix": "I have read and agree to the",
       "privacy_policy": "Privacy Policy",
-      "privacy_check_suffix": ", and test data is stored locally encrypted.",
+      "privacy_check_suffix": ", and understand that all test data is stored locally and encrypted.",
       "cancel": "Cancel",
       "confirm": "Agree and Continue"
     },
     "run": {
-      "loading": "Loading test bank...",
+      "loading": "Loading test questions...",
       "progress": "Progress",
       "remaining": "Remaining",
       "prev": "Previous",
@@ -204,11 +214,11 @@
       "skip": "Skip",
       "next": "Next",
       "next_page": "Next Page",
-      "submit": "Submit and View Results",
+      "submit": "Submit & View Results",
       "page": "Page",
-      "of": "/",
+      "of": "of",
       "incomplete_dialog_title": "Notice",
-      "incomplete_dialog_message": "You have only completed {percentage}% of the questions. This will affect the accuracy of your test results.\nWe recommend completing all questions to get more accurate test results.",
+      "incomplete_dialog_message": "You have completed only {percentage}% of the questions. This may affect the accuracy of your results.\nWe recommend completing all questions for the most accurate assessment.",
       "continue_answer": "Continue Answering",
       "go_to_unanswered": "Go to Unanswered Questions",
       "view_result_anyway": "View Results Anyway",
@@ -220,40 +230,27 @@
         "orientation": "Orientation Spectrum"
       }
     },
-    "result": {
-      "title": "Test Results",
-      "disclaimer": "Note: These results are for entertainment/reference only and do not constitute any professional diagnosis or advice.",
-      "no_history": "No history records.",
-      "history_title": "History Records (Encrypted Local Storage)",
-      "time": "Time",
-      "record_id": "Record ID",
-      "retest": "Retest",
-      "back": "Back",
-      "delete": "Delete",
-      "clear_all": "Clear All History",
-      "principle": "Consent, Safety, Rationality: Always prioritize full communication, clear boundaries, and respect for others in any exploration."
-    },
     "dimension": {
       "dominance": "Dominance Tendency",
-      "dominance_desc": "Preference and comfort level with dominant roles",
+      "dominance_desc": "Your comfort level and preference for taking the dominant role.",
       "submission": "Submission Tendency",
-      "submission_desc": "Preference and comfort level with submissive roles",
+      "submission_desc": "Your comfort level and preference for taking the submissive role.",
       "switch": "Switch Tendency",
-      "switch_desc": "Willingness to switch roles depending on context and partner"
+      "switch_desc": "Your willingness to switch roles depending on context and partner."
     },
     "question": {
-      "q1": "In intimate interactions, I prefer to control the pace and make decisions.",
-      "q2": "Clear guidance and instructions help me relax and engage more.",
-      "q3": "Depending on context and partner, I might switch between dominant and submissive roles.",
-      "q4": "I enjoy setting rules and boundaries and having the other party follow them.",
-      "q5": "Following arrangements from the other party gives me more sense of security."
+      "q1": "In intimate interactions, I prefer to set the pace and make decisions.",
+      "q2": "Clear guidance and instructions help me feel more comfortable and engaged.",
+      "q3": "Depending on context and partner, I may switch between dominant and submissive roles.",
+      "q4": "I enjoy establishing rules and boundaries and having them respected.",
+      "q5": "Following the other person's arrangements gives me a greater sense of security."
     },
     "likert": {
-      "very_strongly_disagree": "Very Strongly Disagree",
-      "strongly_disagree": "Strongly Disagree",
-      "disagree": "Disagree",
+      "very_strongly_disagree": "Strongly Disagree",
+      "strongly_disagree": "Disagree",
+      "disagree": "Somewhat Disagree",
       "neutral": "Neutral",
-      "agree": "Agree",
+      "agree": "Somewhat Agree",
       "strongly_agree": "Strongly Agree"
     },
     "admin": {
@@ -264,60 +261,59 @@
       "info": "Basic Information",
       "version": "Version",
       "locale": "Locale",
-      "dimension_count": "Dimensions",
-      "question_count": "Questions",
+      "dimension_count": "Number of Dimensions",
+      "question_count": "Number of Questions",
       "dimensions_title": "Dimensions",
       "questions_title": "Questions",
       "hint": "Hint"
     },
     "result": {
-      "title": "Test Results",
-      "disclaimer": "These test results are for reference only and do not constitute any medical or psychological advice.",
+      "title": "BDSM Test Results",
+      "disclaimer": "These results are for reference only and do not constitute medical or psychological advice.",
       "history_title": "History",
-      "no_history": "No history records",
-      "no_history_description": "After completing the test, your results will be saved here.",
+      "no_history": "No history records found",
+      "no_history_description": "Once you complete the test, your results will appear here.",
       "show_more": "Show More",
       "show_less": "Show Less",
       "time": "Time",
       "record_id": "Record ID",
       "delete": "Delete",
       "delete_success": "Deleted successfully",
-      "delete_failed": "Delete failed",
+      "delete_failed": "Deletion failed",
       "clear_all": "Clear All",
       "clear_all_confirm": "Are you sure you want to clear all history records? This action cannot be undone.",
       "clear_all_success": "All history records cleared",
-      "clear_all_failed": "Clear failed",
+      "clear_all_failed": "Clearing failed",
       "view": "View",
       "start_test": "Start Test",
-      "retest": "Retest",
+      "retest": "Retake Test",
       "back": "Back",
-      "principle": "Privacy Principle: All data is stored locally only and will not be uploaded to the server.",
+      "principle": "Privacy Principle: All data is stored locally and will not be uploaded to any server.",
       "share_title": "Generate Anonymous Share Link",
-      "share_button": "Generate Share Link",
-      "share_link_copied": "Share link copied to clipboard",
+      "share_button": "Generate Link",
+      "share_link_copied": "Link copied to clipboard",
       "share_link_failed": "Copy failed, please copy manually",
-      "share_to_email": "Share to Email",
-      "email_share_subject": "My Test Results",
-      "email_share_body_intro": "Hello,\n\nI would like to share my test results with you:\n\n",
+      "share_to_email": "Share via Email",
+      "email_share_subject": "My BDSM Test Results",
+      "email_share_body_intro": "Hello,\n\nI'd like to share my BDSM test results with you:\n\n",
       "email_share_categories": "Category Scores",
       "email_share_link": "View Full Results",
-      "email_share_note": "Note: Please visit the test page to view full results.",
-      "email_share_footer": "These test results are for reference only and do not constitute any medical or psychological advice.",
+      "email_share_note": "Note: Visit the test page to view complete results.",
+      "email_share_footer": "These results are for reference only and do not constitute medical or psychological advice.",
       "email_share_success": "Opening email client...",
-      "email_share_failed": "Failed to share to email",
+      "email_share_failed": "Failed to share via email",
       "download_pdf": "Download Report (PDF)",
       "download_pdf_processing": "Generating PDF...",
       "top_traits": "Top 3 Traits",
       "chart_radar": "Radar Chart",
       "low_progress_title": "Insufficient Progress",
-      "low_progress_message": "Your current progress is {percentage}%. To get accurate test results, we recommend completing at least 10% of the questions.",
+      "low_progress_message": "Your progress is {percentage}%. For accurate results, please complete at least 10% of the questions.",
       "continue_test": "Continue Test",
       "incomplete_progress_title": "Complete All Questions",
-      "incomplete_progress_message": "Your current progress is {percentage}%. To get more accurate test results, we recommend completing all questions.",
+      "incomplete_progress_message": "Your progress is {percentage}%. To get the most accurate results, we recommend completing all questions.",
       "complete_test": "Complete All Questions",
       "no_result_title": "No Test Results",
-      "no_result_message": "You haven't completed the test yet. Please complete the test first to view results.",
-      "start_test": "Start Test",
+      "no_result_message": "You haven't completed the test yet. Complete it to view results.",
       "analysis_result": "Analysis Results",
       "chart_bar": "Bar Chart",
       "chart_score": "Score",
@@ -326,112 +322,269 @@
       "export_json_failed": "Failed to export JSON",
       "clear_all_data": "Clear All Data (GDPR Compliant)",
       "clear_all_data_confirm": "Are you sure you want to clear all data? This action cannot be undone.",
-      "clear_all_data_success": "All data has been cleared",
-      "download_pdf_hint": "Please use the browser's print function to save as PDF",
-      "download_profile": "Download your kink profile",
+      "clear_all_data_success": "All data cleared",
+      "download_pdf_hint": "Use your browser's print function to save as PDF",
+      "download_profile": "Download your Kink Profile",
       "download_profile_processing": "Generating report...",
-      "download_profile_success": "Please use the browser's print function to save as PDF",
+      "download_profile_success": "Use your browser's print function to save as PDF",
       "download_image": "Export as Image (PNG)",
       "download_image_processing": "Generating image...",
       "export_image_success": "Image exported successfully",
       "export_image_failed": "Failed to export image",
-      "view": "View",
       "orientation_spectrum_title": "Sexual Orientation Spectrum (Kinsey-like)",
-      "history_count_message": "You have {count} history records. Click on a record below to view results:",
-      "no_result_title": "No Test Results",
-      "no_result_message": "You haven't completed the test yet, or the test results haven't loaded.",
-      "analysis_result": "Analysis Results",
+      "history_count_message": "You have {count} history records. Click a record below to view results:",
       "loading_chart": "Loading chart...",
-      "start_test": "Start Test",
       "error": "Error",
       "refresh_page": "Refresh Page",
       "loading": "Loading...",
-      "export_simplified_message": "Visit {siteUrl} to view the complete analysis and detailed results.",
+      "export_simplified_message": "Visit {siteUrl} for complete analysis and detailed results.",
       "export_generated_by": "Generated by {siteName}"
     }
   },
   "privacy": {
-    "title": "Privacy Policy",
+    "title": "Privacy Policy - BDSM Test",
     "last_updated": "Last Updated",
     "sections": {
       "data_storage": {
         "title": "Data Storage",
-        "content": "All data in this application is stored only on your local device (browser localStorage) using encrypted storage. We do not collect, upload, or store any personal information on the server."
+        "content": "All data in the BDSM Test application is stored exclusively on your local device (using browser localStorage) and is encrypted. We do not collect, upload, or store any personal information on our servers."
       },
       "anonymous_testing": {
         "title": "Anonymous Testing",
-        "content": "All test results are processed anonymously and are not associated with any personal identification information. You can freely choose to share test results, and share links only contain test result data, not any personal information."
+        "content": "All test results are processed anonymously and are not linked to any personal identification. You may choose to share your results freely; share links only include test data, not personal information."
       },
       "data_security": {
         "title": "Data Security",
-        "content": "We use AES encryption algorithm to encrypt locally stored data to ensure data security. Encryption keys are stored only locally and are not uploaded to the server."
+        "content": "We use AES encryption to secure all locally stored data. Encryption keys remain on your device and are never uploaded to any server."
       },
       "gdpr_compliance": {
         "title": "GDPR Compliance",
-        "content": "This application fully complies with GDPR (General Data Protection Regulation) requirements:",
+        "content": "BDSM Test fully complies with GDPR (General Data Protection Regulation) requirements:",
         "list": {
           "data_minimization": {
             "label": "Data Minimization",
-            "text": "Only store basic data required for testing, and do not collect any unnecessary personal information"
+            "text": "We only store the essential data needed for testing and never collect unnecessary personal information."
           },
           "data_subject_rights": {
             "label": "Data Subject Rights",
-            "text": "You can access, modify, or delete local data at any time"
+            "text": "You can access, modify, or delete all local test data at any time."
           },
           "data_portability": {
             "label": "Data Portability",
-            "text": "Support exporting test results (PDF, PNG, JSON formats)"
+            "text": "You can export your test results in PDF, PNG, or JSON format."
           },
           "right_to_erasure": {
             "label": "Right to Erasure",
-            "text": "Support one-click clearing of all local data, including test results, history records, and share links"
+            "text": "You can clear all local data—including test results, history, and share links—with a single click."
           },
           "data_protection": {
             "label": "Data Protection",
-            "text": "All local data is encrypted to ensure data security"
+            "text": "All local data is encrypted to ensure its security and privacy."
           },
           "anonymity": {
             "label": "Anonymity",
-            "text": "All test results are processed anonymously and are not associated with any personal identification information"
+            "text": "Test results are fully anonymous and not tied to any personal identification information."
           }
         },
         "extra": {
           "how_to_clear": {
             "label": "How to Clear Data",
-            "text": "On the test results page, you can click the \"Clear All Data (GDPR Compliant)\" button, which will delete all locally stored test data."
+            "text": "On the test results page, click the \"Clear All Data (GDPR Compliant)\" button to delete all locally stored test data."
           },
           "how_to_export": {
             "label": "How to Export Data",
-            "text": "On the test results page, you can click the \"Export JSON\" button to download a JSON file containing complete test results."
+            "text": "On the test results page, click the \"Export JSON\" button to download a file containing your complete test results."
           }
         }
       },
       "third_party_services": {
         "title": "Third-Party Services",
-        "content": "This application does not use any third-party analytics or tracking services and does not share any data with third parties."
+        "content": "BDSM Test does not use third-party analytics, tracking services, or share any data with external parties."
       },
       "contact_us": {
         "title": "Contact Us",
-        "content": "If you have any questions about this privacy policy, please contact us through the feedback function in the application."
+        "content": "If you have questions about this privacy policy, please reach out via the feedback feature in the app.",
+        "copyright_owner": "Copyright Owner",
+        "copyright_owner_link": "BDSM Test Toolina",
+        "email": "Email",
+        "email_address": "service@toolina.com"
       }
     }
   },
+  "privacy_policy": {
+    "title": "Privacy Policy for BDSM Test",
+    "introduction": {
+      "title": "Introduction",
+      "content": "Welcome to BDSM Test, the **NextJS Boilerplate** designed to help you build AI SaaS startups quickly and efficiently. At BDSM Test, your privacy is of utmost importance to us, and this privacy policy outlines how we collect, use, and protect your personal information when you use our services."
+    },
+    "information_collection": {
+      "title": "Information Collection and Use",
+      "content": "We collect the following types of data to provide you with a better experience while using BDSM Test:",
+      "account_info": {
+        "title": "Account Information",
+        "what_we_collect": "**What We Collect**: This includes your name, email address, and any other information you provide when creating an account.",
+        "purpose": "**Purpose**: To manage your account and provide customer support."
+      },
+      "usage_details": {
+        "title": "Usage Details",
+        "what_we_collect": "**What We Collect**: Information about how you use BDSM Test, including your interactions, features accessed, and usage frequency.",
+        "purpose": "**Purpose**: To analyze user engagement and improve our services."
+      },
+      "device_info": {
+        "title": "Device Information",
+        "what_we_collect": "**What We Collect**: Data regarding the devices you use to access BDSM Test, such as device type, operating system, and browser type.",
+        "purpose": "**Purpose**: To optimize our services for different devices and ensure compatibility."
+      },
+      "cookies": {
+        "title": "Cookies",
+        "what_we_collect": "**What We Collect**: Small data files placed on your device that help us track user preferences and improve user experience.",
+        "purpose": "**Purpose**: To enhance the functionality of our services and personalize your experience."
+      },
+      "payment_info": {
+        "title": "Payment and Billing Information",
+        "what_we_collect": "**What We Collect**: Information regarding your payment methods, such as credit card number, billing address, and any details required for transaction processing.",
+        "purpose": "**Purpose**: To facilitate billing and payment processing for our services."
+      }
+    },
+    "data_storage_security": {
+      "title": "Data Storage and Security",
+      "content": "We take the security of your personal information seriously. The data we collect is stored securely on our servers, and we implement a variety of security measures including encryption and access controls to protect against unauthorized access, alteration, disclosure, or destruction of your personal information. However, please be aware that no method of transmission over the Internet, or method of electronic storage, is 100% secure, and we cannot guarantee its absolute security."
+    },
+    "information_sharing": {
+      "title": "Information Sharing and Disclosure",
+      "content": "We do not sell, trade, or otherwise transfer your personal information to outside parties, except in the following circumstances:",
+      "items": [
+        "To comply with legal obligations or respond to lawful requests from public authorities.",
+        "To protect our rights, property, or safety, or that of our users or others.",
+        "To provide services through trusted third-party partners who assist us in operating our website or conducting our business, subject to confidentiality agreements."
+      ]
+    },
+    "changes_to_policy": {
+      "title": "Changes to This Policy",
+      "content": "We may update this privacy policy from time to time. We will notify you of any changes by posting the new policy on this page and updating the \"effective date\" at the top of this policy. You are advised to review this privacy policy periodically for any changes. Changes to this privacy policy are effective when they are posted on this page."
+    },
+    "contact_us": {
+      "title": "Contact Us",
+      "content": "If you have any questions or concerns about this privacy policy or our data practices, please contact us at:",
+      "copyright_owner": "Copyright Owner",
+      "copyright_owner_link": "BDSM Test Toolina",
+      "email": "Email",
+      "email_address": "service@toolina.com",
+      "consent": "By using BDSM Test, you consent to our privacy policy and agree to its terms. Thank you for trusting us with your information!"
+    }
+  },
+  "terms_of_service": {
+    "title": "Terms of Service",
+    "introduction": {
+      "title": "Introduction and Acceptance of Terms",
+      "content": "Welcome to **BDSM Test**, a NextJS boilerplate designed for building AI SaaS startups quickly and efficiently. By accessing or using our service, you agree to be bound by these Terms of Service. If you do not agree with any of these terms, please do not use our service."
+    },
+    "use_of_service": {
+      "title": "Use of the Service",
+      "content": "BDSM Test provides users with a comprehensive platform to build and launch AI SaaS startups using our pre-built templates and infrastructure. You agree to use the service in accordance with all applicable local, state, national, and international laws and regulations."
+    },
+    "user_accounts": {
+      "title": "User Accounts and Registration",
+      "account_creation": {
+        "label": "Account Creation",
+        "text": "To access certain features of the service, you need to create an account. You must provide accurate and complete information during the registration process."
+      },
+      "account_security": {
+        "label": "Account Security",
+        "text": "You are responsible for maintaining the confidentiality of your account credentials and for all activities that occur under your account."
+      },
+      "user_responsibilities": {
+        "label": "User Responsibilities",
+        "text": "You agree to notify us immediately of any unauthorized use of your account or any other breach of security."
+      }
+    },
+    "intellectual_property": {
+      "title": "Content and Intellectual Property Rights",
+      "content": "All content provided through BDSM Test, including but not limited to templates, code, infrastructure setup, and documentation, is protected under copyright law. The copyright owner of BDSM Test is **BDSM Test.ai**.",
+      "items": [
+        "You acknowledge that you do not own the underlying technology or intellectual property that makes up the BDSM Test service, and you agree to respect the intellectual property rights of BDSM Test.ai and any third parties.",
+        "While you retain ownership of your custom implementations and modifications, the core BDSM Test platform and templates remain the property of BDSM Test.ai."
+      ]
+    },
+    "prohibited_activities": {
+      "title": "Prohibited Activities",
+      "content": "You agree not to engage in any of the following prohibited activities while using BDSM Test:",
+      "items": [
+        "Unauthorized access to or distribution of our proprietary code and templates",
+        "Reselling or redistributing BDSM Test templates without authorization",
+        "Interfering with or disrupting the security or performance of the service",
+        "Using the service for any illegal or unauthorized purpose",
+        "Attempting to bypass any security features of the service"
+      ]
+    },
+    "privacy_data": {
+      "title": "Privacy and Data Collection",
+      "content": "BDSM Test collects the following types of data:",
+      "items": [
+        "**Account Information**: Information you provide when creating an account",
+        "**Usage Details**: Data related to your activity on our service",
+        "**Device Information**: Information about the device you use to access our service",
+        "**Cookies**: Data that helps us enhance your experience with our service",
+        "**Payment and Billing Information**: Data necessary to process payments"
+      ],
+      "privacy_policy_link": "For more details on data collection practices, please refer to our separate [Privacy Policy](/privacy-policy)."
+    },
+    "pricing_payments": {
+      "title": "Pricing and Payments",
+      "items": [
+        "All purchases are final and non-refundable unless otherwise required by law",
+        "Prices are subject to change with notice to users",
+        "You agree to pay all charges associated with your selected plan",
+        "Payment terms are based on your selected payment method and plan"
+      ]
+    },
+    "termination": {
+      "title": "Termination",
+      "content": "We reserve the right to terminate or suspend your access to the service at our sole discretion, without notice, for conduct that we believe violates these Terms or is harmful to other users of the service, us, or third parties."
+    },
+    "disclaimer": {
+      "title": "Disclaimer of Warranties",
+      "content": "The service is provided on an \"as is\" and \"as available\" basis. We make no warranties or representations about the accuracy, reliability, or availability of the service and disclaim all warranties to the fullest extent permitted by law."
+    },
+    "limitation_liability": {
+      "title": "Limitation of Liability",
+      "content": "To the fullest extent permitted by law, BDSM Test.ai shall not be liable for any direct, indirect, incidental, special, consequential, or punitive damages arising from the use of or inability to use the service."
+    },
+    "indemnification": {
+      "title": "Indemnification",
+      "content": "You agree to indemnify and hold harmless BDSM Test.ai, its affiliates, and their respective officers, directors, employees, and agents from any claims, damages, losses, liabilities, and expenses (including attorneys' fees) arising from your use of the service or violation of these Terms."
+    },
+    "governing_law": {
+      "title": "Governing Law and Dispute Resolution",
+      "content": "These Terms shall be governed by and construed in accordance with the laws of the jurisdiction in which BDSM Test.ai operates, without regard to its conflict of law provisions. Any disputes arising from these Terms or the service will be resolved through binding arbitration in accordance with applicable laws."
+    },
+    "changes_to_terms": {
+      "title": "Changes to These Terms",
+      "content": "We reserve the right to update or modify these Terms at any time. Changes will be effective immediately upon posting on our website. Your continued use of the service after any changes signifies your acceptance of the new terms."
+    },
+    "contact": {
+      "title": "Contact Information",
+      "content": "If you have any questions about these Terms, please contact us at",
+      "email": "service@toolina.com",
+      "consent": "By using BDSM Test, you acknowledge that you have read, understood, and agree to be bound by these Terms of Service. Thank you for choosing BDSM Test!"
+    }
+  },
   "headings": {
-    "test_description": "Test Description",
+    "test_description": "BDSM Test Description",
     "core_features": "Core Features",
     "test_progress": "Test Progress",
     "test_questions": "Test Questions",
     "test_results_chart": "Test Results Chart",
     "about": {
-      "title": "About",
+      "title": "About BDSM Test",
       "app_intro": "App Introduction",
       "core_features": "Core Features",
-      "test_instructions": "Test Instructions",
+      "test_instructions": "How to Take the Test",
       "tech_stack": "Tech Stack",
       "version_info": "Version Information",
       "disclaimer": "Disclaimer",
       "features": {
-        "security": "Security",
+        "security": "Secure",
         "anonymous": "Anonymous",
         "scientific": "Scientific",
         "privacy_protection": "Privacy Protection"
@@ -450,11 +603,11 @@
         "next_intl": "next-intl"
       },
       "tech_descriptions": {
-        "nextjs": "React Framework",
-        "typescript": "Type Safety",
-        "tailwind": "Styling Framework",
-        "recharts": "Data Visualization",
-        "next_intl": "Internationalization Support"
+        "nextjs": "React Framework for Fast Rendering",
+        "typescript": "Strong Type Checking",
+        "tailwind": "Modern CSS Utility Framework",
+        "recharts": "Interactive Data Visualization",
+        "next_intl": "Multi-language Support"
       }
     }
   }
